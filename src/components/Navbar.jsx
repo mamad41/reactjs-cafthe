@@ -123,7 +123,7 @@ function Navbar() {
                             </div>
 
                             <div className={navLinkContainer}>
-                                <Link to="/abonnement" className="no-underline text-inherit"><span className={textHoverClass}>abonnement</span></Link>
+                                <Link to="/Abonnement" className="no-underline text-inherit"><span className={textHoverClass}>Abonnement</span></Link>
                                 <ChevronDown size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <div className={popupClass}>
                                     <Link to="/profil#commandes" className="text-[#8B6B3F] hover:text-[#C5A059] no-underline text-xs">Mes Commandes</Link>

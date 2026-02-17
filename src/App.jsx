@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx";
 import Layout from "./layout/Layout.jsx";
 import Home from "./pages/Home.jsx";
 import Boutique from "./pages/Boutique.jsx";
+import Abonnement from "./pages/Abonnement.jsx";
 import EspaceClient from "./pages/EspaceClient.jsx";
 import APropos from "./pages/APropos.jsx";
 import Contact from "./pages/Contact.jsx";
@@ -29,6 +30,7 @@ function App() {
                                     <Route path="/" element={<Layout />}>
                                     <Route index element={<Home />} />
                                      <Route path="/boutique" element={<Boutique />} />
+                                     <Route path="/ABonnement" element={<Abonnement />} />
                                      <Route path="/Espace-Client" element={<EspaceClient />} />
                                      <Route path="/A-Propos" element={<APropos />} />
                                      <Route path="/Contact" element={<Contact />} />
