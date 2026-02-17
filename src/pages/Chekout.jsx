@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { CardContext } from '../context/CardContext';
 import { AuthContext } from '../context/AuthContext';
+import ButtonGold from "../components/ButtonGold.jsx";
 
 const Checkout = () => {
     const { cartItems, totalAmount } = useContext(CardContext);
@@ -87,13 +88,13 @@ const Checkout = () => {
                             <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2">Téléphone</label>
                             <input type="tel" name="telephone" required onChange={handleChange} className="w-full border-b border-gray-200 py-2 outline-none bg-transparent focus:border-[#C5A059]" />
                         </div>
-                        <button
+                        <ButtonGold
                             type="submit"
                             disabled={loading || cartItems.length === 0}
                             className={`w-full bg-[#634832] text-white py-4 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-[#A6844A] transition-all ${loading ? 'opacity-50' : ''}`}
                         >
                             {loading ? 'Chargement...' : 'Procéder au paiement'}
-                        </button>
+                        </ButtonGold>
                     </form>
                 </div>
 

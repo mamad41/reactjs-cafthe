@@ -16,12 +16,14 @@ const EspaceClient = () => {
                     const data = await response.json();
                     setOrders(data);
                 }
-            } catch (error) { console.error("Erreur orders:", error); }
+            } catch (error) {
+                console.error("Erreur fetch orders:", error);
+            }
         };
         if (user) fetchOrders();
     }, [user]);
 
-    if (!user) return <div className="text-center py-20 font-forum uppercase tracking-widest">Chargement...</div>;
+    if (!user) return <div className="text-center py-20 font-forum uppercase tracking-widest text-[#634832]">Chargement de votre espace...</div>;
 
     const tabs = [
         { id: 'overview', label: 'ACCUEIL', color: 'bg-[#5F6A4D]' },
@@ -31,22 +33,24 @@ const EspaceClient = () => {
 
     return (
         <div className="min-h-screen bg-[#FDFCF7] pt-28 pb-12 px-4 font-forum flex justify-center items-start">
-            <div className="max-w-6xl w-full flex items-stretch">
+            {/* Conteneur principal en Flexbox Row */}
+            <div className="max-w-6xl w-full flex flex-row items-start">
 
-                {/* --- NAVIGATION : ONGLETS À LETTRES EMPILLÉES --- */}
-                <nav className="flex flex-col gap-2 pt-16">
+                {/* --- NAVIGATION : ONGLETS VERTICAUX "UPRIGHT" --- */}
+                <nav className="flex flex-col gap-4 pt-16 shrink-0" style={{ marginRight: '40px' }}>
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             style={{
                                 writingMode: 'vertical-lr',
-                                textOrientation: 'upright' // Garde les lettres droites
+                                textOrientation: 'upright'
                             }}
-                            className={`w-14 py-8 flex items-center justify-center rounded-l-2xl transition-all duration-500 shadow-[-5px_5px_15px_rgba(0,0,0,0.05)] text-[11px] font-bold tracking-[0.1em] ${
+                            className={`w-14 py-8 flex items-center justify-center rounded-r-[10px] rounded-l-none
+                             transition-all duration-500 shadow-md text-[11px] font-bold tracking-[0.1em] ${
                                 activeTab === tab.id
-                                    ? `${tab.color} text-white translate-x-3 z-20 scale-105`
-                                    : 'bg-gray-200 text-gray-400 hover:bg-gray-300 translate-x-10 z-0'
+                                    ? `${tab.color} text-white z-20 scale-110 shadow-[-8px_0_20px_rgba(0,0,0,0.1)]`
+                                    : 'bg-gray-200 text-gray-400 hover:bg-gray-300 z-0'
                             }`}
                         >
                             {tab.label}
@@ -54,40 +58,87 @@ const EspaceClient = () => {
                     ))}
                 </nav>
 
-                {/* --- CORPS DU CLASSEUR --- */}
-                <main className="flex-1 bg-white min-h-[800px] rounded-r-3xl rounded-bl-3xl shadow-[40px_40px_80px_rgba(0,0,0,0.06)] border-l-[18px] border-gray-100 p-16 z-10 relative -ml-1">
-
-                    {/* Anneaux métalliques ultra-réalistes */}
-                    <div className="absolute left-3 top-0 bottom-0 flex flex-col justify-around py-16 opacity-30 pointer-events-none">
-                        {[...Array(9)].map((_, i) => (
-                            <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-tr from-gray-500 via-gray-200 to-white border border-gray-400 shadow-lg"></div>
-                        ))}
-                    </div>
+                {/* --- CORPS DU CLASSEUR (ZONE BLANCHE) --- */}
+                <main className="flex-1 bg-white min-h-[800px] rounded-[40px] shadow-[40px_40px_80px_rgba(0,0,0,0.06)] p-16 z-10 relative">
 
                     <div className="animate-fadeIn ml-10">
+                        {/* ONGLET : VUE D'ENSEMBLE */}
                         {activeTab === 'overview' && (
                             <div className="space-y-12">
-                                <h2 className="text-4xl text-[#634832] border-b border-gray-50 pb-8 uppercase tracking-widest">Tableau de bord</h2>
-                                <div className="grid grid-cols-2 gap-10">
-                                    <div className="p-12 bg-[#FDFCF7] rounded-[40px] border border-gray-100 shadow-sm flex flex-col items-center">
-                                        <p className="text-[10px] uppercase text-gray-400 tracking-[0.4em] mb-4">Points CafThé</p>
-                                        <p className="text-7xl font-bold text-[#C5A059]">{user.points_fidelite || 0}</p>
+                                <h2 className="text-4xl text-[#C5A059] uppercase tracking-widest border-b border-gray-50 pb-8">Tableau de bord</h2>
+
+                                <div className="grid grid-cols-2 sm:grid-cols-1 gap-10">
+
+                                    {/* CARTE DE FIDÉLITÉ STYLE PREMIUM */}
+                                    {/* CARTE DE FIDÉLITÉ : VERSION BOX-SIZING */}
+                                    <div className="flex justify-start text-[#C5A059]">
+                                        <div
+                                            style={{
+                                                width: '400px',
+                                                height: '250px',
+                                                padding: '40px', // Marge interne forcée
+                                                boxSizing: 'border-box', // Force le padding à l'intérieur des 400px
+                                                borderRadius: '24px',
+                                                background: 'linear-gradient(135deg, #634832 0%, #2d1b0f 100%)',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                                position: 'relative',
+                                                overflow: 'hidden',
+                                                flexShrink: 0
+                                            }}
+                                        >
+                                            {/* HAUT DE LA CARTE */}
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <span className="text-[10px] uppercase tracking-[0.4em] text-white/50">Privilège</span>
+                                                    <span className="text-xl font-forum italic text-white">CafThé Signature</span>
+                                                </div>
+                                                {/* Puce simuler */}
+                                                <div className="w-10 h-7 bg-[#C5A059] rounded-sm opacity-40 shadow-inner"></div>
+                                            </div>
+
+                                            {/* MILIEU : LE COMPTEUR */}
+                                            <div style={{ width: '100%' }}>
+                                                <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-1">Votre Solde</span>
+                                                <div className="flex items-baseline gap-2">
+                                                    <span className="text-6xl font-bold text-white tabular-nums">{user.points_fidelite || 0}</span>
+                                                    <span className="text-lg text-white/60 font-forum uppercase">grains</span>
+                                                </div>
+                                            </div>
+
+                                            {/* BAS DE LA CARTE */}
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', width: '100%' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <span className="text-[10px] font-mono text-white/30 tracking-[0.2em]">0000 0000 4100 2026</span>
+                                                    <span className="text-sm font-light tracking-widest uppercase text-white">
+                    {user.prenom} {user.nom}
+                </span>
+                                                </div>
+                                                <span className="text-2xl text-white/10 italic font-forum">CafThé</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="p-12 bg-[#FDFCF7] rounded-[40px] border border-gray-100 shadow-sm flex flex-col items-center">
-                                        <p className="text-[10px] uppercase text-gray-400 tracking-[0.4em] mb-4">Commandes</p>
-                                        <p className="text-7xl font-bold text-[#634832]">{orders.length}</p>
+                                    {/* DEUXIÈME CARTE : STATISTIQUES RAPIDES */}
+                                    <div className="p-10 bg-[#FDFCF7] rounded-[30px] border border-[#634832]/10 max-w-[400px] shadow-sm flex flex-col justify-center items-center text-center">
+                                        <p className="text-[10px] uppercase text-gray-400 tracking-[0.4em] mb-6">Activité totale</p>
+                                        <p className="text-7xl font-bold text-[#634832] tracking-tighter">{orders.length}</p>
+                                        <p className="text-sm text-[#C5A059] uppercase tracking-widest mt-4 font-bold">Commandes passées</p>
                                     </div>
+
                                 </div>
                             </div>
                         )}
-
+                        {/* ONGLET : HISTORIQUE DES COMMANDES */}
                         {activeTab === 'orders' && (
                             <div className="space-y-8">
                                 <h2 className="text-3xl text-[#634832] uppercase tracking-[0.2em] border-b pb-8">Historique des achats</h2>
                                 {orders.length > 0 ? (
                                     <div className="space-y-4">
                                         {orders.map(o => (
-                                            <div key={o.numero_de_commande} className="p-8 bg-white border border-gray-50 rounded-3xl flex justify-between items-center shadow-sm hover:shadow-md transition-all">
+                                            <div key={o.numero_de_commande} className="p-8 bg-white border border-gray-50 rounded-3xl
+                                            flex justify-between items-center shadow-sm hover:shadow-md transition-all">
                                                 <div className="space-y-1">
                                                     <p className="text-[10px] text-gray-400 uppercase tracking-widest">N° {o.numero_de_commande}</p>
                                                     <p className="text-xl font-bold">{new Date(o.date_de_commande).toLocaleDateString('fr-FR')}</p>
@@ -100,6 +151,7 @@ const EspaceClient = () => {
                             </div>
                         )}
 
+                        {/* ONGLET : PROFIL PERSONNEL */}
                         {activeTab === 'profile' && (
                             <div className="max-w-2xl space-y-12">
                                 <h2 className="text-3xl text-[#634832] uppercase tracking-[0.2em] border-b pb-8">Vos Coordonnées</h2>
@@ -113,7 +165,9 @@ const EspaceClient = () => {
                                         <span className="text-2xl font-light text-[#634832]">{user.email}</span>
                                     </div>
                                     <div className="mt-8">
-                                        <p className="text-[10px] text-gray-300 uppercase tracking-widest">Membre CafThé depuis le {new Date(user.date_inscription).toLocaleDateString('fr-FR')}</p>
+                                        <p className="text-[10px] text-gray-400 uppercase tracking-widest italic">
+                                            Membre CafThé depuis le {new Date(user.date_inscription).toLocaleDateString('fr-FR')}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

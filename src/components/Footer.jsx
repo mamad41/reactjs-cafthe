@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Truck, Phone, CreditCard, Facebook, Twitter, Instagram, Linkedin, ChevronDown } from 'lucide-react';
+import ButtonGold from "./ButtonGold.jsx";
 
 const Footer = () => {
     const iconColor = "#C5A059";
@@ -7,6 +8,18 @@ const Footer = () => {
 
     return (
         <footer style={{ backgroundColor: '#FDFCF7', padding: '60px 80px', fontFamily: 'Forum, serif', borderTop: '2px solid #C5A05933' }}>
+
+            {/* 3. BLOC MARQUE FINAL */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '40px', borderTop: '3px solid #C5A05933', paddingTop: '40px' }}>
+                <img src="/images/logo-simple.svg" alt="Logo Cafthe" style={{ height: '500px', opacity: 0.8 }} />
+                <div style={{ textAlign: 'left' }}>
+                    <h3 style={{ color: '#C5A059', fontSize: '32px', marginBottom: '10px' }}>CafThé</h3>
+                    <p style={{ color: textColor, fontSize: '20px', maxWidth: '700px', lineHeight: '1.6', opacity: 0.9 }}>
+                        L'Artisan des Terroirs. Passionnés par l'excellence, nous sélectionnons les meilleurs cafés de spécialité et thés rares à travers le monde. De la graine à la tasse, Cafthe s'engage pour une culture durable et une torréfaction artisanale. Redécouvrez le goût de l'authentique.
+                    </p>
+                </div>
+            </div>
+
 
             {/* 1. LIGNE DES RÉCURRENCES (SERVICE) */}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '50px', paddingBottom: '30px', borderBottom: '3px solid #C5A05933' }}>
@@ -69,7 +82,7 @@ const Footer = () => {
                         <Instagram size={20} color={iconColor} style={{ cursor: 'pointer' }} />
                         <Linkedin size={20} color={iconColor} style={{ cursor: 'pointer' }} />
                     </div>
-                    <button style={{
+                    <ButtonGold style={{
                         backgroundColor: '#634832',
                         color: 'white',
                         padding: '10px 25px',
@@ -81,20 +94,11 @@ const Footer = () => {
                         cursor: 'pointer'
                     }}>
                         Notre FAQ
-                    </button>
+                    </ButtonGold>
                 </div>
             </div>
 
-            {/* 3. BLOC MARQUE FINAL */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '40px', borderTop: '3px solid #C5A05933', paddingTop: '40px' }}>
-                <img src="/images/logo-simple.svg" alt="Logo Cafthe" style={{ height: '500px', opacity: 0.8 }} />
-                <div style={{ textAlign: 'left' }}>
-                    <h3 style={{ color: '#C5A059', fontSize: '32px', marginBottom: '10px' }}>CafThé</h3>
-                    <p style={{ color: textColor, fontSize: '20px', maxWidth: '700px', lineHeight: '1.6', opacity: 0.9 }}>
-                        L'Artisan des Terroirs. Passionnés par l'excellence, nous sélectionnons les meilleurs cafés de spécialité et thés rares à travers le monde. De la graine à la tasse, Cafthe s'engage pour une culture durable et une torréfaction artisanale. Redécouvrez le goût de l'authentique.
-                    </p>
-                </div>
-            </div>
+
         </footer>
     );
 };

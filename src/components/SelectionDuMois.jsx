@@ -35,9 +35,9 @@ const SelectionDuMois = () => {
                 ))}
             </div>
 
-            <button onClick={() => navigate('/boutique?filter=promotion')} className="bg-[#A6844A] text-white px-10 py-3 rounded-md hover:bg-[#8B6B3F] transition-colors uppercase tracking-widest text-sm">
+            <ButtonGold onClick={() => navigate('/boutique?filter=promotion')} className="bg-[#A6844A] text-white px-10 py-3 rounded-md hover:bg-[#8B6B3F] transition-colors uppercase tracking-widest text-sm">
                 Découvrir
-            </button>
+            </ButtonGold>
         </section>
     );
 };

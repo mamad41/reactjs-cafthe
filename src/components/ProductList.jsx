@@ -9,6 +9,7 @@ const ProductList = ({ category }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+
         const fetchProduits = async () => {
             try {
                 setIsLoading(true);
@@ -24,6 +25,7 @@ const ProductList = ({ category }) => {
             }
         };
         void fetchProduits();
+
     }, []);
 
     // 1. FILTRAGE

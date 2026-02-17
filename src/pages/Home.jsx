@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ButtonGold from "../components/ButtonGold.jsx";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -69,23 +70,14 @@ const Home = () => {
                     </h1>
 
                     {/* BOUTON */}
-                    <button
+                    <div style={{marginTop:'20px'}}>
+                    <ButtonGold
                         onClick={() => navigate('/boutique?filter=nouveaute')}
-                        style={{
-                            backgroundColor: '#A6844A',
-                            color: 'white',
-                            marginTop: '20px',
-                            padding: '12px 35px',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            textTransform: 'uppercase',
-                            letterSpacing: '2px',
-                            fontSize: '13px'
-                        }}
+                        style={{ padding: '8px 16px', fontSize: '16px', color: 'white'}}
                     >
                         Explorer
-                    </button>
+                    </ButtonGold>
+                    </div>
                 </div>
             </div>
 
@@ -134,22 +126,15 @@ const Home = () => {
                 </div>
 
                 {/* BOUTON */}
-                <button
-                    onClick={() => navigate('/boutique?filter=promotion')}
-                    style={{
-                        backgroundColor: '#A6844A',
-                        color: 'white',
-                        padding: '12px 35px',
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        textTransform: 'uppercase',
-                        letterSpacing: '2px',
-                        fontSize: '13px'
-                    }}
-                >
-                    Découvrir
-                </button>
+                <div style={{marginTop:'20px'}}>
+                    <ButtonGold
+                        onClick={() => navigate('/boutique?filter=nouveaute')}
+                        style={{ padding: '8px 16px', fontSize: '16px', color: 'white'}}
+
+                    >
+                        Decouvrir
+                    </ButtonGold>
+                </div>
             </section>
             <div style={{ marginBottom: '40px',padding: '60px 20px', textAlign: 'center' }}>
                 <h2 style={{ color: '#C5A059', fontSize: '48px', margin: '15px 0' }}>L'Excellence à Chaque Tasse</h2>

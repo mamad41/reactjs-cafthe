@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
-// Importation depuis ton fichier nommé "CardContext"
 import { CardContext } from "../context/CardContext";
+import ButtonGold from "./ButtonGold.jsx";
 
 const ProductCards = ({ nomProduit, variantes }) => {
-    // On extrait la fonction d'action depuis le contexte Card
     const { addProductToCart } = useContext(CardContext);
 
     const initialIdx = variantes.findIndex(v => v.type_de_vente === 'Unité');
@@ -18,32 +17,48 @@ const ProductCards = ({ nomProduit, variantes }) => {
         ? `${import.meta.env.VITE_API_URL}/image/${actuelle.image}`
         : "https://placehold.co/300x300";
 
+    // --- LOGIQUE DE PRIX MISE À JOUR ---
+    // On vérifie si une promo existe (via les données envoyées par ton nouveau Model)
+    const aUnePromo = actuelle.promo_pourcentage && actuelle.prix_final < actuelle.prix_ttc;
+
+    // Calcul du prix à afficher (prend le prix_final calculé par le SQL)
     const prixAffiché = actuelle.type_de_vente === 'Vrac'
+        ? ((parseFloat(actuelle.prix_final) * poidsVrac) / 1000).toFixed(2)
+        : actuelle.prix_final;
+
+    // Calcul du prix d'origine (barré) pour le Vrac si besoin
+    const prixOrigineAffiché = actuelle.type_de_vente === 'Vrac'
         ? ((parseFloat(actuelle.prix_ttc) * poidsVrac) / 1000).toFixed(2)
         : actuelle.prix_ttc;
+    // -----------------------------------
 
-    // Fonction déclenchée au clic sur le bouton
     const handleAddToCart = () => {
         const productData = {
-            id: actuelle.réfèrence_sku,
+            id: actuelle.reference_sku,
             nom: nomProduit,
             image: imageUrl,
             type: actuelle.type_de_vente,
-            prixUnitaire: actuelle.prix_ttc,
-            prixFinal: prixAffiché,
-            poids: actuelle.type_de_vente === 'Vrac' ? `${poidsVrac}g` : actuelle.poids,
+            prixUnitaire: actuelle.prix_final, // On envoie le prix réduit au panier
+            prixOriginal: actuelle.prix_ttc,
+            prixTotal: prixAffiché,
+            poids: actuelle.type_de_vente === 'Vrac' ? `${poidsVrac}g` : actuelle.poids_affichage,
             quantite: 1
         };
 
-        // Appel de la fonction définie dans ton CardContext
         addProductToCart(productData);
-
         setIsAdded(true);
         setTimeout(() => setIsAdded(false), 2000);
     };
 
     return (
-        <div className="bg-white rounded-[20px] p-6 flex flex-col h-full shadow-sm border border-gray-100 transition-all hover:shadow-md">
+        <div className="bg-white rounded-[20px] p-6 flex flex-col h-full shadow-sm border border-gray-100 transition-all hover:shadow-md relative">
+
+            {/* Badge de promotion optionnel en haut à droite */}
+            {aUnePromo && (
+                <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                    -{actuelle.promo_pourcentage}%
+                </div>
+            )}
 
             <div className="w-full h-44 flex items-center justify-center mb-4">
                 <img
@@ -87,19 +102,30 @@ const ProductCards = ({ nomProduit, variantes }) => {
                             <option value={1000}>1kg</option>
                         </select>
                     ) : (
-                        <span className="text-[#8B6B3F] text-[10px] opacity-60 uppercase">
-                            Paquet de {actuelle.poids || "250g"}
-                        </span>
+                        <div className="product-weight">
+                            <p className="text-gray-500 italic">
+                                Format : {actuelle.poids_affichage || "Sachet 250g"}
+                            </p>
+                        </div>
                     )}
                 </div>
 
-                <p className="text-[#C5A059] font-bold text-2xl mt-auto pt-4">
-                    {prixAffiché}€
-                </p>
+                {/* --- AFFICHAGE DU PRIX AVEC PROMO --- */}
+                <div className="mt-auto pt-4 flex flex-col items-center">
+                    {aUnePromo && (
+                        <span className="text-gray-400 line-through text-sm">
+                            {prixOrigineAffiché}€
+                        </span>
+                    )}
+                    <p className={`font-bold text-2xl ${aUnePromo ? 'text-red-600' : 'text-[#C5A059]'}`}>
+                        {prixAffiché}€
+                    </p>
+                </div>
+                {/* ------------------------------------ */}
             </div>
 
             <div className="mt-5 flex flex-col gap-2">
-                <button
+                <ButtonGold
                     onClick={handleAddToCart}
                     className={`w-full py-2.5 text-[10px] uppercase tracking-[0.2em] rounded transition-all duration-300 font-medium ${
                         isAdded
@@ -108,10 +134,10 @@ const ProductCards = ({ nomProduit, variantes }) => {
                     }`}
                 >
                     {isAdded ? '✓ Ajouté au panier' : 'Ajouter au panier'}
-                </button>
+                </ButtonGold>
 
                 <Link
-                    to={`/produit/${actuelle.réfèrence_sku}`}
+                    to={`/produit/${actuelle.reference_sku}`}
                     className="text-[9px] text-gray-400 uppercase tracking-widest no-underline text-center pt-1"
                 >
                     Fiche détaillée

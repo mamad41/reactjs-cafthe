@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext.jsx";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ButtonGold from "../components/ButtonGold.jsx";
 
 const Login = () => {
     const { login } = useContext(AuthContext);
@@ -117,17 +118,17 @@ const Login = () => {
                         </div>
                     )}
 
-                    <button
+                    <ButtonGold
                         type="submit"
                         className="w-full bg-[#634832] text-white py-5 rounded-full uppercase tracking-[0.2em] text-[11px] font-bold hover:bg-[#A6844A] transition-all duration-300 shadow-lg mt-4"
                     >
                         {isRegistering ? "S'inscrire" : "Se Connecter"}
-                    </button>
+                    </ButtonGold>
                 </form>
 
                 {/* Switch Login / Register */}
                 <div className="mt-10 text-center border-t border-gray-50 pt-8">
-                    <button
+                    <ButtonGold
                         onClick={() => {
                             setIsRegistering(!isRegistering);
                             setErrorMsg("");
@@ -138,7 +139,7 @@ const Login = () => {
                             ? "Déjà un compte ? Se connecter"
                             : "Pas encore de compte ? Créer un profil"
                         }
-                    </button>
+                    </ButtonGold>
                 </div>
             </div>
         </div>
