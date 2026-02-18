@@ -1,84 +1,108 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonGold from '../components/ButtonGold';
 
 const Abonnement = () => {
-    const plans = [
-        {
-            title: "Découverte",
-            price: "19",
-            description: "Idéal pour s'initier aux grands crus.",
-            features: ["2 sachets de 250g / mois", "Fiches dégustation", "Livraison incluse"],
-            isPopular: false
-        },
-        {
-            title: "Amateur",
-            price: "35",
-            description: "Notre abonnement le plus plébiscité.",
-            features: ["4 sachets de 250g / mois", "1 accessoire barista offert", "Accès aux ventes privées", "Livraison incluse"],
-            isPopular: true
-        },
-        {
-            title: "Expert",
-            price: "65",
-            description: "Pour les véritables passionnés de café.",
-            features: ["Coffret de 1kg / mois", "Ateliers visio mensuels", "Cafés d'exception (Éditions limitées)", "Livraison prioritaire"],
-            isPopular: false
-        }
-    ];
+    const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                // Appel au backend sur le port 3000
+                const response = await fetch('http://localhost:3000/api/abonnements');
+
+                if (!response.ok) throw new Error("Erreur réseau");
+
+                const data = await response.json();
+
+                // Transformation des données SQL pour le rendu React
+                const formattedData = data.map(plan => ({
+                    ...plan,
+                    // On s'assure que les features sont un tableau même si la chaîne est vide
+                    features: typeof plan.features === 'string' ? plan.features.split(',') : (plan.features || [])
+                }));
+
+                setPlans(formattedData);
+                setLoading(false);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des tarifs :", error);
+                setLoading(false);
+            }
+        };
+        fetchPlans();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen bg-[#FDFCF7]">
+                <div className="text-[#C5A059] text-2xl font-forum animate-pulse">
+                    Chargement de nos offres...
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <section className="bg-[#FDFCF7] py-20 px-4 font-forum">
-            <div className="max-w-6xl mx-auto text-center mb-16">
-                <h2 className="text-[#C5A059] text-4xl md:text-5xl uppercase tracking-[0.2em] mb-4">
+        <div className="bg-[#FDFCF7] min-h-screen py-20 px-10 font-forum">
+            {/* Header de la page */}
+            <div className="text-center mb-16">
+                <h1 className="text-[#C5A059] text-4xl uppercase tracking-[0.2em]">
                     Nos Abonnements
-                </h2>
-                <p className="text-[#634832] opacity-80 max-w-lg mx-auto italic">
-                    Recevez chaque mois une sélection rigoureuse de nos meilleurs grains directement chez vous.
-                </p>
+                </h1>
+                <div className="h-[1px] w-24 bg-[#C5A059] mx-auto mt-4"></div>
             </div>
 
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Conteneur des badges */}
+            <div className="max-w-[1400px] mx-auto flex flex-row justify-between items-stretch mt-[100px] gap-6">
                 {plans.map((plan, index) => (
                     <div
-                        key={index}
-                        className={`relative p-8 rounded-[30px] bg-white border transition-all duration-500 hover:shadow-2xl flex flex-col ${
-                            plan.isPopular ? 'border-[#C5A059] shadow-xl scale-105 z-10' : 'border-gray-100'
-                        }`}
+                        key={plan.id || index}
+                        /* Correction : On utilise plan.est_populaire (minuscule comme en SQL)
+                           On utilise w-[31%] pour forcer l'alignement côte à côte
+                        */
+                        className={`w-[31%] relative bg-white rounded-[40px] border border-[#C5A059] flex flex-col items-center text-center p-8
+                          transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-105
+                          ${plan.est_populaire === 1 ? 'shadow-xl z-10 border-2' : 'shadow-sm z-0'}`}
                     >
-                        {plan.isPopular && (
-                            <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C5A059] text-white px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">
+                        {/* Badge Recommandé - Correction du positionnement */}
+                        {plan.est_populaire === 1 && (
+                            <span className="absolute -top-4 bg-[#C5A059] text-white px-6 py-1 rounded-full text-[10px] uppercase font-bold shadow-md">
                                 Recommandé
                             </span>
                         )}
 
-                        <div className="mb-8">
-                            <h3 className="text-[#333] text-2xl uppercase mb-2 tracking-tight">{plan.title}</h3>
-                            <p className="text-gray-400 text-sm font-sans italic">{plan.description}</p>
+                        {/* Correction : On utilise plan.nom (propriété SQL) */}
+                        <h3 className="text-[#C5A059] text-2xl uppercase mb-4 mt-2">
+                            {plan.nom || "Sans titre"}
+                        </h3>
+
+                        {/* Correction : On utilise plan.prix (propriété SQL) */}
+                        <div className="mb-6">
+                            <span className="text-4xl font-bold text-[#634832]">
+                                {plan.prix}€
+                            </span>
+                            <span className="text-gray-400 text-xs ml-1 font-sans">/mois</span>
                         </div>
 
-                        <div className="mb-8 flex items-baseline">
-                            <span className="text-4xl font-bold text-[#634832]">{plan.price}€</span>
-                            <span className="text-gray-400 text-sm ml-2">/ mois</span>
-                        </div>
-
-                        <ul className="space-y-4 mb-10 flex-grow">
+                        {/* Liste des caractéristiques */}
+                        <ul className="list-none p-0 m-0 space-y-4 mb-10 w-full">
                             {plan.features.map((feature, i) => (
-                                <li key={i} className="flex items-center gap-3 text-sm text-[#333] font-sans">
-                                    <span className="text-[#C5A059]">✦</span>
-                                    {feature}
+                                <li key={i} className="text-sm text-gray-600 font-sans leading-relaxed">
+                                    {feature.trim()}
                                 </li>
                             ))}
                         </ul>
 
-                        <ButtonGold
-                            className={`w-full py-4 ${!plan.isPopular && 'opacity-80 hover:opacity-100'}`}
-                        >
-                            S'abonner
-                        </ButtonGold>
+                        {/* Bouton d'action */}
+                        <div className="mt-auto w-full flex justify-center">
+                            <ButtonGold className="!px-10 !py-3 !w-auto text-[11px] tracking-widest uppercase">
+                                S'abonner
+                            </ButtonGold>
+                        </div>
                     </div>
                 ))}
             </div>
-        </section>
+        </div>
     );
 };
 
