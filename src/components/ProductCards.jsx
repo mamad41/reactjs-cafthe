@@ -1,147 +1,99 @@
 import React, { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
-import { CardContext } from "../context/CardContext";
-import ButtonGold from "./ButtonGold.jsx";
+import ButtonGold from './ButtonGold';
+import { CardContext } from '../context/CardContext';
+import toast from 'react-hot-toast';
 
-const ProductCards = ({ nomProduit, variantes }) => {
+const ProductCards = ({ nomProduit, variantes, category }) => {
     const { addProductToCart } = useContext(CardContext);
+    const [selectedVariante, setSelectedVariante] = useState(variantes[0]);
 
-    const initialIdx = variantes.findIndex(v => v.type_de_vente === 'Unité');
-    const [selectedIdx, setSelectedIdx] = useState(initialIdx !== -1 ? initialIdx : 0);
-    const [poidsVrac, setPoidsVrac] = useState(250);
-    const [isAdded, setIsAdded] = useState(false);
+    // On définit uniquement la couleur de fond pour le coin
+    const categoryColors = {
+        café: "bg-[#634832]",
+        thé: "bg-[#4A5D23]",
+        coffret: "bg-[#7f1d1d]",
+        accessoire: "bg-[#F5F5DC]"
+    };
 
-    const actuelle = variantes[selectedIdx];
+    const currentColor = categoryColors[category] || "bg-gold-premium";
 
-    const imageUrl = actuelle.image
-        ? `${import.meta.env.VITE_API_URL}/image/${actuelle.image}`
-        : "https://placehold.co/300x300";
-
-    // --- LOGIQUE DE PRIX MISE À JOUR ---
-    // On vérifie si une promo existe (via les données envoyées par ton nouveau Model)
-    const aUnePromo = actuelle.promo_pourcentage && actuelle.prix_final < actuelle.prix_ttc;
-
-    // Calcul du prix à afficher (prend le prix_final calculé par le SQL)
-    const prixAffiché = actuelle.type_de_vente === 'Vrac'
-        ? ((parseFloat(actuelle.prix_final) * poidsVrac) / 1000).toFixed(2)
-        : actuelle.prix_final;
-
-    // Calcul du prix d'origine (barré) pour le Vrac si besoin
-    const prixOrigineAffiché = actuelle.type_de_vente === 'Vrac'
-        ? ((parseFloat(actuelle.prix_ttc) * poidsVrac) / 1000).toFixed(2)
-        : actuelle.prix_ttc;
-    // -----------------------------------
+    // --- LOGIQUE PRIX SQL ---
+    const prixInitial = parseFloat(selectedVariante.prix_ttc || 0);
+    const prixFinal = parseFloat(selectedVariante.prix_final || prixInitial);
+    const pourcentage = parseFloat(selectedVariante.promo_pourcentage || 0);
+    const hasPromo = prixFinal < prixInitial;
 
     const handleAddToCart = () => {
-        const productData = {
-            id: actuelle.reference_sku,
-            nom: nomProduit,
-            image: imageUrl,
-            type: actuelle.type_de_vente,
-            prixUnitaire: actuelle.prix_final, // On envoie le prix réduit au panier
-            prixOriginal: actuelle.prix_ttc,
-            prixTotal: prixAffiché,
-            poids: actuelle.type_de_vente === 'Vrac' ? `${poidsVrac}g` : actuelle.poids_affichage,
-            quantite: 1
-        };
-
-        addProductToCart(productData);
-        setIsAdded(true);
-        setTimeout(() => setIsAdded(false), 2000);
+        addProductToCart({ ...selectedVariante, prix_final: prixFinal });
+        toast.success(`${nomProduit} ajouté au panier`);
     };
 
     return (
-        <div className="bg-white rounded-[20px] p-6 flex flex-col h-full shadow-sm border border-gray-100 transition-all hover:shadow-md relative">
+        <div className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
 
-            {/* Badge de promotion optionnel en haut à droite */}
-            {aUnePromo && (
-                <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
-                    -{actuelle.promo_pourcentage}%
+            {/* LE COIN COLORÉ (Style Ruban) */}
+            <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10">
+                <div className={`${currentColor} absolute transform -rotate-45 text-center w-[140%] py-1.5 -left-[35%] top-[18%] shadow-sm`}>
+                    {/* On peut laisser vide ou mettre un petit texte discret comme "Bio" ou "New" */}
+                </div>
+            </div>
+
+            {/* BADGE PROMO : Positionné à droite pour ne pas chevaucher le coin */}
+            {hasPromo && (
+                <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg ">
+                    -{pourcentage}%
                 </div>
             )}
 
-            <div className="w-full h-44 flex items-center justify-center mb-4">
+            {/* IMAGE PRODUIT */}
+            <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
                 <img
-                    src={imageUrl}
+                    src={selectedVariante.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
                     alt={nomProduit}
-                    className="max-h-full max-w-full object-contain transition-transform hover:scale-105 duration-300"
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
             </div>
 
-            <div className="flex flex-col flex-grow text-center">
-                <h3 className="font-forum text-lg text-[#333] uppercase min-h-[50px] flex items-center justify-center leading-tight">
-                    {nomProduit}
-                </h3>
+            {/* INFOS PRODUIT */}
+            <div className="flex-grow flex flex-col">
+                <span className="text-gold-premium uppercase tracking-[2px] text-[10px] font-bold mb-2">{category}</span>
+                <h3 className="text-xl font-medium mb-1 leading-tight uppercase font-forum text-brand-brown">{nomProduit}</h3>
 
-                <div className="flex gap-2 justify-center my-4">
-                    {variantes.map((v, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setSelectedIdx(idx)}
-                            className={`px-3 py-1 text-[10px] rounded-full border transition-all uppercase tracking-widest ${
-                                selectedIdx === idx
-                                    ? 'bg-[#634832] text-white border-[#634832]'
-                                    : 'border-[#634832] text-[#634832] hover:bg-[#63483211]'
-                            }`}
-                        >
-                            {v.type_de_vente}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="min-h-[40px] flex items-center justify-center">
-                    {actuelle.type_de_vente === 'Vrac' ? (
-                        <select
-                            value={poidsVrac}
-                            onChange={(e) => setPoidsVrac(Number(e.target.value))}
-                            className="text-xs border border-[#C5A059] rounded px-2 py-1 outline-none text-[#8B6B3F] bg-white cursor-pointer"
-                        >
-                            <option value={100}>100g</option>
-                            <option value={250}>250g</option>
-                            <option value={500}>500g</option>
-                            <option value={1000}>1kg</option>
-                        </select>
-                    ) : (
-                        <div className="product-weight">
-                            <p className="text-gray-500 italic">
-                                Format : {actuelle.poids_affichage || "Sachet 250g"}
-                            </p>
-                        </div>
-                    )}
-                </div>
-
-                {/* --- AFFICHAGE DU PRIX AVEC PROMO --- */}
-                <div className="mt-auto pt-4 flex flex-col items-center">
-                    {aUnePromo && (
-                        <span className="text-gray-400 line-through text-sm">
-                            {prixOrigineAffiché}€
-                        </span>
-                    )}
-                    <p className={`font-bold text-2xl ${aUnePromo ? 'text-red-600' : 'text-[#C5A059]'}`}>
-                        {prixAffiché}€
-                    </p>
-                </div>
-                {/* ------------------------------------ */}
+                {/* SELECTEUR DE VARIANTES (POIDS) */}
+                {variantes.length > 1 && (
+                    <div className="flex gap-2 my-4 flex-wrap">
+                        {variantes.map((v) => (
+                            <button
+                                key={v.reference_sku}
+                                onClick={() => setSelectedVariante(v)}
+                                className={`px-3 py-1 text-[10px] rounded-full border transition-all ${
+                                    selectedVariante.reference_sku === v.reference_sku
+                                        ? "bg-gold-premium border-gold-premium text-white"
+                                        : "border-gray-300 text-gray-500 hover:border-gold-premium hover:text-gold-premium"
+                                }`}
+                            >
+                                {v.poids_affichage || v.poids}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
-            <div className="mt-5 flex flex-col gap-2">
-                <ButtonGold
-                    onClick={handleAddToCart}
-                    className={`w-full py-2.5 text-[10px] uppercase tracking-[0.2em] rounded transition-all duration-300 font-medium ${
-                        isAdded
-                            ? 'bg-green-600 text-white'
-                            : 'bg-[#634832] text-white hover:bg-[#A6844A]'
-                    }`}
-                >
-                    {isAdded ? '✓ Ajouté au panier' : 'Ajouter au panier'}
+            {/* FOOTER : PRIX ET BOUTON */}
+            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                <div className="font-forum">
+                    {hasPromo && (
+                        <span className="text-[11px] text-gray-400 line-through block mb-[-4px]">
+                            {prixInitial.toFixed(2)}€
+                        </span>
+                    )}
+                    <span className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-gold-premium'}`}>
+                        {prixFinal.toFixed(2)}€
+                    </span>
+                </div>
+                <ButtonGold onClick={handleAddToCart} className="px-5 py-2 text-xs">
+                    Ajouter
                 </ButtonGold>
-
-                <Link
-                    to={`/produit/${actuelle.reference_sku}`}
-                    className="text-[9px] text-gray-400 uppercase tracking-widest no-underline text-center pt-1"
-                >
-                    Fiche détaillée
-                </Link>
             </div>
         </div>
     );

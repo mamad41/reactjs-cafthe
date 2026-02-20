@@ -1,7 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+    --font-forum: "Forum", serif;
+    --color-gold-premium: #C5A059;
+    --color-coffee-dark: #3E2723;
+    --color-card-bg: #F9F8F3;
+    --color-olive-bg: #4A5D3F;
+    --color-brown-bg: #2C241E;
+    --color-creme-bg: #FFFFF0;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+    body {
+        @apply transition-colors duration-300 bg-white text-neutral-900;
+    }
+
+    /* --- LOGIQUE DARK MODE --- */
+
+    /* 1. On force le Noir Absolu sur les fonds clairs */
 
 
+    /* 2. SOLUTION POUR LE SÉLECTEUR (image_e355df) */
+    /* On force le fond du petit sélecteur à devenir noir aussi */
+    .dark input,
+    .dark div[class*="quantity"],
+    .dark button[class*="quantity"] {
+        background-color: #FFFFFF!important; /* Fond blanc pur */
+        color:  #000000 !important;           /* Texte noir pur */
+        border: 1px solid rgba(197, 160, 89, 0.3) !important; /* Une petite bordure dorée pour le voir */
+    }
+    .dark body,
+    .dark header,
+    .dark nav,
+    .dark main,
+    .dark footer,
+    .dark .bg-white,
+    .dark .bg-\[\#FDFCF7\] {
+        background-color: #000000 !important;
+        color: #C5A059 !important;
+    }
+
+
+
+    /* 4. On garde tes bannières colorées mais assombries */
+    .dark .bg-brown-bg { background-color: #1a1512 !important; }
+    .dark .bg-olive-bg { background-color: #263021 !important; }
+    .dark .bg-red-900 { background-color: #450a0a !important; }
+
+    /* 5. Le doré reste doré */
+    .dark .text-gold-premium,
+    .dark .text-gold-premium * {
+        color: var(--color-gold-premium) !important;
+    }
+}

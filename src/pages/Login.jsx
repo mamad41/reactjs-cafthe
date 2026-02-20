@@ -1,28 +1,34 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/authContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonGold from "../components/ButtonGold.jsx";
+import { ShieldCheck, X } from 'lucide-react';
 
 const Login = () => {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
-    // États pour le formulaire
+    // États
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
-    const [nom, setNom] = useState(""); // Pour l'inscription
+    const [nom, setNom] = useState("");
     const [motDePasse, setMotDePasse] = useState("");
+    const [acceptedRGPD, setAcceptedRGPD] = useState(false);
+    const [showPolicy, setShowPolicy] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
 
-    // Récupération de la cible de redirection (ex: checkout)
     const redirectTarget = searchParams.get("redirect");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrorMsg("");
 
-        // Détermination de l'endpoint et du corps de la requête
+        if (isRegistering && !acceptedRGPD) {
+            setErrorMsg("Veuillez accepter la politique de confidentialité.");
+            return;
+        }
+
+        setErrorMsg("");
         const endpoint = isRegistering ? "register" : "login";
         const bodyData = isRegistering
             ? { nom, email, mots_de_passe: motDePasse }
@@ -46,15 +52,8 @@ const Login = () => {
                 return;
             }
 
-            // Mise à jour de l'état global utilisateur
             login(data.client);
-
-            // Redirection intelligente : vers le panier si demandé, sinon vers l'accueil
-            if (redirectTarget) {
-                navigate(`/${redirectTarget}`);
-            } else {
-                navigate("/");
-            }
+            navigate(redirectTarget ? `/${redirectTarget}` : "/");
         } catch (error) {
             console.error("Erreur d'authentification: ", error);
             setErrorMsg("Une erreur s'est produite. Veuillez réessayer.");
@@ -62,20 +61,17 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF7] flex flex-col items-center justify-center p-6 font-forum">
+        <div className="min-h-screen bg-[#FDFCF7] flex flex-col items-center justify-center p-6 font-forum relative">
             <div className="w-full max-w-md bg-white rounded-[40px] p-10 md:p-14 shadow-2xl border border-gray-100">
 
-                {/* Titre dynamique */}
                 <h2 className="text-[#634832] text-3xl uppercase tracking-[0.2em] text-center mb-10">
                     {isRegistering ? "Créer un compte" : "Connexion"}
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-
-                    {/* Champ Nom (uniquement Inscription) */}
                     {isRegistering && (
                         <div className="flex flex-col">
-                            <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Nom Complet</label>
+                            <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Nom Complet</label>
                             <input
                                 type="text"
                                 value={nom}
@@ -88,7 +84,7 @@ const Login = () => {
                     )}
 
                     <div className="flex flex-col">
-                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Email</label>
+                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Email</label>
                         <input
                             type="email"
                             value={email}
@@ -100,7 +96,7 @@ const Login = () => {
                     </div>
 
                     <div className="flex flex-col">
-                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Mot de passe</label>
+                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Mot de passe</label>
                         <input
                             type="password"
                             value={motDePasse}
@@ -111,37 +107,68 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Message d'erreur stylisé */}
+                    {isRegistering && (
+                        <div className="flex items-start gap-3 pt-2">
+                            <div className="relative flex items-center mt-1">
+                                <input
+                                    type="checkbox"
+                                    id="rgpd"
+                                    checked={acceptedRGPD}
+                                    onChange={(e) => setAcceptedRGPD(e.target.checked)}
+                                    className="w-4 h-4 border-2 border-gray-200 rounded appearance-none checked:bg-[#C5A059] checked:border-[#C5A059] cursor-pointer"
+                                />
+                                {acceptedRGPD && <ShieldCheck size={10} className="absolute text-white left-0.5 pointer-events-none" />}
+                            </div>
+                            <label htmlFor="rgpd" className="text-[9px] text-gray-500 italic leading-tight">
+                                J'accepte l'utilisation de mes données pour mes commandes.
+                                <button type="button" onClick={() => setShowPolicy(true)} className="text-[#C5A059] underline ml-1 font-bold">En savoir plus</button>
+                            </label>
+                        </div>
+                    )}
+
                     {errorMsg && (
-                        <div className="text-red-500 text-[11px] uppercase tracking-wider text-center bg-red-50 py-2 rounded-lg">
+                        <div className="text-red-500 text-[11px] uppercase text-center bg-red-50 py-2 rounded-lg font-bold">
                             {errorMsg}
                         </div>
                     )}
 
                     <ButtonGold
                         type="submit"
-                        className="w-full bg-[#634832] text-white py-5 rounded-full uppercase tracking-[0.2em] text-[11px] font-bold hover:bg-[#A6844A] transition-all duration-300 shadow-lg mt-4"
+                        disabled={isRegistering && !acceptedRGPD}
+                        className={`w-full py-5 rounded-full mt-4 ${isRegistering && !acceptedRGPD ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         {isRegistering ? "S'inscrire" : "Se Connecter"}
                     </ButtonGold>
                 </form>
 
-                {/* Switch Login / Register */}
                 <div className="mt-10 text-center border-t border-gray-50 pt-8">
-                    <ButtonGold
+                    <button
+                        type="button"
                         onClick={() => {
                             setIsRegistering(!isRegistering);
                             setErrorMsg("");
                         }}
-                        className="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold hover:text-[#634832] transition-colors"
+                        className="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold"
                     >
-                        {isRegistering
-                            ? "Déjà un compte ? Se connecter"
-                            : "Pas encore de compte ? Créer un profil"
-                        }
-                    </ButtonGold>
+                        {isRegistering ? "Déjà un compte ? Se connecter" : "Pas encore de compte ? Créer un profil"}
+                    </button>
                 </div>
             </div>
+
+            {/* MODALE RGPD */}
+            {showPolicy && (
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+                    <div className="bg-white max-w-lg w-full rounded-[35px] p-10 shadow-2xl relative animate-fadeIn">
+                        <button onClick={() => setShowPolicy(false)} className="absolute top-6 right-6 text-gray-400"><X size={24} /></button>
+                        <h3 className="text-[#C5A059] text-xl uppercase mb-6 flex items-center gap-2 font-bold"><ShieldCheck size={20} /> Protection des données</h3>
+                        <div className="space-y-4 text-xs text-gray-500 italic font-sans">
+                            <p>Vos informations servent à la livraison de vos colis.</p>
+                            <p>Vos achats sont conservés pour créditer vos grains de fidélité.</p>
+                        </div>
+                        <ButtonGold onClick={() => setShowPolicy(false)} className="w-full mt-8 py-3 text-[10px]">J'ai compris</ButtonGold>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

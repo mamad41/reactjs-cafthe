@@ -4,6 +4,7 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 import Login from "./pages/Login.jsx";
 import Layout from "./layout/Layout.jsx";
 import Home from "./pages/Home.jsx";
+import Recherche from "./components/Recherche.jsx";
 import Boutique from "./pages/Boutique.jsx";
 import Abonnement from "./pages/Abonnement.jsx";
 import EspaceClient from "./pages/EspaceClient.jsx";
@@ -29,6 +30,7 @@ function App() {
                                 {/* Route parent : Layout contient navbar + outlet + footer */}
                                     <Route path="/" element={<Layout />}>
                                     <Route index element={<Home />} />
+                                     <Route path="Recherche" element={<Recherche />} />
                                      <Route path="/boutique" element={<Boutique />} />
                                      <Route path="/ABonnement" element={<Abonnement />} />
                                      <Route path="/Espace-Client" element={<EspaceClient />} />

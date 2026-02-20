@@ -1,62 +1,71 @@
 import React from 'react';
-import ProductList from "../components/ProductList.jsx";
+import ProductList from "../components/ProductList.jsx"
+import FilterButton from "../components/FilterButton.jsx";
 
 const Boutique = () => {
     return (
-        <main style={{ backgroundColor: '#FDFCF7', minHeight: '100vh', fontFamily: 'Forum, serif' }}>
+        <main className="bg-[#FDFCF7] min-h-screen font-forum">
 
             {/* EN-TÊTE DE PAGE */}
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-                <h1 style={{ color: '#C5A059', fontSize: '42px', textTransform: 'uppercase', letterSpacing: '5px', marginBottom: '30px' }}>
+            <div className="text-center py-16 px-5">
+                <h1 className="text-gold-premium text-4xl md:text-5xl uppercase tracking-[5px] mb-8">
                     Cafés, Thés & Accessoires
                 </h1>
 
-                {/* FILTRES RAPIDES (ANCRES) */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                    <a href="#cafes" style={filterButtonStyle}>Cafés du monde</a>
-                    <a href="#thes" style={filterButtonStyle}>Thés & Infusions</a>
-                    <a href="#accessoires" style={filterButtonStyle}>Accessoires</a>
+                {/* FILTRES RAPIDES */}
+                <div className="flex justify-center gap-4 flex-wrap mt-10">
+                    <FilterButton href="#cafes">Cafés du monde</FilterButton>
+                    <FilterButton href="#thes">Thés & Infusions</FilterButton>
+                    <FilterButton href="#accessoires">Accessoires</FilterButton>
                 </div>
             </div>
 
+            {/* SECTION COFFRETS - Fond purple  */}
+            <section id="coffret" className="bg-red-900 py-20 px-10 my-12">
+                <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
+                    Nos coffrets de dégustation
+                </h2>
+            </section>
+            <div className="max-w-7xl mx-auto px-4">
+                <ProductList category="coffret" />
+            </div>
+
+
+
             {/* SECTION CAFÉS - Fond sombre (Marron Chocolat) */}
-            <section id="cafes" style={{ backgroundColor: '#2C241E', padding: '80px 40px' }}>
-                <h2 style={{ textAlign: 'center', color: '#C5A059', fontSize: '32px', marginBottom: '50px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+            <section id="cafes" className="bg-brown-bg py-20 px-10 my-12">
+                <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Notre sélection de cafés
                 </h2>
-                <ProductList category="café" />
             </section>
+            <div className="max-w-7xl mx-auto px-4">
+                <ProductList category="café" />
+            </div>
+
 
             {/* SECTION THÉS - Fond Vert Olive */}
-            <section id="thes" style={{ backgroundColor: '#4A5D3F', padding: '80px 40px' }}>
-                <h2 style={{ textAlign: 'center', color: '#C5A059', fontSize: '32px', marginBottom: '50px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+            <section id="thes" className="bg-olive-bg py-20 px-10 my-12">
+                <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Notre sélection de Thés
                 </h2>
-                <ProductList category="thé" />
             </section>
+            <div className="max-w-7xl mx-auto px-4">
+                <ProductList category="thé" />
+            </div>
+
 
             {/* SECTION ACCESSOIRES - Fond Crème */}
-            <section id="accessoires" style={{ backgroundColor: '#FDFCF7', padding: '80px 40px' }}>
-                <h2 style={{ textAlign: 'center', color: '#8B6B3F', fontSize: '32px', marginBottom: '50px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+            <section id="accessoires" className="bg-creme-bg py-20 px-10 my-12 border-y border-gray-100">
+                <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Accessoires
                 </h2>
-                <ProductList category="accessoire" />
             </section>
+            <div className="max-w-7xl mx-auto px-4 mb-20">
+                <ProductList category="accessoire" />
+            </div>
 
         </main>
     );
-};
-
-// Style pour les petits boutons de navigation en haut
-const filterButtonStyle = {
-    color: '#8B6B3F',
-    textDecoration: 'none',
-    border: '1px solid #C5A059',
-    padding: '10px 25px',
-    fontSize: '13px',
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    transition: '0.3s'
 };
 
 export default Boutique;

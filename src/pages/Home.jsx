@@ -1,151 +1,126 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonGold from "../components/ButtonGold.jsx";
 
 const Home = () => {
     const navigate = useNavigate();
+    const [coffrets, setCoffrets] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const products = [
-        { id: 1, type: "Café", name: "Café Moka", origin: "Éthiopie", price: "12.90€", image: "/images/moka.jpg" },
-        { id: 2, type: "Café", name: "Café Blue mountain", origin: "Jamaïque", price: "12.90€", image: "/images/blue-mountain.jpg" },
-        { id: 3, type: "Café", name: "Café Blue mountain", origin: "Jamaïque", price: "12.90€", image: "/images/green-coffee.jpg" },
-        { id: 4, type: "Café", name: "Café Blue mountain", origin: "Jamaïque", price: "12.90€", image: "/images/green-coffee-2.jpg" },
-    ];
+    useEffect(() => {
+        const fetchCoffrets = async () => {
+            try {
+                // On utilise la bonne route avec le préfixe /api
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/articles`);
+
+                if (!response.ok) {
+                    throw new Error(`Erreur serveur: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // SÉCURITÉ ADAPTÉE À TON OBJET API
+                // On vérifie si data.articles existe et est un tableau
+                if (data && Array.isArray(data.articles)) {
+                    const selection = data.articles
+                        .filter(p => p.categorie === 'coffret')
+                        .slice(0, 4);
+                    setCoffrets(selection);
+                } else {
+                    console.error("Format attendu non trouvé. Reçu :", data);
+                    setCoffrets([]);
+                }
+            } catch (error) {
+                console.error("Erreur API coffrets:", error.message);
+                setCoffrets([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCoffrets();
+    }, []);
 
     return (
-        <main style={{ backgroundColor: '#FDFCF7', minHeight: '100vh', fontFamily: 'Forum, serif' }}>
-            {/* 1. IMAGE HERO */}
-            {/* 1. SECTION HERO AVEC TITRE SUPERPOSÉ */}
-            <div style={{
-                position: 'relative', // Obligatoire pour que le titre reste "dans" l'image
-                width: '100%',
-                overflow: 'hidden'
-            }}>
-                {/* L'IMAGE */}
+        <main className="bg-[#FDFCF7] min-h-screen font-forum">
+
+            {/* 1. SECTION HERO */}
+            <div className="relative w-full h-[700px] overflow-hidden flex items-center justify-center">
                 <img
                     src="/images/backgroud-hero.webp"
                     alt="Bannière Café Thé"
-                    style={{
-                        width: '95%',
-                        height: '700px',
-                        display: 'block',
-                        margin: '0 auto',
-                        objectFit: 'cover',
-                        filter: 'brightness(0.8)' // Optionnel : assombrit un peu l'image pour mieux lire le texte
-                    }}
+                    className="absolute inset-0 w-[95%] h-full mx-auto object-cover brightness-75 rounded-[40px]"
                 />
-
-                {/* LE TITRE SUR L'IMAGE */}
-                <div style={{
-                    position: 'absolute',
-                    top: '50%', // Centre verticalement
-                    left: '50%', // Centre horizontalement
-                    transform: 'translate(-50%, -50%)', // Ajustement parfait au milieu
-                    textAlign: 'center',
-                    width: '100%'
-                }}>
-                    <h1 style={{
-                        color: 'white',
-                        fontSize: '64px', // Taille plus imposante
-                        fontFamily: 'Forum, serif',
-                        textShadow: '2px 2px 10px rgba(0,0,0,0.5)', // Ombre pour détacher le texte du fond
-                        margin: 0,
-                        letterSpacing: '5px',
-                        textTransform: 'uppercase'
-                    }}>
-                        Saveurs<br />
-                        D’ailleurs
+                <div className="relative z-10 text-center px-4">
+                    <h1 className="text-white text-6xl md:text-8xl uppercase tracking-[8px] drop-shadow-2xl leading-tight">
+                        Saveurs<br />D’ailleurs
                     </h1>
-
-                    <h1 style={{
-                        color: 'white',
-                        fontSize: '24px', // Taille plus imposante
-                        fontFamily: 'Forum, serif',
-                        textShadow: '2px 2px 10px rgba(0,0,0,0.5)', // Ombre pour détacher le texte du fond
-                        margin: 0,
-                        letterSpacing: '5px',
-                        textTransform: 'uppercase'
-                    }}>
-                        Nouveauté
-                    </h1>
-
-                    {/* BOUTON */}
-                    <div style={{marginTop:'20px'}}>
-                    <ButtonGold
-                        onClick={() => navigate('/boutique?filter=nouveaute')}
-                        style={{ padding: '8px 16px', fontSize: '16px', color: 'white'}}
-                    >
-                        Explorer
-                    </ButtonGold>
+                    <div className="mt-10">
+                        <ButtonGold onClick={() => navigate('/boutique')} className="px-10 py-4 border-white text-white hover:bg-white hover:text-brown-bg transition-all">
+                            Explorer la collection
+                        </ButtonGold>
                     </div>
                 </div>
             </div>
 
-            {/* 2. SECTION SÉLECTION DU MOIS */}
-
-            <section style={{
-                margin: '40px auto',
-                padding: '60px 40px',
-                textAlign: 'center',
-                maxWidth: '1300px', // Un peu plus large pour le cadre
-                border: '1px solid #C5A059', // Ton cadre de 1px
-                backgroundColor: '#FDFCF7'
-            }}>
-                <div style={{ marginBottom: '40px' }}>
-                    <span style={{ color: '#C5A059', textTransform: 'uppercase', letterSpacing: '3px', fontSize: '14px' }}>Février 2026</span>
-                    <h2 style={{ color: '#C5A059', fontSize: '48px', margin: '15px 0' }}>Sélection du mois</h2>
-                    <p style={{ color: '#C5A059', maxWidth: '600px',fontSize: '24px', margin: '0 auto', opacity: 0.8 }}>
-                        Découvrez notre sélection de cafés et thés d'exception, soigneusement choisis par nos experts.
+            {/* 2. SECTION SÉLECTION DU MOIS (DANS L'ENCADRÉ) */}
+            <section className="max-w-[1300px] mx-auto my-20 p-10 md:p-20 border border-gold-premium text-center relative overflow-hidden">
+                <div className="mb-16">
+                    <span className="text-gold-premium uppercase tracking-[4px] text-sm font-bold">Février 2026</span>
+                    <h2 className="text-gold-premium text-5xl md:text-6xl my-4">Nos Coffrets Cadeaux</h2>
+                    <p className="text-gold-premium/80 max-w-2xl mx-auto text-xl italic leading-relaxed">
+                        Offrez l'excellence avec nos assortiments thématiques.
                     </p>
                 </div>
 
-                {/* LA GRILLE EN COLONNES (FLEXBOX) */}
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '20px',
-                    flexWrap: 'wrap', // Permet de revenir à la ligne sur mobile
-                    maxWidth: '1200px',
-                    margin: '0 auto 40px auto'
-                }}>
-                    {products.map((product) => (
-                        <div key={product.id} style={{ flex: '1 1 250px', maxWidth: '280px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden', borderRadius: '15px 15px 0 0', marginBottom: '15px' }}>
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    style={{ width: '100%', height: '100%', objectCover: 'cover' }}
-                                />
-                            </div>
-                            <span style={{ color: '#C5A059', fontStyle: 'italic', fontSize: '13px' }}>{product.type}</span>
-                            <h3 style={{ color: '#8B6B3F', margin: '5px 0', fontSize: '18px' }}>{product.name}</h3>
-                            <p style={{ color: '#8B6B3F', margin: '0', fontSize: '14px' }}>{product.origin}</p>
-                            <span style={{ color: '#C5A059', fontWeight: 'bold', marginTop: '10px' }}>{product.price}</span>
-                        </div>
-                    ))}
-                </div>
+                {loading ? (
+                    <div className="text-gold-premium animate-pulse py-10">Préparation de vos coffrets...</div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto mb-16">
+                        {/* On utilise une boucle sécurisée qui ne s'exécute que si coffrets est un tableau */}
+                        {coffrets.length > 0 ? (
+                            coffrets.map((product) => {
+                                // Brique de sécurité imageUrl identique à celle demandée
+                                const productImageUrl = product && product.image
+                                    ? `${import.meta.env.VITE_API_URL}/image/${product.image}`
+                                    : "https://placehold.co/300x300";
 
-                {/* BOUTON */}
-                <div style={{marginTop:'20px'}}>
-                    <ButtonGold
-                        onClick={() => navigate('/boutique?filter=nouveaute')}
-                        style={{ padding: '8px 16px', fontSize: '16px', color: 'white'}}
+                                return (
+                                    <div key={product.reference_sku} className="group flex flex-col items-center transition-transform hover:-translate-y-2">
+                                        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl mb-6 shadow-sm border border-gray-100">
+                                            <div className="absolute top-4 left-4 z-20 bg-gold-premium text-white text-[10px] px-3 py-1 uppercase tracking-widest rounded-full shadow-lg">
+                                                Édition Limitée
+                                            </div>
+                                            <img
+                                                src={productImageUrl}
+                                                alt={product.nom_produit}
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            />
+                                        </div>
+                                        <h3 className="text-brand-brown text-xl font-medium">{product.nom_produit}</h3>
+                                        <p className="text-brand-brown/70 text-sm uppercase tracking-widest">{product.origine_produit}</p>
+                                        <span className="text-gold-premium font-bold text-lg mt-3">{product.prix_ttc}€</span>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p className="col-span-full text-gold-premium italic">Aucun coffret disponible pour le moment.</p>
+                        )}
+                    </div>
+                )}
 
-                    >
-                        Decouvrir
-                    </ButtonGold>
-                </div>
+                <ButtonGold onClick={() => navigate('/boutique')} className="px-12 py-4">
+                    Voir toute la boutique
+                </ButtonGold>
             </section>
-            <div style={{ marginBottom: '40px',padding: '60px 20px', textAlign: 'center' }}>
-                <h2 style={{ color: '#C5A059', fontSize: '48px', margin: '15px 0' }}>L'Excellence à Chaque Tasse</h2>
-                <p style={{ color: '#C5A059', maxWidth: '1000px',fontSize: '24px', margin: '0 auto', opacity: 0.8 }}>
-                    Chez CafThé, nous parcourons le monde pour vous offrir les meilleurs cafés de spécialité et thés d'exception.
-                    Notre engagement envers la qualité, la durabilité et le commerce équitable garantit une expérience unique
-                    à chaque dégustation. De l'Éthiopie à la Jamaïque
-                    du Japon à l'Inde, découvrez des saveurs authentiques et des terroirs d'exception.
+
+            {/* 3. SECTION ENGAGEMENT */}
+            <div className="py-24 px-6 text-center bg-brown-bg text-white">
+                <h2 className="text-gold-premium text-5xl mb-10 tracking-wide">L'Excellence à Chaque Tasse</h2>
+                <p className="max-w-4xl mx-auto text-2xl leading-relaxed font-light opacity-90">
+                    Découvrez des saveurs authentiques et des terroirs d'exception.
                 </p>
             </div>
-
         </main>
     );
 };

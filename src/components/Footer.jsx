@@ -7,109 +7,89 @@ const Footer = () => {
     const textColor = "#8B6B3F";
 
     return (
-        <footer style={{ backgroundColor: '#FDFCF7', padding: '60px 80px', fontFamily: 'Forum, serif', borderTop: '2px solid #C5A05933' }}>
+        <footer className="bg-[#FDFCF7] font-forum border-t-2 border-[#C5A05933] px-6 py-12 lg:px-20 lg:py-16">
 
-            {/* 3. BLOC MARQUE FINAL */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '40px', borderTop: '3px solid #C5A05933', paddingTop: '40px' }}>
-                <img src="/images/logo-simple.svg" alt="Logo Cafthe" style={{ height: '500px', opacity: 0.8 }} />
-                <div style={{ textAlign: 'left' }}>
-                    <h3 style={{ color: '#C5A059', fontSize: '32px', marginBottom: '10px' }}>CafThé</h3>
-                    <p style={{ color: textColor, fontSize: '20px', maxWidth: '700px', lineHeight: '1.6', opacity: 0.9 }}>
-                        L'Artisan des Terroirs. Passionnés par l'excellence, nous sélectionnons les meilleurs cafés de spécialité et thés rares à travers le monde. De la graine à la tasse, Cafthe s'engage pour une culture durable et une torréfaction artisanale. Redécouvrez le goût de l'authentique.
-                    </p>
-                </div>
-            </div>
-
-
-            {/* 1. LIGNE DES RÉCURRENCES (SERVICE) */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '50px', paddingBottom: '30px', borderBottom: '3px solid #C5A05933' }}>
-                <div style={serviceItemStyle}>
+            {/* --- 1. SERVICES --- */}
+            <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-0 mb-12 pb-8 border-b-3 border-[#C5A05933]">
+                <div className="flex flex-col items-center text-center flex-1">
                     <ShieldCheck color={iconColor} size={32} />
-                    <span style={serviceTitleStyle}>Paiement Sécurisé</span>
-                    <span style={serviceSubtitleStyle}>Mastercard, Visa, Paypal</span>
+                    <span className="text-[#8B6B3F] uppercase text-xl lg:text-2xl font-bold tracking-wider mt-3">Paiement Sécurisé</span>
+                    <span className="text-[#C5A059] text-base lg:text-lg italic mt-1">Mastercard, Visa, Paypal</span>
                 </div>
-                <div style={{ height: '50px', width: '3px', backgroundColor: '#C5A05933' }}></div>
-                <div style={serviceItemStyle}>
+                <div className="hidden lg:block h-12 w-[3px] bg-[#C5A05933] self-center"></div>
+                <div className="flex flex-col items-center text-center flex-1">
                     <Truck color={iconColor} size={32} />
-                    <span style={serviceTitleStyle}>Livraison Offerte</span>
-                    <span style={serviceSubtitleStyle}>À partir de 50€ d'achat</span>
+                    <span className="text-[#8B6B3F] uppercase text-xl lg:text-2xl font-bold tracking-wider mt-3">Livraison Offerte</span>
+                    <span className="text-[#C5A059] text-base lg:text-lg italic mt-1">À partir de 50€ d'achat</span>
                 </div>
-                <div style={{ height: '50px', width: '3px', backgroundColor: '#C5A05933' }}></div>
-                <div style={serviceItemStyle}>
+                <div className="hidden lg:block h-12 w-[3px] bg-[#C5A05933] self-center"></div>
+                <div className="flex flex-col items-center text-center flex-1">
                     <Phone color={iconColor} size={32} />
-                    <span style={serviceTitleStyle}>Service Client</span>
-                    <span style={serviceSubtitleStyle}>01 02 03 04 05</span>
+                    <span className="text-[#8B6B3F] uppercase text-xl lg:text-2xl font-bold tracking-wider mt-3">Service Client</span>
+                    <span className="text-[#C5A059] text-base lg:text-lg italic mt-1">01 02 03 04 05</span>
                 </div>
-                <div style={{ height: '50px', width: '3px', backgroundColor: '#C5A05933' }}></div>
-                <div style={serviceItemStyle}>
+                <div className="hidden lg:block h-12 w-[3px] bg-[#C5A05933] self-center"></div>
+                <div className="flex flex-col items-center text-center flex-1">
                     <CreditCard color={iconColor} size={32} />
-                    <span style={serviceTitleStyle}>Paiement en 4 fois</span>
-                    <span style={serviceSubtitleStyle}>Avec Paypal</span>
+                    <span className="text-[#8B6B3F] uppercase text-xl lg:text-2xl font-bold tracking-wider mt-3">Paiement en 4 fois</span>
+                    <span className="text-[#C5A059] text-base lg:text-lg italic mt-1">Avec Paypal</span>
                 </div>
             </div>
 
-            {/* 2. LIGNE DES LIENS ET RÉSEAUX SOCIAUX */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '60px' }}>
-                <div style={linkColumnStyle}>
-                    <h4 style={columnTitleStyle}>Catalogue <ChevronDown size={14} /></h4>
-                    <a href="#" style={linkStyle}>Café du monde</a>
-                    <a href="#" style={linkStyle}>Thé du monde</a>
-                    <a href="#" style={linkStyle}>Accessoires</a>
+            {/* --- 2. LIENS (Correction grid-cols-1 pour mobile) --- */}
+            {/* On utilise grid-cols-1 par défaut pour éviter la superposition des textes longs.
+                On passe à grid-cols-2 sur 'sm' (tablette portrait) et flex sur 'lg'.
+            */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:justify-between gap-10 mb-12">
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-[#C5A059] text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Catalogue <ChevronDown size={14} /></h4>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Café du monde</a>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Thé du monde</a>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Accessoires</a>
                 </div>
-                <div style={linkColumnStyle}>
-                    <h4 style={columnTitleStyle}>Environnement <ChevronDown size={14} /></h4>
-                    <a href="#" style={linkStyle}>Nos actions</a>
-                    <a href="#" style={linkStyle}>Nos partenaires</a>
-                    <a href="#" style={linkStyle}>Notre association</a>
+
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-[#C5A059] text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Environnement <ChevronDown size={14} /></h4>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Nos actions</a>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Nos partenaires</a>
                 </div>
-                <div style={linkColumnStyle}>
-                    <h4 style={columnTitleStyle}>Témoignages <ChevronDown size={14} /></h4>
-                    <a href="#" style={linkStyle}>Avis clients</a>
-                    <a href="#" style={linkStyle}>Galerie</a>
-                </div>
-                <div style={linkColumnStyle}>
-                    <h4 style={columnTitleStyle}>Plus d'informations <ChevronDown size={14} /></h4>
-                    <a href="#" style={linkStyle}>Nous contacter</a>
-                    <a href="#" style={linkStyle}>Conditions générales de ventes</a>
-                    <a href="#" style={linkStyle}>Offres d'emploi</a>
+
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-[#C5A059] text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos <ChevronDown size={14} /></h4>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">Nous contacter</a>
+                    <a href="#" className="text-[#8B6B3F] no-underline opacity-80 hover:opacity-100 transition-opacity">CGV</a>
                 </div>
 
                 {/* RÉSEAUX SOCIAUX & FAQ */}
-                <div style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end', marginBottom: '20px' }}>
-                        <Facebook size={20} color={iconColor} style={{ cursor: 'pointer' }} />
-                        <Twitter size={20} color={iconColor} style={{ cursor: 'pointer' }} />
-                        <Instagram size={20} color={iconColor} style={{ cursor: 'pointer' }} />
-                        <Linkedin size={20} color={iconColor} style={{ cursor: 'pointer' }} />
+                <div className="sm:col-span-2 lg:col-span-1 text-center lg:text-right mt-6 lg:mt-0">
+                    <div className="flex gap-6 justify-center lg:justify-end mb-6">
+                        <Facebook size={24} color={iconColor} className="cursor-pointer hover:scale-110 transition-transform" />
+                        <Twitter size={24} color={iconColor} className="cursor-pointer hover:scale-110 transition-transform" />
+                        <Instagram size={24} color={iconColor} className="cursor-pointer hover:scale-110 transition-transform" />
+                        <Linkedin size={24} color={iconColor} className="cursor-pointer hover:scale-110 transition-transform" />
                     </div>
-                    <ButtonGold style={{
-                        backgroundColor: '#634832',
-                        color: 'white',
-                        padding: '10px 25px',
-                        border: 'none',
-                        borderRadius: '4px',
-                        fontSize: '14px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        cursor: 'pointer'
-                    }}>
+                    <ButtonGold className="bg-[#634832] text-white px-8 py-3 rounded uppercase tracking-widest text-sm">
                         Notre FAQ
                     </ButtonGold>
                 </div>
             </div>
 
-
+            {/* --- 3. BLOC MARQUE FINAL --- */}
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 border-t-3 border-[#C5A05933] pt-12">
+                <img
+                    src="/images/logo-simple.svg"
+                    alt="Logo Cafthe"
+                    className="h-24 lg:h-48 opacity-80"
+                />
+                <div className="text-center lg:text-left">
+                    <h3 className="text-[#C5A059] text-3xl mb-4 uppercase tracking-widest">CafThé</h3>
+                    <p className="text-[#8B6B3F] text-lg lg:text-xl max-w-2xl leading-relaxed opacity-90 italic">
+                        L'Artisan des Terroirs. Passionnés par l'excellence, nous sélectionnons les meilleurs cafés de spécialité et thés rares à travers le monde.
+                    </p>
+                </div>
+            </div>
         </footer>
     );
 };
-
-// --- STYLES OBJETS ---
-const serviceItemStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', flex: 1 };
-const serviceTitleStyle = { color: '#8B6B3F', textTransform: 'uppercase', fontSize: '24px', letterSpacing: '1px', marginTop: '10px', fontWeight: 'bold' };
-const serviceSubtitleStyle = { color: '#C5A059', fontSize: '18px', fontStyle: 'italic', marginTop: '2px' };
-
-const linkColumnStyle = { display: 'flex', flexDirection: 'column', gap: '10px' };
-const columnTitleStyle = { color: '#C5A059', fontSize: '20px', display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '5px' };
-const linkStyle = { color: '#8B6B3F', textDecoration: 'none', fontSize: '16px', opacity: 0.8 };
 
 export default Footer;
