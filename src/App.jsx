@@ -12,10 +12,12 @@ import APropos from "./pages/APropos.jsx";
 import Contact from "./pages/Contact.jsx";
 import {AuthProvider} from "./context/authContext.jsx";
 import {CardProvider} from "./context/CardContext.jsx";
+import ResetPassword from "./pages/ResetPassword";
 import Panier from "./pages/Panier.jsx";
 import Checkout from "./pages/Chekout.jsx";
+import Cgv from "./pages/Cgv.jsx";
 import {Toaster} from 'react-hot-toast'
-
+import FAQ from "./Pages/FAQ.jsx";
 
 
 function App() {
@@ -36,11 +38,14 @@ function App() {
                                      <Route path="/Espace-Client" element={<EspaceClient />} />
                                      <Route path="/A-Propos" element={<APropos />} />
                                      <Route path="/Contact" element={<Contact />} />
+                                        <Route path="/reset-password" element={<ResetPassword />} />
                                      {/* id est un paramètre dynamique contenu dans l'url */}
                                      <Route path="produit/:id" element={<ProductDetails />} />
                                      <Route path="login" element={<Login />} />
                                      <Route path="panier" element={<Panier />} />
                                      <Route path={"checkout"} element={<Checkout />} />
+                                     <Route path={"Cgv"} element={<Cgv />} />
+                                     <Route path="/faq" element={<FAQ />} />
                                     </Route>
                          </Routes>
                      <Toaster

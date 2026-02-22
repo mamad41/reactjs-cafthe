@@ -70,7 +70,7 @@ const ProductList = ({ category }) => {
     if (error) return <div className="text-center py-20 text-gold-premium italic">{error}</div>;
 
     return (
-        <div className="w-full bg-[#FDFCF7] py-10">
+        <div className="w-full  py-10">
             <div className="max-w-[1400px] mx-auto px-4 md:px-10">
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-x-8 gap-y-16">
                     {nomsProduitsUniques.map((nom) => {

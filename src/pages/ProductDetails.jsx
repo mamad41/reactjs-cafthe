@@ -72,7 +72,7 @@ const ProductDetails = () => {
         : `https://placehold.co/300x300?text=${produit.nom_produit}`;
 
     return (
-        <div className="product-details">
+        <main className="product-details">
             <img src={imageUrl} alt={produit.nom_produit} />
             <h2>{produit.nom_produit}</h2>
             <p>{produit.dèscription_produit}</p>
@@ -85,7 +85,7 @@ const ProductDetails = () => {
             <Link to="/" className="back-link">
                 Retour aux produits
             </Link>
-        </div>
+        </main>
     );
 };
 

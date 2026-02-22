@@ -31,7 +31,7 @@ function Navbar() {
 
     const navLinkContainer = "group relative flex items-center gap-1 text-gold-premium no-underline font-forum uppercase tracking-[0.2em] text-sm cursor-pointer transition-all duration-300";
     const textHoverClass = "group-hover:underline decoration-1 underline-offset-8 transition-all";
-    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white dark:bg-neutral-950 border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2";
+    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white dark:bg- border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
 
     return (
         <header className="w-full bg-white dark:bg-black font-forum transition-colors duration-300 border-b border-gold-premium/10">
@@ -49,19 +49,19 @@ function Navbar() {
 
             {/* --- DESKTOP --- */}
             <nav className="hidden lg:block w-full">
-                <div className="max-w-[1600px] mx-auto flex flex-col pt-4 px-10">
+                <div className="max-w-360 mx-auto flex flex-col pt-4 px-10">
 
-                    {/* 1. TOP BAR (RECHERCHE / UTILS) */}
+                    {/* 1. TOP BAR */}
                     <div className="flex justify-between items-center mb-6 h-8 text-gold-premium">
-                        <div className="flex items-center gap-2 border-b border-gold-premium/30 pb-1">
+                        <div className="flex items-center gap-2 border-b border-gold-premium/30 pb-1 dark:border-b-silver-shine">
                             <Search size={16} />
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                onKeyDown={handleSearch}
-                                placeholder="RECHERCHE"
-                                className="bg-transparent border-none outline-none text-[11px] tracking-[2px] w-32 placeholder:text-gold-premium/50 dark:text-white"
+                            <input id="inp1"
+                                   type="text"
+                                   value={searchTerm}
+                                   onChange={(e) => setSearchTerm(e.target.value)}
+                                   onKeyDown={handleSearch}
+                                   placeholder="RECHERCHE"
+                                   className="bg-transparent border-none outline-none text-[11px] tracking-[2px] w-32 placeholder:text-gold-premium/50 dark:placeholder:text-silver-text"
                             />
                         </div>
 
@@ -82,19 +82,31 @@ function Navbar() {
                         </div>
                     </div>
 
-                    {/* 2. LOGO & TRAITS (ALIGNEMENT MATHÉMATIQUE) */}
-                    <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full gap-10">
-                        <div className="h-px bg-gold-premium opacity-30"></div>
-                        <Link to="/" className="shrink-0">
-                            <img src="/images/LLogo-vf 1.svg" alt="Logo" className="h-28 w-auto block dark:invert dark:brightness-125" />
-                        </Link>
-                        <div className="h-px bg-gold-premium opacity-30"></div>
+                    {/* 2. LOGO & TRAITS (TRAITS REMONTÉS) */}
+
+                    <div className="flex items-center justify-center w-full h-32 overflow-hidden">
+
+
+
+                        {/* Trait Gauche (Position relative pour monter) */}
+
+                        <div className="flex-1 flex items-center relative" style={{ top: '-30px' }}>
+                            <div className="w-full h-px bg-gold-premium opacity-40 dark:bg-silver-shine"></div>
+                        </div>
+                        <div className="px-10 flex-none flex items-center justify-center">
+                            <Link to="/"><img src="/images/LLogo-vf 1.svg" alt="Logo" className="h-28 w-auto block dark:invert" /></Link>
+                        </div>
+                        {/* Trait Droite (Position relative pour monter) */}
+                        <div className="flex-1 flex items-center relative" style={{ top: '-30px' }}>
+                            <div className="w-full h-px bg-gold-premium opacity-40 dark:bg-silver-shine"></div>
+                        </div>
                     </div>
 
-                    {/* 3. MENUS (PARFAITEMENT ÉQUILIBRÉS PAR RAPPORT AU CENTRE) */}
-                    <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full pb-10 mt-2">
-                        {/* Groupe Gauche - Aligné à droite de sa colonne */}
-                        <div className="flex justify-end gap-12 pr-10">
+                    {/* 3. MENUS */}
+                    <div className="relative z-10 -mt-18 flex justify-between items-center w-full pb-10">
+                        {/* Groupe Gauche */}
+                        <div className="flex-1 flex justify-end gap-12 pr-12">
+                            {/* BOUTIQUE */}
                             <div className={navLinkContainer}>
                                 <Link to="/boutique" className="no-underline text-inherit"><span className={textHoverClass}>boutique</span></Link>
                                 <ChevronDown size={14} className="opacity-50" />
@@ -103,18 +115,48 @@ function Navbar() {
                                     <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos Thés</HashLink>
                                 </div>
                             </div>
-                            <div className={navLinkContainer}><Link to="/espace-client" className="no-underline text-inherit"><span className={textHoverClass}>espace client</span></Link></div>
-                            <div className={navLinkContainer}><Link to="/Abonnement" className="no-underline text-inherit"><span className={textHoverClass}>abonnement</span></Link></div>
+                            {/* ESPACE CLIENT */}
+                            <div className={navLinkContainer}>
+                                <Link to="/espace-client" className="no-underline text-inherit"><span className={textHoverClass}>espace client</span></Link>
+                                <ChevronDown size={14} className="opacity-30" />
+                                <div className={popupClass}>
+                                    <HashLink smooth to="/espace-client#orders" className="text-gold-premium hover:text-black dark:hover:text-white text-xs tracking-widest uppercase">Mes achats</HashLink>
+                                    <HashLink smooth to="/espace-client#profile" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Mon profil</HashLink>
+                                </div>
+                            </div>
+                            {/* ABONNEMENT */}
+                            <div className={navLinkContainer}>
+                                <Link to="/Abonnement" className="no-underline text-inherit"><span className={textHoverClass}>abonnement</span></Link>
+                                <ChevronDown size={14} className="opacity-30" />
+                            </div>
                         </div>
 
-                        {/* Centre Vide (Sous le Logo) */}
-                        <div className="w-40"></div>
+                        <div className="w-40 flex-none"></div>
 
-                        {/* Groupe Droite - Aligné à gauche de sa colonne */}
-                        <div className="flex justify-start gap-12 pl-10">
-                            <div className={navLinkContainer}><Link to="/panier" className="no-underline text-inherit"><span className={textHoverClass}>panier</span></Link></div>
-                            <div className={navLinkContainer}><Link to="/contact" className="no-underline text-inherit"><span className={textHoverClass}>contact</span></Link></div>
-                            <div className={navLinkContainer}><Link to="/A-Propos" className="no-underline text-inherit"><span className={textHoverClass}>à propos</span></Link></div>
+                        {/* Groupe Droite */}
+                        <div className="flex-1 flex justify-start gap-12 pl-12">
+                            {/* PANIER */}
+                            <div className={navLinkContainer}>
+                                <Link to="/panier" className="no-underline text-inherit"><span className={textHoverClass}>panier</span></Link>
+                                <ChevronDown size={14} className="opacity-30" />
+                                <div className={popupClass}>
+                                    <HashLink smooth to="/checkout" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">checkout</HashLink>
+                                </div>
+                            </div>
+                            {/* CONTACT */}
+                            <div className={navLinkContainer}>
+                                <Link to="/contact" className="no-underline text-inherit"><span className={textHoverClass}>contact</span></Link>
+                                <ChevronDown size={14} className="opacity-30" />
+                            </div>
+                            {/* À PROPOS */}
+                            <div className={navLinkContainer}>
+                                <Link to="/A-Propos" className="no-underline text-inherit"><span className={textHoverClass}>à propos</span></Link>
+                                <ChevronDown size={14} className="opacity-30" />
+                                <div className={popupClass}>
+                                <HashLink smooth to="/A-Propos#nos-actions" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
+                                <HashLink smooth to="/A-propos#nos-partenaires" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

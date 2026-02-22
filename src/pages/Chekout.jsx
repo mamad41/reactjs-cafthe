@@ -55,7 +55,7 @@ const Checkout = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF7] py-8 lg:py-16 px-4 font-forum">
+        <main className="min-h-screen bg-[#FDFCF7] py-8 lg:py-16 px-4 font-forum">
             {/* Structure de grille :
                 - Par défaut (mobile) : 1 colonne (grid-cols-1)
                 - À partir de lg (1024px) : 2 colonnes (lg:grid-cols-2)
@@ -139,7 +139,7 @@ const Checkout = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

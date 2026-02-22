@@ -8,6 +8,15 @@
     --color-olive-bg: #4A5D3F;
     --color-brown-bg: #2C241E;
     --color-creme-bg: #FFFFF0;
+    --color-input-bg: #FDFCF7;
+
+/* NOUVELLE BRIQUE : PALETTE DARK LUXE */
+--color-silver-shine: #F8FAFC;    /* Éclat brillant */
+--color-silver-text: #E2E8F0;     /* Texte silver doux (remplace le blanc agressif) */
+--color-bg-dark: #000000;         /* Noir de jais (Fond de page) */
+--color-surface-dark: #121212;    /* Anthracite (Encarts, Cartes, Inputs) */
+--color-silver-card: rgba(108, 106, 106, 0.15); /* Bordure métal brossé */
+--color-silver-encart: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 @variant dark (&:where(.dark, .dark *));
@@ -17,41 +26,69 @@
         @apply transition-colors duration-300 bg-white text-neutral-900;
     }
 
-    /* --- LOGIQUE DARK MODE --- */
-
-    /* 1. On force le Noir Absolu sur les fonds clairs */
-
-
-    /* 2. SOLUTION POUR LE SÉLECTEUR (image_e355df) */
-    /* On force le fond du petit sélecteur à devenir noir aussi */
-    .dark input,
-    .dark div[class*="quantity"],
-    .dark button[class*="quantity"] {
-        background-color: #FFFFFF!important; /* Fond blanc pur */
-        color:  #000000 !important;           /* Texte noir pur */
-        border: 1px solid rgba(197, 160, 89, 0.3) !important; /* Une petite bordure dorée pour le voir */
+    .dark body {
+        background-color: var(--color-bg-dark) !important;
+        color: var(--color-silver-text) !important;
     }
-    .dark body,
+
+    /* On harmonise les fonds des sections principales */
     .dark header,
     .dark nav,
     .dark main,
-    .dark footer,
-    .dark .bg-white,
-    .dark .bg-\[\#FDFCF7\] {
-        background-color: #000000 !important;
-        color: #C5A059 !important;
+    .dark footer {
+        background-color: var(--color-bg-dark) !important;
+        transition: background-color 0.5s ease;
     }
-
-
-
-    /* 4. On garde tes bannières colorées mais assombries */
-    .dark .bg-brown-bg { background-color: #1a1512 !important; }
-    .dark .bg-olive-bg { background-color: #263021 !important; }
-    .dark .bg-red-900 { background-color: #450a0a !important; }
-
-    /* 5. Le doré reste doré */
-    .dark .text-gold-premium,
-    .dark .text-gold-premium * {
-        color: var(--color-gold-premium) !important;
+        .dark h1,
+        .dark h2,
+        .dark h3,
+        .dark p,
+        .dark span
+        {
+            color: var(--color-silver-text) !important;
+    }
+    .dark span[class*="prix"],
+    .dark [class*="price"],
+    .dark .text-gold-premium {
+        color: var(--color-silver-text) !important;
     }
 }
+    /* --- LOG/* BOUTON SILVER LUXE */
+/* 2. LE BOUTON D'ACTION (Bouton Silver Métal) */
+
+.dark button[class*="checkout"],
+.dark button[class*="order"] {
+    background: linear-gradient(180deg, #262626 0%, #0D0D0D 100%) !important;
+    color: #E2E8F0 !important;
+    border: 1px solid #C0C0C0 !important; /* Silver brossé */
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark select {
+    background-color: var(--color-silver-encart )!important;
+    color: var(--color-silver-shine) !important;
+    border: 1px solid rgba(226, 232, 240, 0.1) !important;
+}
+.dark #Card,
+.dark #Card1 {
+    background-color: var(--color-surface-dark) !important;
+}
+
+.dark button[type="button"]{
+    background-color: var(--color-silver-shine)
+}
+
+.dark input#inp,
+.dark input#inp1,
+.dark input#inp2,
+.dark input#inp3,
+.dark textarea#inp3 {
+    background-color: var( --color-silver-card) !important; /* Ton gris acier pour contraster sur le noir */
+    color: var(--color-silver-text)  !important;           /* Ton Silver pour le texte */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+

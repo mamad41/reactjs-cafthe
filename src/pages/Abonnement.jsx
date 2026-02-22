@@ -43,9 +43,9 @@ const Abonnement = () => {
     }
 
     return (
-        <div className="bg-[#FDFCF7] min-h-screen py-20 px-10 font-forum">
+        <main className="bg-[#FDFCF7] min-h-screen py-20 px-10 font-forum">
             {/* Header de la page */}
-            <div className="text-center mb-16">
+            <div  className="text-center mb-16">
                 <h1 className="text-[#C5A059] text-4xl uppercase tracking-[0.2em]">
                     Nos Abonnements
                 </h1>
@@ -53,9 +53,9 @@ const Abonnement = () => {
             </div>
 
             {/* Conteneur des badges */}
-            <div className="max-w-[1400px] mx-auto flex flex-row justify-between items-stretch mt-[100px] gap-6">
+            <div  className="max-w-[1400px] mx-auto flex flex-row justify-between items-stretch mt-[100px] gap-6">
                 {plans.map((plan, index) => (
-                    <div
+                    <div id="Card"
                         key={plan.id || index}
                         /* Correction : On utilise plan.est_populaire (minuscule comme en SQL)
                            On utilise w-[31%] pour forcer l'alignement côte à côte
@@ -102,7 +102,7 @@ const Abonnement = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </main>
     );
 };
 

@@ -39,7 +39,7 @@ const Panier = () => {
     };
 
     return (
-        <div className="bg-[#FDFCF7] min-h-screen py-16 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
+        <main className="bg-[#FDFCF7] min-h-screen py-16 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
             <header className="mb-20 text-center flex flex-col items-center">
                 <h1 className="text-gold-premium text-4xl md:text-5xl uppercase tracking-widest mb-4">
                     Votre Sélection
@@ -50,7 +50,7 @@ const Panier = () => {
             <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div className="lg:col-span-2 space-y-6">
                     {!cartItems || cartItems.length === 0 ? (
-                        <div className="bg-white rounded-4xl p-20 text-center shadow-xs border border-gray-100">
+                        <div  className="bg-white rounded-4xl p-20 text-center shadow-xs border border-gray-100">
                             <p className="text-gray-400 mb-10 text-xl italic font-light">Votre panier est vide.</p>
                             <Link to="/boutique" className="inline-block bg-brown-bg text-white px-10 py-4 rounded-full uppercase tracking-widest font-bold hover:bg-gold-premium transition-colors shadow-lg">
                                 Explorer la boutique
@@ -69,7 +69,7 @@ const Panier = () => {
                             const borderStyle = categoryBorders[item.categorie?.toLowerCase()] || "border-l-6 border-gray-100";
 
                             return (
-                                <div key={`${pId}-${pWeight}`}
+                                <div id="Card" key={`${pId}-${pWeight}`}
                                      className={`bg-white rounded-3xl p-6 shadow-xs border border-gray-50 flex flex-col md:flex-row items-center gap-8 ${borderStyle} transition-all`}>
 
                                     {/* Image */}
@@ -129,7 +129,7 @@ const Panier = () => {
 
                 {/* Sidebar Résumé */}
                 <aside className="lg:col-span-1">
-                    <div className="bg-white rounded-4xl p-10 shadow-xl border border-gray-50 sticky top-10">
+                    <div id="Card" className="bg-white rounded-4xl p-10 shadow-xl border border-gray-50 sticky top-10">
                         <h2 className="text-brand-brown text-2xl uppercase tracking-widest mb-8 border-b border-gray-50 pb-4">Résumé</h2>
                         <div className="space-y-5 font-sans">
                             <div className="flex justify-between text-gray-400 text-sm uppercase">
@@ -163,7 +163,7 @@ const Panier = () => {
                     </div>
                 </aside>
             </div>
-        </div>
+        </main>
     );
 };
 
