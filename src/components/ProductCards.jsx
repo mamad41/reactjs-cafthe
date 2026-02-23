@@ -6,28 +6,28 @@ import toast from 'react-hot-toast';
 const ProductCards = ({ nomProduit, variantes, category }) => {
     const { addProductToCart } = useContext(CardContext);
 
-    // --- AJOUT : LOGIQUE POUR LE BANDEAU (SANS TOUCHER AU RESTE) ---
+    // --- LOGIQUE POUR LE BANDEAU ---
     const typesVente = useMemo(() => {
-        return [...new Set(variantes.map(v => v.type_de_vente?.trim()))].filter(Boolean);
+        return [...new Set(variantes.map(v => v?.type_de_vente?.trim()))].filter(Boolean);
     }, [variantes]);
 
     const [selectedType, setSelectedType] = useState("");
-    const [selectedVariante, setSelectedVariante] = useState(variantes[0]);
+    // SÉCURITÉ : Initialisation sécurisée pour éviter le crash au montage
+    const [selectedVariante, setSelectedVariante] = useState(variantes[0] || {});
 
     useEffect(() => {
         if (typesVente.length > 0 && !selectedType) setSelectedType(typesVente[0]);
-    }, [typesVente]);
+    }, [typesVente, selectedType]);
 
     const poidsDisponibles = useMemo(() => {
-        return variantes.filter(v => v.type_de_vente?.trim() === selectedType);
+        return variantes.filter(v => v?.type_de_vente?.trim() === selectedType);
     }, [selectedType, variantes]);
 
     const handleTypeChange = (type) => {
         setSelectedType(type);
-        const matching = variantes.find(v => v.type_de_vente?.trim() === type);
+        const matching = variantes.find(v => v?.type_de_vente?.trim() === type);
         if (matching) setSelectedVariante(matching);
     };
-    // -------------------------------------------------------------
 
     const categoryColors = {
         café: "bg-[#634832]",
@@ -36,35 +36,43 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
         accessoire: "bg-[#F5F5DC]"
     };
 
-    const currentColor = categoryColors[category] || "bg-gold-premium";
+    const currentColor = categoryColors[category?.toLowerCase()] || "bg-gold-premium";
 
-    const prixInitial = parseFloat(selectedVariante.prix_ttc || 0);
-    const prixFinal = parseFloat(selectedVariante.prix_final || prixInitial);
-    const pourcentage = parseFloat(selectedVariante.promo_pourcentage || 0);
+    // SÉCURITÉ : Optional Chaining pour empêcher la page blanche
+    const prixInitial = parseFloat(selectedVariante?.prix_ttc || 0);
+    const prixFinal = parseFloat(selectedVariante?.prix_final || prixInitial);
+    const pourcentage = parseFloat(selectedVariante?.promo_pourcentage || 0);
     const hasPromo = prixFinal < prixInitial;
 
     const handleAddToCart = () => {
+        if (!selectedVariante?.reference_sku) {
+            toast.error("Sélection invalide");
+            return;
+        }
         addProductToCart({ ...selectedVariante, nomProduit, prix_final: prixFinal });
         toast.success(`${nomProduit} ajouté au panier`);
     };
 
     return (
-        <div  id="Card" className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
+        <div id="Card" className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
 
+            {/* Ruban de catégorie */}
             <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10">
                 <div className={`${currentColor} absolute transform -rotate-45 text-center w-[140%] py-1.5 -left-[35%] top-[18%] shadow-sm`}>
                 </div>
             </div>
 
+            {/* Badge Promo */}
             {hasPromo && (
-                <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg animate-pulse">
+                <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg ">
                     -{pourcentage}%
                 </div>
             )}
 
+            {/* Image Produit */}
             <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
                 <img
-                    src={selectedVariante.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
+                    src={selectedVariante?.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
                     alt={nomProduit}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
@@ -93,13 +101,18 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                     </div>
                 )}
 
-                {/* 2. BANDEAU DÉROULANT */}
-                <div className="min-h-[40px] transition-all duration-300">
+                {/* 2. BANDEAU DÉROULANT DÉBLOQUÉ */}
+                <div className="min-h-10 transition-all duration-300">
                     {selectedType?.toLowerCase() === "vrac" && poidsDisponibles.length > 0 ? (
                         <div className="relative">
                             <select
-                                value={selectedVariante.reference_sku}
-                                onChange={(e) => setSelectedVariante(variantes.find(v => v.reference_sku === e.target.value))}
+                                value={selectedVariante?.reference_sku || ""}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    // FIX : Conversion String pour garantir le changement de poids
+                                    const match = variantes.find(v => String(v.reference_sku) === String(val));
+                                    if (match) setSelectedVariante(match);
+                                }}
                                 className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-[11px] font-bold text-gray-700 outline-none appearance-none cursor-pointer"
                             >
                                 {poidsDisponibles.map((v) => (
@@ -113,13 +126,14 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                     ) : (
                         selectedType?.toLowerCase() === "unité" && (
                             <div className="py-2 text-center border border-dashed border-gray-100 rounded-lg">
-                                <span className="text-[10px] text-gray-400 uppercase italic font-medium">Format Sachet</span>
+                                <span className="text-[10px] text-gray-400 uppercase italic font-medium"></span>
                             </div>
                         )
                     )}
                 </div>
             </div>
 
+            {/* Footer de la carte : Prix & Action */}
             <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                 <div className="font-forum">
                     {hasPromo && (

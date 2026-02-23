@@ -21,6 +21,7 @@ import FAQ from "./Pages/FAQ.jsx";
 import Sitemap from "./components/Sitemap.jsx";
 
 
+
 function App() {
     return (
         // AuthProvider enveloppe toute l'app pour partager l'authentification

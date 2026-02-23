@@ -55,23 +55,23 @@ const Footer = () => {
             {/* --- 2. LIENS --- */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:justify-between gap-10 mb-12">
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Boutique <ChevronDown size={14} /></h4>
-                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Café du monde</HashLink>
-                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Thé du monde</HashLink>
-                    <HashLink smooth to="/boutique#Accessoires" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Accessoires</HashLink>
+                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Boutique </h4>
+                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Café du monde</HashLink>
+                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Thé du monde</HashLink>
+                    <HashLink smooth to="/boutique#Accessoires" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Accessoires</HashLink>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Environnement <ChevronDown size={14} /></h4>
-                    <HashLink smooth to="/A-Propos#action" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
-                    <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
-                    <HashLink smooth to="/A-propos#label" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos label</HashLink>
+                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Environnement </h4>
+                    <HashLink smooth to="/A-Propos#action" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos actions</HashLink>
+                    <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos partenaires</HashLink>
+                    <HashLink smooth to="/A-propos#label" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos label</HashLink>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos <ChevronDown size={14} /></h4>
-                    <HashLink smooth to="/contact#form" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nous contacter</HashLink>
-                    <HashLink smooth to="/Cgv#cgv" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Conditions Générales de Vente</HashLink>
+                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos </h4>
+                    <HashLink smooth to="/contact#form" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nous contacter</HashLink>
+                    <HashLink smooth to="/Cgv#cgv" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Conditions Générales de Vente</HashLink>
                     <HashLink smooth to="/sitemap" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Plan du site</HashLink>
                 </div>
 
@@ -96,6 +96,7 @@ const Footer = () => {
                 <p className="text-[#8B6B3F] text-[10px] lg:text-xs tracking-[3px] uppercase opacity-70">
                     © {currentYear} CafThé Artisan des Terroirs. Tous droits réservés.
                 </p>
+                <p className="text-[#8B6B3F] text-[10px] lg:text-xs tracking-[3px]  opacity-70">Toutes les photos disponibles sur le site CafThé ont été créées par intelligence artificielle.</p>
             </div>
 
         </footer>

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import ButtonGold from "../components/ButtonGold.jsx";
 import toast from 'react-hot-toast';
+import FidelityInfo from "../components/FidelityInfo.jsx";
 
 const EspaceClient = () => {
     const { user, isAuthenticated } = useContext(AuthContext);
@@ -122,7 +123,7 @@ const EspaceClient = () => {
                         <div className="space-y-12 animate-fadeIn">
                             <h1 className="text-3xl text-[#634832] uppercase tracking-[0.2em]">Bienvenue, {user?.prenom}</h1>
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                                <div className="bg-linear-to-br from-[#634832] to-[#2d1b0f] p-10 rounded-[40px] shadow-2xl relative overflow-hidden group">
+                                <div className="bg-linear-to-br from-gold-premium to-[#2d1b0f] p-10 rounded-[40px] shadow-2xl relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
                                     <div className="flex justify-between items-start mb-12">
                                         <p className="text-[10px] uppercase tracking-[0.5em] text-white/50 font-bold">Membre Privilège</p>
@@ -143,6 +144,7 @@ const EspaceClient = () => {
                                     <p className="text-xs text-gold-premium uppercase tracking-[0.2em] mt-2 font-bold font-sans">Commandes au total</p>
                                 </div>
                             </div>
+                                <FidelityInfo className="w-full"/>
                         </div>
                     )}
 

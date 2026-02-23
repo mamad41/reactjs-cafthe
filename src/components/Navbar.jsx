@@ -31,10 +31,10 @@ function Navbar() {
 
     const navLinkContainer = "group relative flex items-center gap-1 text-gold-premium no-underline font-forum uppercase tracking-[0.2em] text-sm cursor-pointer transition-all duration-300";
     const textHoverClass = "group-hover:underline decoration-1 underline-offset-8 transition-all";
-    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white  border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
+    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white  border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300  p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
 
     return (
-        <header className="w-full bg-white dark:bg-black font-forum transition-colors duration-300 border-b border-gold-premium/10">
+        <header className="z 50 w-full bg-white dark:bg-black font-forum transition-colors duration-300 border-b border-gold-premium/10">
             {/* --- MOBILE --- */}
             <div className="lg:hidden flex justify-between items-center px-6 py-4">
                 <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gold-premium">
@@ -59,7 +59,7 @@ function Navbar() {
                                    type="text"
                                    value={searchTerm}
                                    onChange={(e) => setSearchTerm(e.target.value)}
-jonKeyDown={handleSearch}
+                                   onKeyDown={handleSearch}
                                    placeholder="RECHERCHE"
                                    className="bg-transparent border-none outline-none text-[11px] tracking-[2px] w-32 placeholder:text-gold-premium/50 dark:placeholder:text-silver-text"
                             />
