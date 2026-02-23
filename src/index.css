@@ -92,3 +92,8 @@
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
+/* On cible spécifiquement le span du nombre dans le dark mode */
+.dark span#qpl {
+    color: #000000 !important; /* Force le noir pur */
+    font-weight: bold;
+}

@@ -16,7 +16,7 @@ const Footer = () => {
                 <img
                     src="/images/logo-simple.svg"
                     alt="Logo Cafthe"
-                    className="h-24 lg:h-48 opacity-80 dark:invert"
+                    className="h-24 lg:h-48 opacity-80 "
                 />
                 <div className="text-center lg:text-left">
                     <h3 className="text-gold-premium text-3xl mb-4 uppercase tracking-widest">CafThé</h3>
@@ -72,6 +72,7 @@ const Footer = () => {
                     <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos <ChevronDown size={14} /></h4>
                     <HashLink smooth to="/contact#form" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nous contacter</HashLink>
                     <HashLink smooth to="/Cgv#cgv" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Conditions Générales de Vente</HashLink>
+                    <HashLink smooth to="/sitemap" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Plan du site</HashLink>
                 </div>
 
                 {/* RÉSEAUX SOCIAUX & FAQ */}

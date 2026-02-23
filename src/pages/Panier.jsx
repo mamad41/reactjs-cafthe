@@ -39,7 +39,7 @@ const Panier = () => {
     };
 
     return (
-        <main className="bg-[#FDFCF7] min-h-screen py-16 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
+        <main className="bg-input-bg min-h-screen py-16 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
             <header className="mb-20 text-center flex flex-col items-center">
                 <h1 className="text-gold-premium text-4xl md:text-5xl uppercase tracking-widest mb-4">
                     Votre Sélection
@@ -47,7 +47,7 @@ const Panier = () => {
                 <div className="h-px w-24 bg-gold-premium"></div>
             </header>
 
-            <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="max-w-300 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div className="lg:col-span-2 space-y-6">
                     {!cartItems || cartItems.length === 0 ? (
                         <div  className="bg-white rounded-4xl p-20 text-center shadow-xs border border-gray-100">
@@ -97,10 +97,10 @@ const Panier = () => {
                                                     }}
                                                     className="w-8 h-8 text-gray-400 hover:text-brand-brown text-xl font-light"
                                                 >-</button>
-                                                <span className="w-8 text-center font-sans text-sm font-bold">{item.quantite}</span>
+                                                <span id="qpl" className="w-8 text-center font-sans text-sm font-bold">{item.quantite}</span>
                                                 <button
                                                     onClick={() => addProductToCart(item)}
-                                                    className="w-8 h-8 text-gray-400 hover:text-brand-brown text-xl font-light"
+                                                    className="w-8 h-8 text-black hover:text-brand-brown text-xl "
                                                 >+</button>
                                             </div>
                                             <button
@@ -111,7 +111,7 @@ const Panier = () => {
                                     </div>
 
                                     {/* Prix avec Gestion Promo SQL */}
-                                    <div className="text-center md:text-right min-w-[100px]">
+                                    <div className="text-center md:text-right min-w-25">
                                         {hasPromo && (
                                             <div className="text-gray-300 text-sm line-through font-sans italic">
                                                 {(pInitial * item.quantite).toFixed(2)}€

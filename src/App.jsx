@@ -18,6 +18,7 @@ import Checkout from "./pages/Chekout.jsx";
 import Cgv from "./pages/Cgv.jsx";
 import {Toaster} from 'react-hot-toast'
 import FAQ from "./Pages/FAQ.jsx";
+import Sitemap from "./components/Sitemap.jsx";
 
 
 function App() {
@@ -32,20 +33,22 @@ function App() {
                                 {/* Route parent : Layout contient navbar + outlet + footer */}
                                     <Route path="/" element={<Layout />}>
                                     <Route index element={<Home />} />
-                                     <Route path="Recherche" element={<Recherche />} />
+
                                      <Route path="/boutique" element={<Boutique />} />
                                      <Route path="/ABonnement" element={<Abonnement />} />
                                      <Route path="/Espace-Client" element={<EspaceClient />} />
                                      <Route path="/A-Propos" element={<APropos />} />
                                      <Route path="/Contact" element={<Contact />} />
-                                        <Route path="/reset-password" element={<ResetPassword />} />
+                                     <Route path="/reset-password" element={<ResetPassword />} />
+                                     <Route path="/faq" element={<FAQ />} />
                                      {/* id est un paramètre dynamique contenu dans l'url */}
                                      <Route path="produit/:id" element={<ProductDetails />} />
                                      <Route path="login" element={<Login />} />
                                      <Route path="panier" element={<Panier />} />
-                                     <Route path={"checkout"} element={<Checkout />} />
-                                     <Route path={"Cgv"} element={<Cgv />} />
-                                     <Route path="/faq" element={<FAQ />} />
+                                     <Route path="checkout" element={<Checkout />} />
+                                     <Route path="Cgv" element={<Cgv />} />
+                                     <Route path="Recherche" element={<Recherche />} />
+                                     <Route path="sitemap" element={<Sitemap />} />
                                     </Route>
                          </Routes>
                      <Toaster

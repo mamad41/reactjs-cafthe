@@ -4,7 +4,7 @@ import FilterButton from "../components/FilterButton.jsx";
 
 const Boutique = () => {
     return (
-        <main className="bg-[#FDFCF7] min-h-screen font-forum">
+        <main className="bg-input-bg min-h-screen font-forum">
 
             {/* EN-TÊTE DE PAGE */}
             <div className="text-center py-16 px-5">
@@ -21,7 +21,7 @@ const Boutique = () => {
             </div>
 
             {/* SECTION COFFRETS - Fond purple  */}
-            <section id="coffret" className="bg-red-900 py-20 px-10 my-12">
+            <section id="coffret" className="bg-red-900 dark:bg-red-950 py-20 px-10 my-12 border-y border-gray-100">
                 <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Nos coffrets de dégustation
                 </h2>
@@ -33,7 +33,7 @@ const Boutique = () => {
 
 
             {/* SECTION CAFÉS - Fond sombre (Marron Chocolat) */}
-            <section id="cafes" className="bg-brown-bg py-20 px-10 my-12">
+            <section id="cafes" className="bg-brown-bg py-20 px-10 my-12 border-y border-gray-100">
                 <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Notre sélection de cafés
                 </h2>
@@ -44,7 +44,7 @@ const Boutique = () => {
 
 
             {/* SECTION THÉS - Fond Vert Olive */}
-            <section id="thes" className="bg-olive-bg py-20 px-10 my-12">
+            <section id="thes" className="bg-olive-bg dark:bg-green-950 py-20 px-10 my-12 border-y border-gray-100">
                 <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Notre sélection de Thés
                 </h2>
@@ -55,7 +55,7 @@ const Boutique = () => {
 
 
             {/* SECTION ACCESSOIRES - Fond Crème */}
-            <section id="accessoires" className="bg-creme-bg py-20 px-10 my-12 border-y border-gray-100">
+            <section id="accessoires" className="bg-creme-bg dark:bg-gold-premium py-20 px-10 my-12 border-y border-gray-100">
                 <h2 className="text-center text-gold-premium text-3xl uppercase tracking-[3px]">
                     Accessoires
                 </h2>

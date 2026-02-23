@@ -31,7 +31,7 @@ function Navbar() {
 
     const navLinkContainer = "group relative flex items-center gap-1 text-gold-premium no-underline font-forum uppercase tracking-[0.2em] text-sm cursor-pointer transition-all duration-300";
     const textHoverClass = "group-hover:underline decoration-1 underline-offset-8 transition-all";
-    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white dark:bg- border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
+    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white  border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
 
     return (
         <header className="w-full bg-white dark:bg-black font-forum transition-colors duration-300 border-b border-gold-premium/10">
@@ -59,7 +59,7 @@ function Navbar() {
                                    type="text"
                                    value={searchTerm}
                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                   onKeyDown={handleSearch}
+jonKeyDown={handleSearch}
                                    placeholder="RECHERCHE"
                                    className="bg-transparent border-none outline-none text-[11px] tracking-[2px] w-32 placeholder:text-gold-premium/50 dark:placeholder:text-silver-text"
                             />
@@ -94,7 +94,7 @@ function Navbar() {
                             <div className="w-full h-px bg-gold-premium opacity-40 dark:bg-silver-shine"></div>
                         </div>
                         <div className="px-10 flex-none flex items-center justify-center">
-                            <Link to="/"><img src="/images/LLogo-vf 1.svg" alt="Logo" className="h-28 w-auto block dark:invert" /></Link>
+                            <Link to="/"><img src="/images/LLogo-vf 1.svg" alt="Logo" className="h-28 w-auto block " /></Link>
                         </div>
                         {/* Trait Droite (Position relative pour monter) */}
                         <div className="flex-1 flex items-center relative" style={{ top: '-30px' }}>
@@ -111,17 +111,18 @@ function Navbar() {
                                 <Link to="/boutique" className="no-underline text-inherit"><span className={textHoverClass}>boutique</span></Link>
                                 <ChevronDown size={14} className="opacity-50" />
                                 <div className={popupClass}>
-                                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos Cafés</HashLink>
-                                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos Thés</HashLink>
+                                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black no-underline text-xs tracking-widest uppercase">Nos Cafés</HashLink>
+                                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Nos Thés</HashLink>
+                                    <HashLink smooth to="/boutique#accessoire" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Nos accessoires</HashLink>
                                 </div>
                             </div>
                             {/* ESPACE CLIENT */}
                             <div className={navLinkContainer}>
                                 <Link to="/espace-client" className="no-underline text-inherit"><span className={textHoverClass}>espace client</span></Link>
                                 <ChevronDown size={14} className="opacity-30" />
-                                <div className={popupClass}>
-                                    <HashLink smooth to="/espace-client#orders" className="text-gold-premium hover:text-black dark:hover:text-white text-xs tracking-widest uppercase">Mes achats</HashLink>
-                                    <HashLink smooth to="/espace-client#profile" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Mon profil</HashLink>
+                                <div id="qpl" className={popupClass}>
+                                    <HashLink smooth to="/espace-client#orders" className="text-gold-premium hover:text-black text-xs tracking-widest uppercase">Mes achats</HashLink>
+                                    <HashLink smooth to="/espace-client#profile" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Mon profil</HashLink>
                                 </div>
                             </div>
                             {/* ABONNEMENT */}
@@ -153,8 +154,9 @@ function Navbar() {
                                 <Link to="/A-Propos" className="no-underline text-inherit"><span className={textHoverClass}>à propos</span></Link>
                                 <ChevronDown size={14} className="opacity-30" />
                                 <div className={popupClass}>
-                                <HashLink smooth to="/A-Propos#nos-actions" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
-                                <HashLink smooth to="/A-propos#nos-partenaires" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
+                                <HashLink smooth to="/A-Propos#action" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
+                                <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
+                                <HashLink smooth to="/A-propos#label" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos labels</HashLink>
                                 </div>
                             </div>
                         </div>

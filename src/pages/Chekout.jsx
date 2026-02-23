@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom'; // Import pour le lien vers les CGV
 import { CardContext } from '../context/CardContext';
 import { AuthContext } from '../context/AuthContext';
 import ButtonGold from "../components/ButtonGold.jsx";
+import toast from 'react-hot-toast'; // Utilisation de tes toasts habituels
 
 const Checkout = () => {
     const { cartItems, totalAmount } = useContext(CardContext);
@@ -15,6 +17,8 @@ const Checkout = () => {
     });
 
     const [loading, setLoading] = useState(false);
+    // --- ÉTAT POUR LES CGV ---
+    const [cgvAccepted, setCgvAccepted] = useState(false);
 
     const handleChange = (e) => {
         setShippingData({ ...shippingData, [e.target.name]: e.target.value });
@@ -22,10 +26,18 @@ const Checkout = () => {
 
     const handlePayment = async (e) => {
         e.preventDefault();
-        if (!user) {
-            alert("Vous devez être connecté pour commander.");
+
+        // Sécurité supplémentaire
+        if (!cgvAccepted) {
+            toast.error("Veuillez accepter les CGV pour finaliser la commande");
             return;
         }
+
+        if (!user) {
+            toast.error("Vous devez être connecté pour commander.");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -44,11 +56,11 @@ const Checkout = () => {
             if (response.ok && data.url) {
                 window.location.href = data.url;
             } else {
-                alert(data.message || "Erreur lors de l'initialisation du paiement.");
+                toast.error(data.message || "Erreur lors de l'initialisation du paiement.");
             }
         } catch (error) {
             console.error("Erreur redirection Stripe:", error);
-            alert("Impossible de contacter le serveur de paiement.");
+            toast.error("Impossible de contacter le serveur de paiement.");
         } finally {
             setLoading(false);
         }
@@ -56,10 +68,6 @@ const Checkout = () => {
 
     return (
         <main className="min-h-screen bg-[#FDFCF7] py-8 lg:py-16 px-4 font-forum">
-            {/* Structure de grille :
-                - Par défaut (mobile) : 1 colonne (grid-cols-1)
-                - À partir de lg (1024px) : 2 colonnes (lg:grid-cols-2)
-            */}
             <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
                 {/* --- BLOC LIVRAISON --- */}
@@ -73,7 +81,6 @@ const Checkout = () => {
                             <input type="text" name="adresse" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="15 rue des saveurs" />
                         </div>
 
-                        {/* Grid Ville / CP : Reste en 2 colonnes même sur mobile pour compacité */}
                         <div className="grid grid-cols-2 gap-4 lg:gap-8">
                             <div>
                                 <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Ville</label>
@@ -90,17 +97,32 @@ const Checkout = () => {
                             <input type="tel" name="telephone" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="06 00 00 00 00" />
                         </div>
 
+                        {/* --- CASE À COCHER CGV (Légalement requise ici) --- */}
+                        <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100 animate-fadeIn">
+                            <input
+                                id="cgv-accept"
+                                type="checkbox"
+                                checked={cgvAccepted}
+                                onChange={(e) => setCgvAccepted(e.target.checked)}
+                                className="w-4 h-4 mt-1 accent-[#C5A059] cursor-pointer"
+                                required
+                            />
+                            <label htmlFor="cgv-accept" className="text-[10px] text-gray-500 font-sans leading-relaxed italic cursor-pointer">
+                                Je déclare avoir pris connaissance et accepter les <Link to="/cgv" className="text-[#C5A059] underline hover:text-[#634832]">Conditions Générales de Vente</Link> de CafThé.
+                            </label>
+                        </div>
+
                         <ButtonGold
                             type="submit"
-                            disabled={loading || cartItems.length === 0}
-                            className="w-full py-4 lg:py-5 mt-4"
+                            disabled={loading || cartItems.length === 0 || !cgvAccepted}
+                            className={`w-full py-4 lg:py-5 mt-4 ${!cgvAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {loading ? 'Redirection...' : 'Procéder au paiement'}
                         </ButtonGold>
                     </form>
                 </div>
 
-                {/* --- BLOC RÉCAPITULATIF (Ma Commande) --- */}
+                {/* --- BLOC RÉCAPITULATIF --- */}
                 <div className="bg-[#634832] p-6 lg:p-10 rounded-[40px] text-white shadow-2xl h-fit lg:sticky lg:top-10">
                     <h2 className="text-xl lg:text-2xl uppercase tracking-widest mb-6 lg:mb-8 border-b border-white/20 pb-4 font-forum">
                         Ma Commande
@@ -108,8 +130,7 @@ const Checkout = () => {
 
                     <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-10 max-h-[300px] lg:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                         {cartItems.map((item, index) => {
-                            // Sécurisation anti-NaN utilisant les clés de ton API
-                            const pU = Number(item.prix_ttc || item.prixUnitaire || 0);
+                            const pU = Number(item.prix_final || item.prix_ttc || 0);
                             const q = Number(item.quantite || 0);
                             const ligneTotal = (pU * q).toFixed(2);
 

@@ -49,7 +49,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
     };
 
     return (
-        <div className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
+        <div  id="Card" className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
 
             <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10">
                 <div className={`${currentColor} absolute transform -rotate-45 text-center w-[140%] py-1.5 -left-[35%] top-[18%] shadow-sm`}>
@@ -70,7 +70,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                 />
             </div>
 
-            <div className="flex-grow flex flex-col">
+            <div className="grow flex flex-col">
                 <span className="text-gold-premium uppercase tracking-[2px] text-[10px] font-bold mb-2">{category}</span>
                 <h3 className="text-xl font-medium mb-1 leading-tight uppercase font-forum text-brand-brown">{nomProduit}</h3>
 
