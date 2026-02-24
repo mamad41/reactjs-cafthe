@@ -1,9 +1,14 @@
 import React from 'react';
 import ProductList from "../components/ProductList.jsx"
 import FilterButton from "../components/FilterButton.jsx";
+import SEO from '../components/SEO';
 
 const Boutique = () => {
     return (
+        <><SEO
+            title="Boutique Café & Thé Bio"
+            description="Achetez votre café de spécialité en grains ou moulu, thés Matcha, infusions et accessoires de barista. Le meilleur du terroir livré chez vous."
+        />
         <main className="bg-input-bg min-h-screen font-forum">
 
             {/* EN-TÊTE DE PAGE */}
@@ -65,6 +70,7 @@ const Boutique = () => {
             </div>
 
         </main>
+        </>
     );
 };
 

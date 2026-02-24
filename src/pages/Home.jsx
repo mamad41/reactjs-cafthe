@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonGold from "../components/ButtonGold.jsx";
+import SEO from "../components/SEO.jsx";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -33,6 +34,11 @@ const Home = () => {
     }, []);
 
     return (
+        <>
+            <SEO
+                title="Torréfacteur Artisanal & Thés d'Exception"
+                description="CafThé : Découvrez nos cafés de spécialité fraîchement torréfiés et notre sélection de thés rares bio. Qualité premium et livraison éco-responsable."
+            />
         <main className="bg-white dark:bg-black min-h-screen font-forum transition-colors duration-300">
 
             {/* 1. SECTION HERO (Mobile First) */}
@@ -58,7 +64,7 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* 2. SECTION SÉLECTION DU MOIS (Optimisée mobile) */}
+            {/* 2. SECTION SÉLECTION DU MOIS  */}
             <section className="max-w-325 mx-auto my-12 md:my-20 p-6 md:p-20 border-x-0 md:border border-gold-premium dark:border-silver-shine text-center relative overflow-hidden">
                 <div className="mb-10 md:mb-16">
                     <span className="text-gold-premium uppercase tracking-[2px] md:tracking-[4px] text-xs md:text-sm font-bold">Février 2026</span>
@@ -116,6 +122,7 @@ const Home = () => {
                 </p>
             </div>
         </main>
+        </>
     );
 };
 

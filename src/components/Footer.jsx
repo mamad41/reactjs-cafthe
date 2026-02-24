@@ -55,24 +55,24 @@ const Footer = () => {
             {/* --- 2. LIENS --- */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:justify-between gap-10 mb-12">
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Boutique </h4>
-                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Café du monde</HashLink>
-                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Thé du monde</HashLink>
-                    <HashLink smooth to="/boutique#Accessoires" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Accessoires</HashLink>
+                    <h4 className="text-gold-premium dark:text-silver-shine text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Boutique </h4>
+                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Café du monde</HashLink>
+                    <HashLink smooth to="/boutique#thes" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Thé du monde</HashLink>
+                    <HashLink smooth to="/boutique#Accessoires" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Accessoires</HashLink>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Environnement </h4>
-                    <HashLink smooth to="/A-Propos#action" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos actions</HashLink>
-                    <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos partenaires</HashLink>
-                    <HashLink smooth to="/A-propos#label" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nos label</HashLink>
+                    <h4 className="text-gold-premium dark:text-silver-shine text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Environnement </h4>
+                    <HashLink smooth to="/A-Propos#action" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Nos actions</HashLink>
+                    <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Nos partenaires</HashLink>
+                    <HashLink smooth to="/A-propos#label" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Nos label</HashLink>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <h4 className="text-gold-premium text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos </h4>
-                    <HashLink smooth to="/contact#form" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Nous contacter</HashLink>
-                    <HashLink smooth to="/Cgv#cgv" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Conditions Générales de Vente</HashLink>
-                    <HashLink smooth to="/sitemap" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase font-bold">Plan du site</HashLink>
+                    <h4 className="text-gold-premium dark:text-silver-shine text-lg lg:text-xl flex items-center gap-2 mb-2 uppercase">Plus d'infos </h4>
+                    <HashLink smooth to="/contact#form" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Nous contacter</HashLink>
+                    <HashLink smooth to="/Cgv#cgv" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Conditions Générales de Vente</HashLink>
+                    <HashLink smooth to="/sitemap#smp" className="text-gold-premium dark:text-silver-shine hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase font-bold">Plan du site</HashLink>
                 </div>
 
                 {/* RÉSEAUX SOCIAUX & FAQ */}

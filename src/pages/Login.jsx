@@ -4,6 +4,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonGold from "../components/ButtonGold.jsx";
 import { ShieldCheck, X, Mail } from 'lucide-react'; // Ajout de Mail pour l'icône
 import toast from 'react-hot-toast'; // Optionnel pour les retours
+import SEO from '../components/SEO';
+
 
 const Login = () => {
     const { login } = useContext(AuthContext);
@@ -81,6 +83,10 @@ const Login = () => {
     };
 
     return (
+        <><SEO
+            title="Connexion / Création de Compte"
+            description="Connectez-vous pour profiter de vos avantages fidélité ou créez un compte pour recevoir 10% de remise sur votre première commande d'abonnement."
+        />
         <main className="min-h-screen bg-input-bg dark:bg-black flex flex-col items-center justify-center p-6 font-forum relative transition-colors">
             <div className="w-full max-w-md bg-white dark:bg-[#1A1A1A] rounded-[40px] p-10 md:p-14 shadow-2xl border border-gray-100 dark:border-white/5">
 
@@ -212,6 +218,7 @@ const Login = () => {
                 </div>
             )}
         </main>
+        </>
     );
 };
 

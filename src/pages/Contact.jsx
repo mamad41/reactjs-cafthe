@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; // Ajout de useState ici
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import ButtonGold from "../components/ButtonGold.jsx";
+import SEO from '../components/SEO';
 
 const Contact = () => {
     // Le State doit impérativement être à l'intérieur du composant
@@ -14,7 +15,11 @@ const Contact = () => {
     };
 
     return (
-        <main className="bg-[#FDFCF7] min-h-screen py-20 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
+        <><SEO
+            title="Contactez nos Experts"
+            description="Une question sur nos produits ou votre commande ? L'équipe CafThé est à votre écoute pour vous conseiller dans votre dégustation."
+        />
+        <main className="bg-input-bg min-h-screen py-20 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
             {/* --- HEADER --- */}
             <header className="max-w-6xl mx-auto mb-20 text-center">
                 <h1 className="text-gold-premium text-3xl md:text-5xl uppercase tracking-[0.3em] mb-6">
@@ -79,7 +84,7 @@ const Contact = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="flex flex-col gap-2">
                                             <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Nom</label>
-                                            <input id="inp" type="text" required className="w-full bg-[#FDFCF7] border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="Votre nom" />
+                                            <input id="inp" type="text" required className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="Votre nom" />
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Prénom</label>
@@ -89,12 +94,12 @@ const Contact = () => {
 
                                     <div className="flex flex-col gap-2">
                                         <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Email</label>
-                                        <input id="inp2" type="email" required className="w-full bg-[#FDFCF7] border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="votre@email.com" />
+                                        <input id="inp2" type="email" required className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="votre@email.com" />
                                     </div>
 
                                     <div className="flex flex-col gap-2">
                                         <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Message</label>
-                                        <textarea id="inp3" rows="5" required className="w-full bg-[#FDFCF7] border border-gray-100 rounded-[20px] px-6 py-5 outline-none focus:border-gold-premium font-sans text-sm resize-none" placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                                        <textarea id="inp3" rows="5" required className="w-full bg-input-bg border border-gray-100 rounded-[20px] px-6 py-5 outline-none focus:border-gold-premium font-sans text-sm resize-none" placeholder="Comment pouvons-nous vous aider ?"></textarea>
                                     </div>
                                 </div>
 
@@ -115,7 +120,7 @@ const Contact = () => {
                                     </label>
                                 </div>
 
-                                <div className="pt-10 border-t border-gray-100 flex justify-center mt-auto">
+                                <div className="pt-10 border-t border-gray-200 flex justify-center ">
                                     <ButtonGold
                                         type="submit"
                                         disabled={!rgpdAccepted}
@@ -131,6 +136,7 @@ const Contact = () => {
                 </div>
             </div>
         </main>
+    </>
     );
 };
 

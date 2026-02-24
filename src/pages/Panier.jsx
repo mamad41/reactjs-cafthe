@@ -4,6 +4,7 @@ import { CardContext } from '../context/CardContext';
 import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
 
 const Panier = () => {
     const {
@@ -54,6 +55,10 @@ const Panier = () => {
     };
 
     return (
+        <><SEO
+            title="Votre Panier de Dégustation"
+            description="Finalisez votre sélection de crus d'exception. Vérifiez vos articles, appliquez votre code promo BIENVENUE10 et passez commande en toute sécurité."
+        />
         <main className="bg-input-bg min-h-screen py-16 px-4 sm:px-10 font-forum selection:bg-gold-premium/30">
             <header className="mb-20 text-center flex flex-col items-center">
                 <h1 className="text-gold-premium text-4xl md:text-5xl uppercase tracking-widest mb-4">
@@ -94,9 +99,9 @@ const Panier = () => {
                                         />
                                     </div>
 
-                                    <div className="flex-grow text-center md:text-left">
+                                    <div className="grow text-center md:text-left">
                                         <h3 className="text-brand-brown text-xl font-medium uppercase tracking-tight mb-1">{pName}</h3>
-                                        <p className="text-gold-premium text-xs tracking-widest uppercase opacity-80 mb-4">
+                                        <p className="text-black text-xs tracking-widest uppercase opacity-80 mb-4">
                                             {item.categorie} — {pWeight}
                                         </p>
 
@@ -107,12 +112,12 @@ const Panier = () => {
                                                         toast.error("-1 article", { id: "dec" });
                                                         decreaseQuantity(pId, pWeight);
                                                     }}
-                                                    className="w-8 h-8 text-gray-400 hover:text-brand-brown text-xl font-light"
+                                                    className="w-8 h-8 text-black  hover:text-brand-brown text-xl font-light"
                                                 >-</button>
-                                                <span id="qpl" className="w-8 text-center font-sans text-sm font-bold">{item.quantite}</span>
+                                                <div id="qpl" className="w-8 text-center dark:text-black font-sans text-sm font-bold">{item.quantite}</div>
                                                 <button
                                                     onClick={() => addProductToCart(item)}
-                                                    className="w-8 h-8 text-black hover:text-brand-brown text-xl "
+                                                    className="w-8 h-8 text-black  hover:text-brand-brown text-xl "
                                                 >+</button>
                                             </div>
                                             <button
@@ -128,7 +133,7 @@ const Panier = () => {
                                                 {(pInitial * item.quantite).toFixed(2)}€
                                             </div>
                                         )}
-                                        <div className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-gold-premium'}`}>
+                                        <div className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-black dark:text-silver-shine'}`}>
                                             {(pFinal * item.quantite).toFixed(2)}€
                                         </div>
                                     </div>
@@ -207,6 +212,7 @@ const Panier = () => {
                 </aside>
             </div>
         </main>
+        </>
     );
 };
 

@@ -2,17 +2,17 @@ import React, { useState, useContext, useMemo, useEffect } from 'react';
 import ButtonGold from './ButtonGold';
 import { CardContext } from '../context/CardContext';
 import toast from 'react-hot-toast';
+// 1. On importe Link de react-router-dom
+import { Link } from 'react-router-dom';
 
 const ProductCards = ({ nomProduit, variantes, category }) => {
     const { addProductToCart } = useContext(CardContext);
 
-    // --- LOGIQUE POUR LE BANDEAU ---
     const typesVente = useMemo(() => {
         return [...new Set(variantes.map(v => v?.type_de_vente?.trim()))].filter(Boolean);
     }, [variantes]);
 
     const [selectedType, setSelectedType] = useState("");
-    // SÉCURITÉ : Initialisation sécurisée pour éviter le crash au montage
     const [selectedVariante, setSelectedVariante] = useState(variantes[0] || {});
 
     useEffect(() => {
@@ -38,7 +38,6 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
 
     const currentColor = categoryColors[category?.toLowerCase()] || "bg-gold-premium";
 
-    // SÉCURITÉ : Optional Chaining pour empêcher la page blanche
     const prixInitial = parseFloat(selectedVariante?.prix_ttc || 0);
     const prixFinal = parseFloat(selectedVariante?.prix_final || prixInitial);
     const pourcentage = parseFloat(selectedVariante?.promo_pourcentage || 0);
@@ -56,33 +55,42 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
     return (
         <div id="Card" className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
 
-            {/* Ruban de catégorie */}
             <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10">
                 <div className={`${currentColor} absolute transform -rotate-45 text-center w-[140%] py-1.5 -left-[35%] top-[18%] shadow-sm`}>
                 </div>
             </div>
 
-            {/* Badge Promo */}
             {hasPromo && (
                 <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg ">
                     -{pourcentage}%
                 </div>
             )}
 
-            {/* Image Produit */}
-            <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
-                <img
-                    src={selectedVariante?.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
-                    alt={nomProduit}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                />
-            </div>
+            {/* 2. ON ENVELOPPE L'IMAGE ET LE TITRE DANS UN LINK */}
+            {/* On cible la variante sélectionnée pour que le lien corresponde à la sélection */}
+            <Link
+                to={`/produit/${selectedVariante?.reference_sku}`}
+                className="group block"
+            >
+                {/* Image Produit */}
+                <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
+                    <img
+                        src={selectedVariante?.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
+                        alt={nomProduit}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                </div>
 
-            <div className="grow flex flex-col">
-                <span className="text-gold-premium uppercase tracking-[2px] text-[10px] font-bold mb-2">{category}</span>
-                <h3 className="text-xl font-medium mb-1 leading-tight uppercase font-forum text-brand-brown">{nomProduit}</h3>
+                <div className="grow flex flex-col">
+                    <span className="text-gold-premium uppercase tracking-[2px] text-[10px] font-bold mb-2">{category}</span>
+                    <h3 className="text-xl font-medium mb-1 leading-tight uppercase font-forum text-brand-brown group-hover:text-gold-premium transition-colors">
+                        {nomProduit}
+                    </h3>
+                </div>
+            </Link>
 
-                {/* 1. SÉLECTEUR DE TYPE (UNITE / VRAC) */}
+            {/* LE RESTE RESTE EN DEHORS DU LINK POUR ÊTRE INTERACTIF */}
+            <div>
                 {typesVente.length > 1 && (
                     <div className="flex gap-2 my-4">
                         {typesVente.map((type) => (
@@ -91,8 +99,8 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                                 onClick={() => handleTypeChange(type)}
                                 className={`flex-1 py-2 text-[10px] rounded-xl border transition-all font-bold uppercase ${
                                     selectedType === type
-                                        ? "bg-gold-premium text-white border-gold-premium hover:bg-[#634832]"
-                                        : "border-gray-200 text-gray-500"
+                                        ? "bg-gold-premium text-white border-gold-premium hover:text-gray-400 hover:bg-hover-btn"
+                                        : "border-gray-200 text-gray-500 hover:text-white hover:bg-gold-premium"
                                 }`}
                             >
                                 {type}
@@ -101,7 +109,6 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                     </div>
                 )}
 
-                {/* 2. BANDEAU DÉROULANT DÉBLOQUÉ */}
                 <div className="min-h-10 transition-all duration-300">
                     {selectedType?.toLowerCase() === "vrac" && poidsDisponibles.length > 0 ? (
                         <div className="relative">
@@ -109,7 +116,6 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                                 value={selectedVariante?.reference_sku || ""}
                                 onChange={(e) => {
                                     const val = e.target.value;
-                                    // FIX : Conversion String pour garantir le changement de poids
                                     const match = variantes.find(v => String(v.reference_sku) === String(val));
                                     if (match) setSelectedVariante(match);
                                 }}
@@ -121,7 +127,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                                     </option>
                                 ))}
                             </select>
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">▼</div>
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-[10px]">▼</div>
                         </div>
                     ) : (
                         selectedType?.toLowerCase() === "unité" && (
@@ -133,7 +139,6 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                 </div>
             </div>
 
-            {/* Footer de la carte : Prix & Action */}
             <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                 <div className="font-forum">
                     {hasPromo && (

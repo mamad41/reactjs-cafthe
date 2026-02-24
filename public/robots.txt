@@ -1,0 +1,15 @@
+# Autoriser tous les robots
+User-agent: *
+
+# Pages à NE PAS indexer (privé ou technique)
+Disallow: /Espace-Client
+Disallow: /panier
+Disallow: /checkout
+Disallow: /login
+Disallow: /reset-password
+
+# Autoriser tout le reste
+Allow: /
+
+# Lien vers le sitemap
+Sitemap: https://votre-domaine.fr/sitemap.xml

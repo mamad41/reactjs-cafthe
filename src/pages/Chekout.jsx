@@ -4,6 +4,7 @@ import { CardContext } from '../context/CardContext';
 import { AuthContext } from '../context/AuthContext';
 import ButtonGold from "../components/ButtonGold.jsx";
 import toast from 'react-hot-toast'; // Utilisation de tes toasts habituels
+import SEO from '../components/SEO';
 
 const Checkout = () => {
     const { cartItems, totalAmount } = useContext(CardContext);
@@ -67,34 +68,38 @@ const Checkout = () => {
     };
 
     return (
-        <main className="min-h-screen bg-[#FDFCF7] py-8 lg:py-16 px-4 font-forum">
+        <><SEO
+            title="Paiement Sécurisé & Livraison"
+            description="Étape finale de votre commande CafThé. Choisissez votre mode de livraison et réglez vos achats via notre interface de paiement 100% sécurisée."
+        />
+        <main className="min-h-screen bg-input-bg py-8 lg:py-16 px-4 font-forum">
             <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
                 {/* --- BLOC LIVRAISON --- */}
-                <div className="bg-white p-6 lg:p-10 rounded-[40px] shadow-xl border border-gray-100 h-fit">
+                <div id="Card" className="bg-white p-6 lg:p-10 rounded-[40px] shadow-xl border border-gray-100 h-fit">
                     <h2 className="text-[#634832] text-2xl lg:text-3xl uppercase tracking-widest mb-8 lg:mb-10 border-b border-gray-50 pb-4 font-forum">
                         Livraison
                     </h2>
                     <form onSubmit={handlePayment} className="space-y-6 lg:space-y-8">
                         <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Adresse complète</label>
-                            <input type="text" name="adresse" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="15 rue des saveurs" />
+                            <input type="text" name="adresse" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="15 rue des saveurs" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 lg:gap-8">
                             <div>
                                 <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Ville</label>
-                                <input type="text" name="ville" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="Paris" />
+                                <input type="text" name="ville" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="Paris" />
                             </div>
                             <div>
                                 <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Code Postal</label>
-                                <input type="text" name="codePostal" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="75000" />
+                                <input type="text" name="codePostal" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="75000" />
                             </div>
                         </div>
 
                         <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Téléphone de contact</label>
-                            <input type="tel" name="telephone" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-[#C5A059] transition-colors" placeholder="06 00 00 00 00" />
+                            <input type="tel" name="telephone" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="06 00 00 00 00" />
                         </div>
 
                         {/* --- CASE À COCHER CGV (Légalement requise ici) --- */}
@@ -104,11 +109,11 @@ const Checkout = () => {
                                 type="checkbox"
                                 checked={cgvAccepted}
                                 onChange={(e) => setCgvAccepted(e.target.checked)}
-                                className="w-4 h-4 mt-1 accent-[#C5A059] cursor-pointer"
+                                className="w-4 h-4 mt-1 accent-gold-premium cursor-pointer"
                                 required
                             />
                             <label htmlFor="cgv-accept" className="text-[10px] text-gray-500 font-sans leading-relaxed italic cursor-pointer">
-                                Je déclare avoir pris connaissance et accepter les <Link to="/cgv" className="text-[#C5A059] underline hover:text-[#634832]">Conditions Générales de Vente</Link> de CafThé.
+                                Je déclare avoir pris connaissance et accepter les <Link to="/cgv" className="text-gold-premium underline hover:text-coffee-dark">Conditions Générales de Vente</Link> de CafThé.
                             </label>
                         </div>
 
@@ -123,12 +128,12 @@ const Checkout = () => {
                 </div>
 
                 {/* --- BLOC RÉCAPITULATIF --- */}
-                <div className="bg-[#634832] p-6 lg:p-10 rounded-[40px] text-white shadow-2xl h-fit lg:sticky lg:top-10">
+                <div className="bg-coffee-dark p-6 lg:p-10 rounded-[40px] text-white shadow-2xl h-fit lg:sticky lg:top-10">
                     <h2 className="text-xl lg:text-2xl uppercase tracking-widest mb-6 lg:mb-8 border-b border-white/20 pb-4 font-forum">
                         Ma Commande
                     </h2>
 
-                    <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-10 max-h-[300px] lg:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-10 max-h-75 lg:max-h-100 overflow-y-auto pr-2 custom-scrollbar">
                         {cartItems.map((item, index) => {
                             const pU = Number(item.prix_final || item.prix_ttc || 0);
                             const q = Number(item.quantite || 0);
@@ -140,7 +145,7 @@ const Checkout = () => {
                                         <span className="text-sm lg:text-base opacity-90">
                                             {item.nom_produit || item.nom} (x{q})
                                         </span>
-                                        <span className="text-[10px] text-[#C5A059] uppercase tracking-widest opacity-80">
+                                        <span className="text-[10px] text-gold-premium uppercase tracking-widest opacity-80">
                                             {item.poids_affichage || item.poids}
                                         </span>
                                     </div>
@@ -154,13 +159,14 @@ const Checkout = () => {
 
                     <div className="flex justify-between items-center text-xl lg:text-2xl font-bold border-t border-white/20 pt-6">
                         <span className="uppercase tracking-widest text-sm font-forum">Total TTC</span>
-                        <span className="text-2xl lg:text-3xl text-[#C5A059] font-sans tracking-tighter">
+                        <span className="text-2xl lg:text-3xl text-gold-premium font-sans tracking-tighter">
                             {Number(totalAmount).toFixed(2)}€
                         </span>
                     </div>
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

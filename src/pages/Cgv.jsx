@@ -1,7 +1,12 @@
 import React from 'react';
+import SEO from '../components/SEO';
 
 const CGV = () => {
     return (
+        <><SEO
+            title="Conditions Générales de Vente"
+            description="Consultez nos conditions générales de vente, de livraison et de rétractation pour vos achats sur CafThé."
+        />
         <main className="bg-white dark:bg-black min-h-screen font-forum transition-colors duration-500 pb-20">
             {/* Header de la page */}
             <div id="cgv" className="py-20 px-[10vw] text-center border-b border-gold-premium/10">
@@ -71,6 +76,8 @@ const CGV = () => {
                 </div>
             </div>
         </main>
+            </>
+
     );
 };
 

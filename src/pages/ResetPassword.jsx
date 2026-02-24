@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonGold from "../components/ButtonGold.jsx";
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SEO from "../components/SEO";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -48,6 +49,10 @@ const ResetPassword = () => {
     };
 
     return (
+        <><SEO
+            title="Réinitialisation du mot de passe"
+            description="Sécurisez votre compte CafThé en définissant un nouveau mot de passe."
+        />
         <main className="min-h-screen bg-input-bg dark:bg-black flex flex-col items-center justify-center p-6 font-forum transition-colors">
             <div className="w-full max-w-md bg-white dark:bg-[#1A1A1A] rounded-[40px] p-10 md:p-14 shadow-2xl border border-gray-100 dark:border-white/5">
 
@@ -95,6 +100,7 @@ const ResetPassword = () => {
                 </form>
             </div>
         </main>
+        </>
     );
 };
 

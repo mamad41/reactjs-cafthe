@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const FAQItem = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +61,11 @@ const FAQ = () => {
     ];
 
     return (
+        <>
+        <SEO
+            title="Aide & Questions Fréquentes"
+            description="Tout savoir sur la conservation du café, nos délais de livraison, le programme de fidélité et nos garanties de paiement sécurisé."
+        />
         <main id="Faq" className="bg-white dark:bg-black min-h-screen py-24 px-[10vw] transition-colors duration-500">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-20">
@@ -90,6 +96,7 @@ const FAQ = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

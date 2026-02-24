@@ -29,19 +29,20 @@ function Navbar() {
         }
     };
 
-    const navLinkContainer = "group relative flex items-center gap-1 text-gold-premium no-underline font-forum uppercase tracking-[0.2em] text-sm cursor-pointer transition-all duration-300";
+    const navLinkContainer = "group relative flex items-center gap-1 text-gold-premium no-underline font-forum uppercase tracking-[0.2em] text-[15px] text-sm cursor-pointer transition-all duration-300";
     const textHoverClass = "group-hover:underline decoration-1 underline-offset-8 transition-all";
-    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] bg-white  border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300  p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
+    const popupClass = "absolute top-full left-1/2 -translate-x-1/2 min-w-[200px]   border border-gold-premium/20 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300  p-5 flex flex-col gap-4 normal-case tracking-normal rounded-lg mt-2 ";
 
     return (
         <header className="z 50 w-full bg-white dark:bg-black font-forum transition-colors duration-300 border-b border-gold-premium/10">
             {/* --- MOBILE --- */}
             <div className="lg:hidden flex justify-between items-center px-6 py-4">
-                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gold-premium">
+                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gold-premium"
+                        aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}>
                     {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>
                 <Link to="/"><img src="/images/CAFV4 logo.svg" alt="Logo" className="h-10 w-auto dark:invert" /></Link>
-                <Link to="/panier" className="text-gold-premium relative">
+                <Link to="/panier" className="text-gold-premium relative" aria-label={`Voir mon panier (${cartCount} articles)`}>
                     <ShoppingBag size={24} />
                     {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-[#634832] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{cartCount}</span>}
                 </Link>
@@ -55,6 +56,7 @@ function Navbar() {
                     <div className="flex justify-between items-center mb-6 h-8 text-gold-premium">
                         <div className="flex items-center gap-2 border-b border-gold-premium/30 pb-1 dark:border-b-silver-shine">
                             <Search size={16} />
+                            <label htmlFor="inp1" className="sr-only">Rechercher un produit</label>
                             <input id="inp1"
                                    type="text"
                                    value={searchTerm}
@@ -69,7 +71,7 @@ function Navbar() {
                             <ThemeToggle />
                             {isAuthenticated ? (
                                 <div className="flex items-center gap-3">
-                                    <span className="text-[11px] tracking-widest uppercase">Bonjour, {user?.prenom || "Client"}</span>
+                                    <span className="text-[16px] tracking-widest uppercase">Bonjour, {user?.prenom || "Client"}</span>
                                     <LogOut size={18} className="cursor-pointer hover:opacity-60" onClick={logout} />
                                 </div>
                             ) : (
@@ -108,21 +110,21 @@ function Navbar() {
                         <div className="flex-1 flex justify-end gap-12 pr-12">
                             {/* BOUTIQUE */}
                             <div className={navLinkContainer}>
-                                <Link to="/boutique" className="no-underline text-inherit"><span className={textHoverClass}>boutique</span></Link>
+                                <Link to="/boutique" className="no-underline  text-inherit "><span className={textHoverClass}>boutique</span></Link>
                                 <ChevronDown size={14} className="opacity-50" />
-                                <div className={popupClass}>
-                                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium hover:text-black no-underline text-xs tracking-widest uppercase">Nos Cafés</HashLink>
-                                    <HashLink smooth to="/boutique#thes" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Nos Thés</HashLink>
-                                    <HashLink smooth to="/boutique#accessoire" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Nos accessoires</HashLink>
+                                <div className={`bg-white ${popupClass}`}>
+                                    <HashLink smooth to="/boutique#cafes" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos Cafés</HashLink>
+                                    <HashLink smooth to="/boutique#thes" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos Thés</HashLink>
+                                    <HashLink smooth to="/boutique#accessoire" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos accessoires</HashLink>
                                 </div>
                             </div>
                             {/* ESPACE CLIENT */}
                             <div className={navLinkContainer}>
                                 <Link to="/espace-client" className="no-underline text-inherit"><span className={textHoverClass}>espace client</span></Link>
                                 <ChevronDown size={14} className="opacity-30" />
-                                <div id="qpl" className={popupClass}>
-                                    <HashLink smooth to="/espace-client#orders" className="text-gold-premium hover:text-black text-xs tracking-widest uppercase">Mes achats</HashLink>
-                                    <HashLink smooth to="/espace-client#profile" className="text-gold-premium hover:text-black  no-underline text-xs tracking-widest uppercase">Mon profil</HashLink>
+                                <div id="qpl" className={`bg-white ${popupClass}`}>
+                                    <HashLink smooth to="/espace-client#orders" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium text-xs tracking-widest uppercase">Mes achats</HashLink>
+                                    <HashLink smooth to="/espace-client#profile" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Mon profil</HashLink>
                                 </div>
                             </div>
                             {/* ABONNEMENT */}
@@ -140,8 +142,8 @@ function Navbar() {
                             <div className={navLinkContainer}>
                                 <Link to="/panier" className="no-underline text-inherit"><span className={textHoverClass}>panier</span></Link>
                                 <ChevronDown size={14} className="opacity-30" />
-                                <div className={popupClass}>
-                                    <HashLink smooth to="/checkout" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">checkout</HashLink>
+                                <div className={`bg-white ${popupClass}`}>
+                                    <HashLink smooth to="/checkout" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">checkout</HashLink>
                                 </div>
                             </div>
                             {/* CONTACT */}
@@ -153,10 +155,10 @@ function Navbar() {
                             <div className={navLinkContainer}>
                                 <Link to="/A-Propos" className="no-underline text-inherit"><span className={textHoverClass}>à propos</span></Link>
                                 <ChevronDown size={14} className="opacity-30" />
-                                <div className={popupClass}>
-                                <HashLink smooth to="/A-Propos#action" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
-                                <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
-                                <HashLink smooth to="/A-propos#label" className="text-gold-premium hover:text-black dark:hover:text-white no-underline text-xs tracking-widest uppercase">Nos labels</HashLink>
+                                <div className={`bg-white ${popupClass}`}>
+                                <HashLink smooth to="/A-Propos#action" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos actions</HashLink>
+                                <HashLink smooth to="/A-propos#partenaire" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos partenaires</HashLink>
+                                <HashLink smooth to="/A-propos#label" className="text-gold-premium dark:text-black hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos labels</HashLink>
                                 </div>
                             </div>
                         </div>

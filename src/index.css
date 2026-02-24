@@ -4,6 +4,7 @@
     --font-forum: "Forum", serif;
     --color-gold-premium: #C5A059;
     --color-coffee-dark: #3E2723;
+    --color-hover-btn:[#634832];
     --color-card-bg: #F9F8F3;
     --color-olive-bg: #4A5D3F;
     --color-brown-bg: #2C241E;
@@ -45,8 +46,8 @@
     }
 
     .dark span[class*="prix"],
-    .dark [class*="price"],
-    .dark .text-gold-premium {
+    .dark [class*="price"]
+    {
         color: var(--color-silver-text) !important;
     }
 }
@@ -127,4 +128,35 @@
 .dark span#qpl {
     color: #000000 !important;
     font-weight: bold;
+}
+@layer base {
+    /* ... ton code existant ... */
+
+    /* Force le focus visible pour l'accessibilité au clavier (WAVE adore ça) */
+    :focus-visible {
+        outline: 2px solid var(--color-gold-premium);
+        outline-offset: 2px;
+    }
+
+    /* Amélioration du contraste pour les textes en mode Dark */
+    .dark body {
+        background-color: var(--color-bg-dark) !important;
+        color: var(--color-silver-text) !important;
+        /* Améliore le lissage des polices sur fond sombre */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Pour cacher les labels tout en restant accessible (Sécurité) */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
 }

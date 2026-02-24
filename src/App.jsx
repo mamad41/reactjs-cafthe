@@ -36,16 +36,16 @@ function App() {
                                     <Route index element={<Home />} />
 
                                      <Route path="/boutique" element={<Boutique />} />
-                                     <Route path="/ABonnement" element={<Abonnement />} />
+                                     <Route path="/Abonnement" element={<Abonnement />} />
                                      <Route path="/Espace-Client" element={<EspaceClient />} />
                                      <Route path="/A-Propos" element={<APropos />} />
                                      <Route path="/Contact" element={<Contact />} />
                                      <Route path="/reset-password" element={<ResetPassword />} />
-                                     <Route path="/faq" element={<FAQ />} />
+                                     <Route path="/FAQ" element={<FAQ />} />
                                      {/* id est un paramètre dynamique contenu dans l'url */}
                                      <Route path="produit/:id" element={<ProductDetails />} />
                                      <Route path="login" element={<Login />} />
-                                     <Route path="panier" element={<Panier />} />
+                                     <Route path="Panier" element={<Panier />} />
                                      <Route path="checkout" element={<Checkout />} />
                                      <Route path="Cgv" element={<Cgv />} />
                                      <Route path="Recherche" element={<Recherche />} />

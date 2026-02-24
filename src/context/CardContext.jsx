@@ -1,50 +1,63 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import toast from 'react-hot-toast';
 
 export const CardContext = createContext(null);
 
 export function CardProvider({ children }) {
+    // 1. Initialisation sécurisée (évite le crash si le LocalStorage est corrompu)
     const [cartItems, setCartItems] = useState(() => {
-        const savedData = localStorage.getItem("panier_cafethe");
-        return savedData ? JSON.parse(savedData) : [];
+        try {
+            const savedData = localStorage.getItem("panier_cafethe");
+            return savedData ? JSON.parse(savedData) : [];
+        } catch (error) {
+            console.error("Erreur LocalStorage:", error);
+            return [];
+        }
     });
 
     const [prevCount, setPrevCount] = useState(cartItems.length);
 
+    // 2. Fonction utilitaire de comparaison (Source de vérité unique)
+    // Elle vérifie le SKU et les deux formats de poids possibles
+    const isSameItem = (item, id, weight) => {
+        return item.reference_sku === id && (item.poids_affichage === weight || item.poids === weight);
+    };
+
+    // 3. Persistance et Notifications automatiques
     useEffect(() => {
         localStorage.setItem("panier_cafethe", JSON.stringify(cartItems));
 
+        // Notif uniquement si on a supprimé (baisse du nombre de lignes)
         if (cartItems.length < prevCount) {
             toast.error("Article retiré du panier", {
                 icon: '🗑️',
-                id: 'notif-suppression-globale'
+                id: 'notif-suppression-globale' // Évite l'accumulation de toasts
             });
         }
         setPrevCount(cartItems.length);
-    }, [cartItems]);
+    }, [cartItems, prevCount]);
 
-    // AJOUTER UN PRODUIT (Synchronisé sur reference_sku)
+    // 4. AJOUTER UN PRODUIT
     const addProductToCart = (newProduct) => {
         setCartItems((prevItems) => {
-            // On utilise reference_sku pour identifier de manière unique la variante
             const pId = newProduct.reference_sku;
             const pWeight = newProduct.poids_affichage || newProduct.poids;
 
-            const alreadyExists = prevItems.find(item =>
-                item.reference_sku === pId &&
-                (item.poids_affichage === pWeight || item.poids === pWeight)
-            );
+            const alreadyExists = prevItems.find(item => isSameItem(item, pId, pWeight));
 
             if (alreadyExists) {
-                toast.success(`+1 pour ${newProduct.nom_produit || newProduct.nom}`);
+                toast.success(`+1 pour ${newProduct.nom_produit || newProduct.nom}`, {
+                    id: 'add-success' // Met à jour le toast existant au lieu d'en créer un nouveau
+                });
                 return prevItems.map(item =>
-                    item.reference_sku === pId && (item.poids_affichage === pWeight || item.poids === pWeight)
+                    isSameItem(item, pId, pWeight)
                         ? { ...item, quantite: item.quantite + 1 }
                         : item
                 );
             }
 
             toast.success(`${newProduct.nom_produit || newProduct.nom} ajouté !`, {
+                id: 'add-success',
                 style: { border: '1px solid #634832', padding: '16px', color: '#634832', fontWeight: 'bold' },
                 iconTheme: { primary: '#634832', secondary: '#FFFAEE' },
             });
@@ -52,12 +65,10 @@ export function CardProvider({ children }) {
         });
     };
 
-    // DIMINUER LA QUANTITÉ
+    // 5. DIMINUER LA QUANTITÉ
     const decreaseQuantity = (id, poids) => {
         setCartItems((prevItems) => {
-            const itemIndex = prevItems.findIndex(item =>
-                item.reference_sku === id && (item.poids_affichage === poids || item.poids === poids)
-            );
+            const itemIndex = prevItems.findIndex(item => isSameItem(item, id, poids));
 
             if (itemIndex === -1) return prevItems;
             const currentItem = prevItems[itemIndex];
@@ -68,22 +79,20 @@ export function CardProvider({ children }) {
                 return updatedItems;
             }
 
+            // Si quantité = 1, on retire carrément l'article
             return prevItems.filter((_, index) => index !== itemIndex);
         });
     };
 
-    // SUPPRIMER TOUTE LA LIGNE
+    // 6. SUPPRIMER TOUTE LA LIGNE
     const removeProductFromCart = (id, poids) => {
-        setCartItems(prev => prev.filter(item =>
-            !(item.reference_sku === id && (item.poids_affichage === poids || item.poids === poids))
-        ));
+        setCartItems(prev => prev.filter(item => !isSameItem(item, id, poids)));
     };
 
+    // 7. CALCULS DES TOTAUX
     const cartCount = cartItems.reduce((total, item) => total + item.quantite, 0);
 
-    // CALCUL DU TOTAL (Utilise le prix_final calculé par ton SQL)
     const totalAmount = cartItems.reduce((total, item) => {
-        // IMPORTANT : Ton SQL renvoie 'prix_final'
         const prix = parseFloat(item.prix_final || item.prix_ttc) || 0;
         return total + (prix * item.quantite);
     }, 0).toFixed(2);
