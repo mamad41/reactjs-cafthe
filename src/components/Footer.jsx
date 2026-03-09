@@ -18,7 +18,7 @@ const Footer = () => {
                     alt="Logo Cafthe"
                     className="h-24 lg:h-48 opacity-80 "
                 />
-                <div className="text-center lg:text-left">
+                <div className="text-center lg:text-left pb-10 border-b-3 border-[#C5A05933]">
                     <h3 className="text-gold-premium text-3xl mb-4 uppercase tracking-widest">CafThé</h3>
                     <p className="text-[#8B6B3F] text-lg lg:text-xl max-w-2xl leading-relaxed opacity-90 italic">
                         L'Artisan des Terroirs. Passionnés par l'excellence, nous sélectionnons les meilleurs cafés de spécialité et thés rares à travers le monde.

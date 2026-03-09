@@ -115,7 +115,7 @@ const Contact = () => {
                                             className="w-4 h-4 accent-gold-premium cursor-pointer"
                                         />
                                     </div>
-                                    <label htmlFor="rgpd" className="text-[10px] text-gray-400 font-sans leading-relaxed italic cursor-pointer">
+                                    <label htmlFor="rgpd" className="text-[14px] text-gray-400 font-sans leading-relaxed italic cursor-pointer">
                                         J'accepte que mes données soient utilisées par **CafThé** pour traiter ma demande. Conformément au RGPD, vous disposez d'un droit d'accès et de suppression.
                                     </label>
                                 </div>
