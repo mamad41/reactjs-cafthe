@@ -4,6 +4,7 @@ import React from 'react';
 const ButtonGold = ({ children, onClick, className = "",style={} ,type = "button" }) => {
     return (
         <button
+            aria-label={children}
             type={type}
             onClick={onClick}
             style={style}

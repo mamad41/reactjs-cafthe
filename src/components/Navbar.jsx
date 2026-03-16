@@ -111,7 +111,7 @@ function Navbar() {
                             <div className="w-full h-px bg-gold-premium opacity-40 dark:bg-silver-shine"></div>
                         </div>
                         <div className="px-10 flex-none flex items-center justify-center">
-                            <Link to="/"><img src="/images/LLogo-vf 1.svg" alt="Logo" className="h-28 w-auto block " /></Link>
+                            <Link to="/"><img src="/images/LLogo-vf 1.svg" loading="lazy"  alt="Logo" className="h-28 w-auto block " /></Link>
                         </div>
                         <div className="flex-1 flex items-center relative" style={{ top: '-30px' }}>
                             <div className="w-full h-px bg-gold-premium opacity-40 dark:bg-silver-shine"></div>
@@ -122,7 +122,7 @@ function Navbar() {
                     <div className="relative z-10 -mt-18 flex justify-between items-center w-full pb-10">
                         <div className="flex-1 flex justify-end gap-12 pr-12">
                             <div className={navLinkContainer}>
-                                <Link to="/boutique" className="no-underline text-inherit "><span className={`drop-shadow-[0_2px_2px_rgba(0,0,0,0.2)] ${textHoverClass}`}>boutique</span></Link>
+                                <Link to="/boutique" className="no-underline text-inherit "><span className={`drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)] ${textHoverClass}`}>boutique</span></Link>
                                 <ChevronDown size={14} className="opacity-50" />
                                 <div className={`bg-white dark:bg-surface-dark ${popupClass}`}>
                                     <HashLink smooth to="/boutique#cafes" className="text-gold-premium  dark:text-silver-text hover:text-black dark:hover:text-gold-premium no-underline text-xs tracking-widest uppercase">Nos Cafés</HashLink>

@@ -122,6 +122,7 @@ const Contact = () => {
 
                                 <div className="pt-10 border-t border-gray-200 flex justify-center ">
                                     <ButtonGold
+                                       aria-label="Envoyer le message"
                                         type="submit"
                                         disabled={!rgpdAccepted}
                                         className={!rgpdAccepted ? "opacity-50 cursor-not-allowed" : ""}

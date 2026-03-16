@@ -15,6 +15,7 @@ const Footer = () => {
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 border-t-3 border-[#C5A05933] pt-12">
                 <img
                     src="/images/logo-simple.svg"
+                    loading="lazy"
                     alt="Logo Cafthe"
                     className="h-24 lg:h-48 opacity-80 "
                 />

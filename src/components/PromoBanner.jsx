@@ -30,6 +30,7 @@ const PromoBanner = () => {
 
                         {/* Badge Code Promo */}
                         <button
+                            aria-label="Copier le code promo"
                             onClick={handleCopy}
                             className="ml-4 flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full hover:bg-white/10 transition-all group"
                         >
@@ -40,6 +41,7 @@ const PromoBanner = () => {
 
                     {/* Bouton Fermer */}
                     <button
+                        aria-label="Fermer"
                         onClick={() => setIsVisible(false)}
                         className="flex p-1 rounded-md hover:bg-white/5 transition-colors"
                     >

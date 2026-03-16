@@ -40,7 +40,9 @@ const ScrollControls = () => {
             {/* Bouton HAUT avec progression circulaire */}
             <div className={`relative transition-all duration-500 ${showTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
                 {/* Cercle de progression SVG */}
-                <svg className="absolute top-0 left-0 -rotate-90 w-12 h-12 pointer-events-none" viewBox="0 0 50 50">
+                <svg
+                    aria-label="returner en haut de page"
+                    className="absolute top-0 left-0 -rotate-90 w-12 h-12 pointer-events-none" viewBox="0 0 50 50">
                     {/* Rail de fond : Gris très clair en light, Gris très sombre en dark */}
                     <circle
                         cx="25" cy="25" r={radius}
@@ -65,6 +67,8 @@ const ScrollControls = () => {
                 </svg>
 
                 <button
+                    aria-label={`Retour en haut - ${Math.round(scrollProgress)}% parcouru`}
+
                     onClick={scrollToTop}
                     /* Correction : bg-white en light, bg-surface-dark en dark. Texte Gold en light, Silver en dark */
                     className="p-3 rounded-full bg-white dark:bg-surface-dark text-gold-premium dark:text-silver-shine shadow-2xl hover:scale-110 active:scale-95 transition-all"
@@ -76,6 +80,7 @@ const ScrollControls = () => {
 
             {/* Bouton BAS classique */}
             <button
+                aria-label="Aller tout en bas"
                 onClick={scrollToBottom}
                 /* Correction : bg-gold-premium en light, bg-coffee-dark en dark */
                 className={`p-3 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 border border-white/10

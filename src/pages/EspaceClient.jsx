@@ -173,6 +173,7 @@ const EspaceClient = () => {
                     <nav className="flex flex-row gap-1">
                         {tabs.map((tab) => (
                             <button
+                                aria-label="onglet"
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-3 px-6 md:px-10 py-5 rounded-t-[30px] transition-all duration-300 text-[10px] font-bold tracking-[0.2em] uppercase
@@ -255,7 +256,7 @@ const EspaceClient = () => {
                                                     </div>
                                                 </div>
                                                 <div className="mt-6 text-right">
-                                                    <ButtonGold onClick={() => handleReorder(order.items)} className="py-3 px-6 text-[10px] flex items-center gap-2">
+                                                    <ButtonGold aria-label="recommander" onClick={() => handleReorder(order.items)} className="py-3 px-6 text-[10px] flex items-center gap-2">
                                                         <RefreshCw size={14} />
                                                         Recommander
                                                     </ButtonGold>
@@ -274,6 +275,7 @@ const EspaceClient = () => {
                                     <div className="flex justify-between items-center mb-10">
                                         <h2 className="text-2xl text-[#634832] uppercase tracking-[0.2em]">Mon Profil</h2>
                                         <button
+                                            aria-label="securité et mots de passe"
                                             onClick={() => setIsChangingPassword(!isChangingPassword)}
                                             className="flex items-center gap-2 text-[9px] border border-gray-200 text-gray-400 px-6 py-3 rounded-full uppercase tracking-widest font-bold hover:border-gold-premium hover:text-gold-premium transition-all"
                                         >
@@ -311,7 +313,7 @@ const EspaceClient = () => {
                                                         required
                                                     />
                                                 </div>
-                                                <ButtonGold type="submit" className="py-4 text-[10px] mt-4">Mettre à jour le mot de passe</ButtonGold>
+                                                <ButtonGold aria-label="Mettre a jour mot de passe" type="submit" className="py-4 text-[10px] mt-4">Mettre à jour le mot de passe</ButtonGold>
                                             </div>
                                         </form>
                                     ) : (
@@ -332,6 +334,7 @@ const EspaceClient = () => {
                                     <div className="flex justify-between items-center mb-10">
                                         <h2 className="text-2xl text-[#634832] uppercase tracking-[0.2em]">Carnet d'adresses</h2>
                                         <button
+                                            aria-label="adresse"
                                             onClick={() => setIsAddingAddress(!isAddingAddress)}
                                             className="flex items-center gap-2 text-[9px] bg-gold-premium text-white px-6 py-3 rounded-full uppercase tracking-widest font-bold hover:bg-[#634832] transition-all shadow-md"
                                         >
@@ -375,7 +378,7 @@ const EspaceClient = () => {
                                                     onChange={(e) => setNewAddr({...newAddr, cp: e.target.value})}
                                                     required
                                                 />
-                                                <ButtonGold type="submit" className="md:col-span-2 py-4 text-[10px] mt-4">Enregistrer l'adresse</ButtonGold>
+                                                <ButtonGold aria-label="Mettre a jour adresse" type="submit" className="md:col-span-2 py-4 text-[10px] mt-4">Enregistrer l'adresse</ButtonGold>
                                             </div>
                                         </form>
                                     )}
@@ -389,6 +392,7 @@ const EspaceClient = () => {
                                                         <span className="text-[10px] uppercase tracking-widest font-bold">{addr.label}</span>
                                                     </div>
                                                     <button
+                                                        aria-label="supprimer"
                                                         onClick={() => deleteAddress(addr.id)}
                                                         className="text-gray-200 hover:text-red-500 transition-colors"
                                                     >

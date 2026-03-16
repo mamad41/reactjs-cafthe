@@ -7,6 +7,7 @@ const APropos = () => {
             {/* 1. SECTION HERO */}
             <div className="relative h-125 w-full overflow-hidden">
                 <img
+                    loading="lazy"
                     src="/images/Cafhe-bg-hero-Apropos.webp"
                     alt="Plantation de café"
                     className="w-full h-full object-cover"
@@ -93,15 +94,21 @@ const APropos = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
-                            <img src="/images/logo_alliance.svg" alt="Alliance" className="h-16 mx-auto mb-6 dark:invert" />
+                            <img
+                                loading="lazy"
+                                src="/images/logo_alliance.svg" alt="Alliance" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Alliance Forêt</h4>
                         </div>
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
-                            <img src="/images/Water.org_logo_png_rgb.webp" alt="Water.org" className="h-16 mx-auto mb-6 dark:invert" />
+                            <img
+                                loading="lazy"
+                                src="/images/Water.org_logo_png_rgb.webp" alt="Water.org" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Pure Water Pro</h4>
                         </div>
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
-                            <img src="/images/fondation-ensemble.webp" alt="Ensemble" className="h-16 mx-auto mb-6 dark:invert" />
+                            <img
+                                loading="lazy"
+                                src="/images/fondation-ensemble.webp" alt="Ensemble" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Fondation Ensemble</h4>
                         </div>
                     </div>
@@ -143,6 +150,7 @@ const APropos = () => {
                             group-hover:shadow-[0_20px_40px_rgba(197,160,89,0.15)]
                             group-hover:scale-105 mb-6">
                                     <img
+                                        loading="lazy"
                                         src={`/images/${label.img}`}
                                         alt={label.txt}
                                         className="w-16 h-16 object-contain dark:invert opacity-70

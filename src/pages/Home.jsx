@@ -59,6 +59,7 @@ const Home = () => {
                 <div className="relative w-full h-125 mt-14 md:h-175 overflow-hidden flex items-center justify-center px-4 md:px-0">
                     <img
                         src="/images/backgroud-hero.webp"
+                        loading="lazy"
                         alt="Bannière Café Thé"
                         className="absolute inset-0 w-full md:w-[95%] h-full mx-auto object-cover brightness-75 md:rounded-[40px]"
                     />

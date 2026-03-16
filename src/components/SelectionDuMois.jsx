@@ -35,7 +35,9 @@ const SelectionDuMois = () => {
                 ))}
             </div>
 
-            <ButtonGold onClick={() => navigate('/boutique?filter=promotion')} className="bg-[#A6844A] text-white px-10 py-3 rounded-md hover:bg-[#8B6B3F] transition-colors uppercase tracking-widest text-sm">
+            <ButtonGold
+                aria-label="Découvrir"
+                onClick={() => navigate('/boutique?filter=promotion')} className="bg-[#A6844A] text-white px-10 py-3 rounded-md hover:bg-[#8B6B3F] transition-colors uppercase tracking-widest text-sm">
                 Découvrir
             </ButtonGold>
         </section>

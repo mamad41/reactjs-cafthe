@@ -93,6 +93,7 @@ const Recherche = () => {
                             Aucun article ne correspond à votre recherche.
                         </p>
                         <button
+                            aria-label="Retourner à la boutique"
                             onClick={() => window.history.back()}
                             className="mt-8 text-[#C5A059] uppercase tracking-widest text-xs border-b border-[#C5A059] pb-1 hover:text-[#634832] hover:border-[#634832] transition-all"
                         >

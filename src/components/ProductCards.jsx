@@ -76,6 +76,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                 <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
                     <img
                         src={selectedVariante?.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
+                        loading="lazy"
                         alt={nomProduit}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
@@ -95,6 +96,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                     <div className="flex gap-2 my-4">
                         {typesVente.map((type) => (
                             <button
+                                aria-label={type}
                                 key={type}
                                 onClick={() => handleTypeChange(type)}
                                 className={`flex-1 py-2 text-[10px] rounded-xl border transition-all font-bold uppercase ${
@@ -150,7 +152,8 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                         {prixFinal.toFixed(2)}€
                     </span>
                 </div>
-                <ButtonGold onClick={handleAddToCart} className="px-5 py-2 text-xs">
+                <ButtonGold
+                    onClick={handleAddToCart} className="px-5 py-2 text-xs">
                     Ajouter
                 </ButtonGold>
             </div>

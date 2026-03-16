@@ -162,6 +162,7 @@ const Login = () => {
                             {/* Lien "Mot de passe oublié", affiché uniquement en mode connexion */}
                             {!isRegistering && (
                                 <button
+                                    aria-label="mot de passe oublié"
                                     type="button"
                                     onClick={() => setShowForgotPwd(true)}
                                     className="text-[11px] uppercase text-gold-premium mt-2 text-right hover:underline font-bold"
@@ -196,7 +197,7 @@ const Login = () => {
                             </div>
                         )}
 
-                        <ButtonGold
+                        <ButtonGold aria-label="s'inscrire, se connecter"
                             type="submit"
                             disabled={isRegistering && !acceptedRGPD}
                             className={`w-full py-5 rounded-full mt-4 ${isRegistering && !acceptedRGPD ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -221,7 +222,7 @@ const Login = () => {
                 {showForgotPwd && (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-200 flex items-center justify-center p-4">
                         <div className="bg-white dark:bg-[#1A1A1A] max-w-sm w-full rounded-[35px] p-10 shadow-2xl relative">
-                            <button onClick={() => setShowForgotPwd(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gold-premium"><X size={24} /></button>
+                            <button aria-label="recupérer mon mot de passe" onClick={() => setShowForgotPwd(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gold-premium"><X size={24} /></button>
                             <h3 className="text-gold-premium text-xl uppercase mb-6 flex items-center gap-2 font-bold"><Mail size={20} /> Récupération</h3>
                             <p className="text-[11px] text-gray-500 dark:text-gray-400 italic mb-6">Saisissez votre email pour recevoir un lien de réinitialisation.</p>
 
