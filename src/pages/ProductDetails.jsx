@@ -54,7 +54,7 @@ const ProductDetails = () => {
     // Affichage d'un squelette de chargement pendant la récupération des données.
     if (isLoading) {
         return (
-            <div className="min-h-screen pt-32 px-10 max-w-6xl mx-auto">
+            <div className="min-h-screen pt-32 px-10 max-w-6xl mx-auto" aria-live="polite">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <Skeleton height={500} borderRadius={40} />
                     <div className="space-y-6">
@@ -70,10 +70,10 @@ const ProductDetails = () => {
     // Affichage d'un message d'erreur si le produit n'a pas pu être chargé.
     if (error || !produit) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-20 text-center font-forum">
+            <div className="min-h-screen flex flex-col items-center justify-center p-20 text-center font-forum" role="alert">
                 <h3 className="text-2xl text-[#634832] mb-4">Une erreur est survenue</h3>
                 <p className="text-gray-500 mb-8">{error || "Produit introuvable"}</p>
-                <Link to="/" className="text-gold-premium underline uppercase tracking-widest text-sm">
+                <Link to="/" className="text-gold-premium underline uppercase tracking-widest text-sm" aria-label="Retourner à la page d'accueil">
                     Retour à l'accueil
                 </Link>
             </div>
@@ -102,7 +102,7 @@ const ProductDetails = () => {
                     <div className="overflow-hidden rounded-[40px] border border-gray-100 shadow-sm bg-white">
                         <img
                             src={imageUrl}
-                            alt={produit.nom_produit}
+                            alt={`Photo de présentation du produit ${produit.nom_produit}`}
                             className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                             onError={(e) => {
                                 // Fallback si l'image ne charge pas
@@ -126,9 +126,9 @@ const ProductDetails = () => {
                             {produit.dèscription_produit}
                         </p>
 
-                        <div className="h-px w-full bg-gold-premium/20"></div>
+                        <div className="h-px w-full bg-gold-premium/20" aria-hidden="true"></div>
 
-                        <div className="flex items-baseline gap-4">
+                        <div className="flex items-baseline gap-4" aria-label={`Prix: ${produit.prix_ttc} euros TTC`}>
                             <span className="text-4xl font-bold text-[#634832] font-sans">
                                 {produit.prix_ttc}€
                             </span>
@@ -136,7 +136,7 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="bg-gray-50 p-6 rounded-2xl inline-block border border-gray-100">
-                            <p className="text-xs uppercase tracking-widest text-gray-500 font-sans">
+                            <p className="text-xs uppercase tracking-widest text-gray-500 font-sans" aria-live="polite">
                                 <strong>Disponibilité :</strong> {produit.stock > 0 ? `${produit.stock} unités en stock` : "Victime de son succès"}
                             </p>
                         </div>
@@ -145,6 +145,7 @@ const ProductDetails = () => {
                             <Link
                                 to="/boutique"
                                 className="inline-block text-xs uppercase tracking-[0.3em] border-b border-gold-premium pb-2 hover:text-gold-premium transition-all duration-300"
+                                aria-label="Retourner à la page boutique"
                             >
                                 ← Retour à la boutique
                             </Link>

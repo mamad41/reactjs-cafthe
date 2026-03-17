@@ -60,7 +60,7 @@ const Home = () => {
                     <img
                         src="/images/backgroud-hero.webp"
                         loading="lazy"
-                        alt="Bannière Café Thé"
+                        alt="Tasses de café et grains de café, ambiance chaleureuse"
                         className="absolute inset-0 w-full md:w-[95%] h-full mx-auto object-cover brightness-75 md:rounded-[40px]"
                     />
                     <div className="relative z-10 text-center w-full max-w-4xl">
@@ -70,6 +70,7 @@ const Home = () => {
                         </h1>
                         <div className="mt-8 md:mt-10">
                             <ButtonGold
+                                aria-label="Explorer notre collection de thés et cafés"
                                 onClick={() => navigate('/boutique')}
                                 className="w-full sm:w-auto px-10 py-4"
                             >
@@ -82,7 +83,7 @@ const Home = () => {
                 {/* 2. SECTION SÉLECTION DU MOIS (Mise en avant des coffrets) */}
                 <section className="max-w-325 mx-auto my-12 md:my-20 p-6 md:p-20 border-x-0 md:border border-gold-premium dark:border-silver-shine text-center relative overflow-hidden">
                     <div className="mb-10 md:mb-16">
-                        <span className="text-gold-premium uppercase tracking-[2px] md:tracking-[4px] text-xs md:text-sm font-bold">Février 2026</span>
+                        <span className="text-gold-premium uppercase tracking-[2px] md:tracking-[4px] text-xs md:text-sm font-bold" aria-hidden="true">Février 2026</span>
                         <h2 className="text-gold-premium text-3xl md:text-6xl my-4">Nos Coffrets Cadeaux</h2>
                         <p className="text-gold-premium/80 max-w-2xl mx-auto text-lg md:text-xl italic leading-relaxed px-4">
                             Offrez l'excellence avec nos assortiments thématiques.
@@ -91,10 +92,10 @@ const Home = () => {
 
                     {/* Affichage conditionnel : Chargement ou Liste des produits */}
                     {loading ? (
-                        <div className="text-gold-premium animate-pulse py-10">Préparation de vos coffrets...</div>
+                        <div className="text-gold-premium animate-pulse py-10" aria-live="polite">Préparation de vos coffrets...</div>
                     ) : (
                         /* Grille responsive : 1 colonne sur mobile, 2 sur tablette, 3 sur grand écran */
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto mb-12 md:mb-16 px-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto mb-12 md:mb-16 px-4" aria-label="Liste de nos coffrets cadeaux">
                             {coffrets.length > 0 ? (
                                 coffrets.map((product) => {
                                     // Construction de l'URL de l'image avec fallback
@@ -110,23 +111,23 @@ const Home = () => {
                                                 </div>
                                                 <img
                                                     src={productImageUrl}
-                                                    alt={product.nom_produit}
+                                                    alt={`Photo du coffret ${product.nom_produit}`}
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                                 />
                                             </div>
                                             <h3 className="text-brand-brown dark:text-white text-lg md:text-xl font-medium">{product.nom_produit}</h3>
                                             <p className="text-brand-brown/70 dark:text-white/60 text-xs md:text-sm uppercase tracking-widest">{product.origine_produit}</p>
-                                            <span className="text-gold-premium font-bold text-base md:text-lg mt-2 md:mt-3">{product.prix_ttc}€</span>
+                                            <span className="text-gold-premium font-bold text-base md:text-lg mt-2 md:mt-3" aria-label={`Prix: ${product.prix_ttc} euros`}>{product.prix_ttc}€</span>
                                         </div>
                                     );
                                 })
                             ) : (
-                                <p className="col-span-full text-gold-premium italic">Aucun coffret disponible pour le moment.</p>
+                                <p className="col-span-full text-gold-premium italic" role="alert" aria-live="polite">Aucun coffret disponible pour le moment.</p>
                             )}
                         </div>
                     )}
 
-                    <ButtonGold onClick={() => navigate('/boutique')} className="w-full sm:w-auto px-12 py-4">
+                    <ButtonGold aria-label="Voir toute notre boutique" onClick={() => navigate('/boutique')} className="w-full sm:w-auto px-12 py-4">
                         Voir toute la boutique
                     </ButtonGold>
                 </section>

@@ -101,24 +101,64 @@ const Checkout = () => {
                         </h2>
                         <form onSubmit={handlePayment} className="space-y-6 lg:space-y-8">
                             <div>
-                                <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Adresse complète</label>
-                                <input type="text" name="adresse" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="15 rue des saveurs" />
+                                <label htmlFor="adresse" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Adresse complète</label>
+                                <input 
+                                    id="adresse"
+                                    type="text" 
+                                    name="adresse" 
+                                    required 
+                                    onChange={handleChange} 
+                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
+                                    placeholder="15 rue des saveurs" 
+                                    pattern="^[a-zA-Z0-9\s,\.'-]{5,}$"
+                                    title="L'adresse doit contenir au moins 5 caractères (lettres, chiffres, espaces, virgules, points, apostrophes, tirets)"
+                                />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 lg:gap-8">
                                 <div>
-                                    <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Ville</label>
-                                    <input type="text" name="ville" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="Paris" />
+                                    <label htmlFor="ville" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Ville</label>
+                                    <input 
+                                        id="ville"
+                                        type="text" 
+                                        name="ville" 
+                                        required 
+                                        onChange={handleChange} 
+                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
+                                        placeholder="Paris" 
+                                        pattern="^[a-zA-Z\s'-]{2,}$"
+                                        title="La ville doit contenir au moins 2 caractères (lettres, espaces, apostrophes, tirets)"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Code Postal</label>
-                                    <input type="text" name="codePostal" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="75000" />
+                                    <label htmlFor="codePostal" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Code Postal</label>
+                                    <input 
+                                        id="codePostal"
+                                        type="text" 
+                                        name="codePostal" 
+                                        required 
+                                        onChange={handleChange} 
+                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
+                                        placeholder="75000" 
+                                        pattern="^[0-9]{5}$"
+                                        title="Le code postal doit être composé de 5 chiffres exacts"
+                                    />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Téléphone de contact</label>
-                                <input type="tel" name="telephone" required onChange={handleChange} className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" placeholder="06 00 00 00 00" />
+                                <label htmlFor="telephone" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Téléphone de contact</label>
+                                <input 
+                                    id="telephone"
+                                    type="tel" 
+                                    name="telephone" 
+                                    required 
+                                    onChange={handleChange} 
+                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
+                                    placeholder="06 00 00 00 00" 
+                                    pattern="^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$"
+                                    title="Veuillez entrer un numéro de téléphone français valide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)"
+                                />
                             </div>
 
                             {/* Case à cocher pour l'acceptation des CGV */}
@@ -132,12 +172,13 @@ const Checkout = () => {
                                     required
                                 />
                                 <label htmlFor="cgv-accept" className="text-[10px] text-gray-500 font-sans leading-relaxed italic cursor-pointer">
-                                    Je déclare avoir pris connaissance et accepter les <Link to="/cgv" className="text-gold-premium underline hover:text-coffee-dark">Conditions Générales de Vente</Link> de CafThé.
+                                    Je déclare avoir pris connaissance et accepter les <Link to="/cgv" className="text-gold-premium underline hover:text-coffee-dark" aria-label="Lire les conditions générales de vente (ouvre une nouvelle page)">Conditions Générales de Vente</Link> de CafThé.
                                 </label>
                             </div>
 
                             <ButtonGold
                                 type="submit"
+                                aria-label={loading ? "Redirection vers la plateforme de paiement en cours" : "Valider et procéder au paiement de la commande"}
                                 disabled={loading || cartItems.length === 0 || !cgvAccepted}
                                 className={`w-full py-4 lg:py-5 mt-4 ${!cgvAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
@@ -152,7 +193,7 @@ const Checkout = () => {
                             Ma Commande
                         </h2>
 
-                        <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-10 max-h-75 lg:max-h-100 overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-10 max-h-75 lg:max-h-100 overflow-y-auto pr-2 custom-scrollbar" aria-label="Liste des articles dans votre commande">
                             {cartItems.map((item, index) => {
                                 const pU = Number(item.prix_final || item.prix_ttc || 0);
                                 const q = Number(item.quantite || 0);
@@ -168,7 +209,7 @@ const Checkout = () => {
                                                 {item.poids_affichage || item.poids}
                                             </span>
                                         </div>
-                                        <span className="text-base lg:text-lg font-medium font-sans tracking-tighter shrink-0">
+                                        <span className="text-base lg:text-lg font-medium font-sans tracking-tighter shrink-0" aria-label={`Prix total pour cet article: ${ligneTotal} euros`}>
                                             {ligneTotal}€
                                         </span>
                                     </div>
@@ -178,7 +219,7 @@ const Checkout = () => {
 
                         <div className="flex justify-between items-center text-xl lg:text-2xl font-bold border-t border-white/20 pt-6">
                             <span className="uppercase tracking-widest text-sm font-forum">Total TTC</span>
-                            <span className="text-2xl lg:text-3xl text-gold-premium font-sans tracking-tighter">
+                            <span className="text-2xl lg:text-3xl text-gold-premium font-sans tracking-tighter" aria-label={`Montant total de la commande: ${Number(totalAmount).toFixed(2)} euros`}>
                                 {Number(totalAmount).toFixed(2)}€
                             </span>
                         </div>

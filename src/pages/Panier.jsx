@@ -97,7 +97,7 @@ const Panier = () => {
                         {!cartItems || cartItems.length === 0 ? (
                             <div className="bg-white rounded-4xl p-20 text-center shadow-xs border border-gray-100">
                                 <p className="text-gray-400 mb-10 text-xl italic font-light">Votre panier est vide.</p>
-                                <Link to="/boutique" className="inline-block bg-brown-bg text-white px-10 py-4 rounded-full uppercase tracking-widest font-bold hover:bg-gold-premium transition-colors shadow-lg">
+                                <Link to="/boutique" className="inline-block bg-brown-bg text-white px-10 py-4 rounded-full uppercase tracking-widest font-bold hover:bg-gold-premium transition-colors shadow-lg" aria-label="Retourner à la boutique pour ajouter des articles">
                                     Explorer la boutique
                                 </Link>
                             </div>
@@ -135,16 +135,19 @@ const Panier = () => {
                                                     <button
                                                         onClick={() => decreaseQuantity(pId, pWeight)}
                                                         className="w-8 h-8 text-black  hover:text-brand-brown text-xl font-light"
+                                                        aria-label={`Diminuer la quantité de ${pName}`}
                                                     >-</button>
-                                                    <div id="qpl" className="w-8 text-center dark:text-black font-sans text-sm font-bold">{item.quantite}</div>
+                                                    <div id="qpl" className="w-8 text-center dark:text-black font-sans text-sm font-bold" aria-label={`Quantité actuelle: ${item.quantite}`}>{item.quantite}</div>
                                                     <button
                                                         onClick={() => addProductToCart(item)}
                                                         className="w-8 h-8 text-black  hover:text-brand-brown text-xl "
+                                                        aria-label={`Augmenter la quantité de ${pName}`}
                                                     >+</button>
                                                 </div>
                                                 <button
                                                     onClick={() => removeProductFromCart(pId, pWeight)}
                                                     className="text-[10px] uppercase tracking-tighter text-gray-300 hover:text-red-500 transition-colors font-bold"
+                                                    aria-label={`Supprimer ${pName} du panier`}
                                                 >Supprimer</button>
                                             </div>
                                         </div>
@@ -152,11 +155,11 @@ const Panier = () => {
                                         {/* Affichage du prix */}
                                         <div className="text-center md:text-right min-w-25">
                                             {hasPromo && (
-                                                <div className="text-gray-300 text-sm line-through font-sans italic">
+                                                <div className="text-gray-300 text-sm line-through font-sans italic" aria-label={`Prix original: ${(pInitial * item.quantite).toFixed(2)} euros`}>
                                                     {(pInitial * item.quantite).toFixed(2)}€
                                                 </div>
                                             )}
-                                            <div className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-black dark:text-silver-shine'}`}>
+                                            <div className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-black dark:text-silver-shine'}`} aria-label={`Prix final: ${(pFinal * item.quantite).toFixed(2)} euros`}>
                                                 {(pFinal * item.quantite).toFixed(2)}€
                                             </div>
                                         </div>
@@ -201,18 +204,22 @@ const Panier = () => {
 
                                 {/* Champ pour le code promo */}
                                 <div className="mb-8">
-                                    <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 block ml-1">Code privilège</label>
+                                    <label htmlFor="promo-code" className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 block ml-1">Code privilège</label>
                                     <div className="flex gap-2">
                                         <input
+                                            id="promo-code"
                                             type="text"
                                             placeholder="Votre code"
                                             value={promoInput}
                                             onChange={(e) => setPromoInput(e.target.value)}
                                             className="flex-1 bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 text-xs outline-none focus:border-gold-premium font-sans"
+                                            pattern="^[a-zA-Z0-9]{5,15}$"
+                                            title="Le code promo doit contenir entre 5 et 15 caractères alphanumériques"
                                         />
                                         <button
                                             onClick={applyPromo}
                                             className="bg-brand-brown text-white px-4 py-2 rounded-xl text-[10px] uppercase font-bold hover:bg-gold-premium transition-colors"
+                                            aria-label="Appliquer le code promo"
                                         >
                                             OK
                                         </button>
@@ -221,15 +228,19 @@ const Panier = () => {
 
                                 <div className="flex justify-between text-brand-brown text-2xl font-bold">
                                     <span>Total TTC</span>
-                                    <span>{totalFinal.toFixed(2)}€</span>
+                                    <span aria-label={`Total de la commande: ${totalFinal.toFixed(2)} euros`}>{totalFinal.toFixed(2)}€</span>
                                 </div>
                             </div>
 
-                            <ButtonGold onClick={handleCheckout} className="w-full mt-10 py-5 text-lg shadow-lg">
+                            <ButtonGold 
+                                onClick={handleCheckout} 
+                                className="w-full mt-10 py-5 text-lg shadow-lg"
+                                aria-label="Procéder au paiement de la commande"
+                            >
                                 Passer la commande
                             </ButtonGold>
 
-                            <p className="mt-8 text-[9px] text-gray-300 text-center uppercase tracking-widest opacity-70">
+                            <p className="mt-8 text-[9px] text-gray-300 text-center uppercase tracking-widest opacity-70" aria-label="Paiement sécurisé par protocole SSL">
                                 🔒 Paiement sécurisé SSL
                             </p>
                         </div>

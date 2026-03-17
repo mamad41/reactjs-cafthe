@@ -41,9 +41,9 @@ const EspaceClient = () => {
 
     // Définition des onglets disponibles.
     const tabs = [
-        { id: 'overview', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-        { id: 'orders', label: 'Mes Achats', icon: <Package size={18} /> },
-        { id: 'profile', label: 'Mon Profil', icon: <User size={18} /> }
+        { id: 'overview', label: 'Dashboard', icon: <LayoutDashboard size={18} aria-hidden="true" /> },
+        { id: 'orders', label: 'Mes Achats', icon: <Package size={18} aria-hidden="true" /> },
+        { id: 'profile', label: 'Mon Profil', icon: <User size={18} aria-hidden="true" /> }
     ];
 
     // Effet pour synchroniser l'onglet actif avec le hash de l'URL (ex: /espace-client#orders).
@@ -144,14 +144,14 @@ const EspaceClient = () => {
                 />
                 <main className="min-h-screen bg-input-bg flex items-center justify-center p-6 font-forum">
                     <div className="bg-white max-w-md w-full rounded-[40px] shadow-2xl p-12 text-center border border-gray-100">
-                        <div className="w-16 h-16 bg-gold-premium/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-premium">
+                        <div className="w-16 h-16 bg-gold-premium/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-premium" aria-hidden="true">
                             <Lock size={28} />
                         </div>
                         <h2 className="text-2xl uppercase tracking-widest text-[#634832] mb-4 font-bold">Espace Privé</h2>
                         <p className="text-gray-400 text-xs italic mb-8 leading-relaxed font-sans">
                             Veuillez vous connecter pour accéder à votre espace client
                         </p>
-                        <Link to="/login?redirect=espace-client">
+                        <Link to="/login?redirect=espace-client" aria-label="Se connecter ou s'inscrire pour accéder à l'espace client">
                             <ButtonGold className="w-full py-4 text-[10px] tracking-widest">Se Connecter / S'inscrire</ButtonGold>
                         </Link>
                     </div>
@@ -170,11 +170,13 @@ const EspaceClient = () => {
             <main className="min-h-screen bg-input-bg pt-32 pb-20 px-4 md:px-10 font-forum">
                 <div className="max-w-6xl mx-auto">
                     {/* Navigation par onglets */}
-                    <nav className="flex flex-row gap-1">
+                    <nav className="flex flex-row gap-1" aria-label="Navigation de l'espace client" role="tablist">
                         {tabs.map((tab) => (
                             <button
-                                aria-label="onglet"
                                 key={tab.id}
+                                role="tab"
+                                aria-selected={activeTab === tab.id}
+                                aria-controls={`panel-${tab.id}`}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-3 px-6 md:px-10 py-5 rounded-t-[30px] transition-all duration-300 text-[10px] font-bold tracking-[0.2em] uppercase
                                 ${activeTab === tab.id
@@ -191,14 +193,14 @@ const EspaceClient = () => {
 
                         {/* Contenu de l'onglet "Dashboard" */}
                         {activeTab === 'overview' && (
-                            <div className="space-y-12 animate-fadeIn">
+                            <div id="panel-overview" role="tabpanel" className="space-y-12 animate-fadeIn">
                                 <h1 className="text-3xl text-[#634832] uppercase tracking-[0.2em]">Bienvenue, {user?.prenom}</h1>
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                                     <div className="bg-linear-to-br from-gold-premium to-[#2d1b0f] p-10 rounded-[40px] shadow-2xl relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-110" aria-hidden="true"></div>
                                         <div className="flex justify-between items-start mb-12">
                                             <p className="text-[10px] uppercase tracking-[0.5em] text-white/50 font-bold">Membre Privilège</p>
-                                            <CreditCard className="text-gold-premium opacity-50" />
+                                            <CreditCard className="text-gold-premium opacity-50" aria-hidden="true" />
                                         </div>
                                         <div className="mb-8">
                                             <p className="text-[10px] uppercase text-white/30 mb-2">Votre Solde de Grains</p>
@@ -207,7 +209,7 @@ const EspaceClient = () => {
                                                 <span className="text-sm opacity-50 uppercase tracking-widest font-sans italic">Grains</span>
                                             </div>
                                         </div>
-                                        <p className="text-white text-lg tracking-[0.2em] uppercase">{user?.prenom} {user?.nom}</p>
+                                        <p className="text-white text-lg tracking-[0.2em] uppercase" aria-label={`Nom du titulaire: ${user?.prenom} ${user?.nom}`}>{user?.prenom} {user?.nom}</p>
                                     </div>
                                     <div id="Card" className="bg-input-bg border border-gray-100 rounded-[40px] p-10 flex flex-col justify-center items-center text-center">
                                         <p className="text-[10px] uppercase text-gray-400 tracking-[0.4em] mb-4 font-bold italic">Dernière activité</p>
@@ -221,13 +223,13 @@ const EspaceClient = () => {
 
                         {/* Contenu de l'onglet "Mes Achats" */}
                         {activeTab === 'orders' && (
-                            <div className="space-y-8 animate-fadeIn">
+                            <div id="panel-orders" role="tabpanel" className="space-y-8 animate-fadeIn">
                                 <h2 className="text-2xl text-[#634832] uppercase tracking-[0.2em] border-b border-gray-100 pb-6">Historique des commandes</h2>
                                 {loadingOrders ? (
-                                    <div className="py-20 text-center text-gold-premium italic">Chargement de vos commandes...</div>
+                                    <div className="py-20 text-center text-gold-premium italic" aria-live="polite">Chargement de vos commandes...</div>
                                 ) : orders.length === 0 ? (
                                     <div className="py-20 text-center border-2 border-dashed border-gray-100 rounded-[40px]">
-                                        <Package size={40} className="mx-auto text-gray-200 mb-4" />
+                                        <Package size={40} className="mx-auto text-gray-200 mb-4" aria-hidden="true" />
                                         <p className="text-gray-400 italic">Vous n'avez pas encore passé de commande.</p>
                                     </div>
                                 ) : (
@@ -256,8 +258,8 @@ const EspaceClient = () => {
                                                     </div>
                                                 </div>
                                                 <div className="mt-6 text-right">
-                                                    <ButtonGold aria-label="recommander" onClick={() => handleReorder(order.items)} className="py-3 px-6 text-[10px] flex items-center gap-2">
-                                                        <RefreshCw size={14} />
+                                                    <ButtonGold aria-label={`Recommander les articles de la commande N°${order.id_commande}`} onClick={() => handleReorder(order.items)} className="py-3 px-6 text-[10px] flex items-center gap-2">
+                                                        <RefreshCw size={14} aria-hidden="true" />
                                                         Recommander
                                                     </ButtonGold>
                                                 </div>
@@ -270,50 +272,67 @@ const EspaceClient = () => {
 
                         {/* Contenu de l'onglet "Mon Profil" */}
                         {activeTab === 'profile' && (
-                            <div className="space-y-16 animate-fadeIn">
+                            <div id="panel-profile" role="tabpanel" className="space-y-16 animate-fadeIn">
                                 <section>
                                     <div className="flex justify-between items-center mb-10">
                                         <h2 className="text-2xl text-[#634832] uppercase tracking-[0.2em]">Mon Profil</h2>
                                         <button
-                                            aria-label="securité et mots de passe"
+                                            aria-expanded={isChangingPassword}
+                                            aria-controls="password-form"
                                             onClick={() => setIsChangingPassword(!isChangingPassword)}
                                             className="flex items-center gap-2 text-[9px] border border-gray-200 text-gray-400 px-6 py-3 rounded-full uppercase tracking-widest font-bold hover:border-gold-premium hover:text-gold-premium transition-all"
                                         >
-                                            <KeyRound size={14} />
+                                            <KeyRound size={14} aria-hidden="true" />
                                             {isChangingPassword ? "Annuler" : "Sécurité & Mot de passe"}
                                         </button>
                                     </div>
 
                                     {isChangingPassword ? (
-                                        <form onSubmit={handleChangePassword} className="bg-gray-50 p-8 rounded-[35px] border border-gray-100 mb-10 animate-slideDown font-sans max-w-xl">
+                                        <form id="password-form" onSubmit={handleChangePassword} className="bg-gray-50 p-8 rounded-[35px] border border-gray-100 mb-10 animate-slideDown font-sans max-w-xl">
                                             <div className="space-y-6">
-                                                <input
-                                                    type="password"
-                                                    placeholder="Mot de passe actuel"
-                                                    className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                    value={passwordData.current}
-                                                    onChange={(e) => setPasswordData({...passwordData, current: e.target.value})}
-                                                    required
-                                                />
-                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div>
+                                                    <label htmlFor="currentPassword" className="sr-only">Mot de passe actuel</label>
                                                     <input
+                                                        id="currentPassword"
                                                         type="password"
-                                                        placeholder="Nouveau mot de passe"
-                                                        className="border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                        value={passwordData.new}
-                                                        onChange={(e) => setPasswordData({...passwordData, new: e.target.value})}
-                                                        required
-                                                    />
-                                                    <input
-                                                        type="password"
-                                                        placeholder="Confirmer le mot de passe"
-                                                        className="border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                        value={passwordData.confirm}
-                                                        onChange={(e) => setPasswordData({...passwordData, confirm: e.target.value})}
+                                                        placeholder="Mot de passe actuel"
+                                                        className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                        value={passwordData.current}
+                                                        onChange={(e) => setPasswordData({...passwordData, current: e.target.value})}
                                                         required
                                                     />
                                                 </div>
-                                                <ButtonGold aria-label="Mettre a jour mot de passe" type="submit" className="py-4 text-[10px] mt-4">Mettre à jour le mot de passe</ButtonGold>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <div>
+                                                        <label htmlFor="newPassword" className="sr-only">Nouveau mot de passe</label>
+                                                        <input
+                                                            id="newPassword"
+                                                            type="password"
+                                                            placeholder="Nouveau mot de passe"
+                                                            className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                            value={passwordData.new}
+                                                            onChange={(e) => setPasswordData({...passwordData, new: e.target.value})}
+                                                            required
+                                                            minLength="8"
+                                                            title="Le nouveau mot de passe doit contenir au moins 8 caractères"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="confirmPassword" className="sr-only">Confirmer le mot de passe</label>
+                                                        <input
+                                                            id="confirmPassword"
+                                                            type="password"
+                                                            placeholder="Confirmer le mot de passe"
+                                                            className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                            value={passwordData.confirm}
+                                                            onChange={(e) => setPasswordData({...passwordData, confirm: e.target.value})}
+                                                            required
+                                                            minLength="8"
+                                                            title="La confirmation doit correspondre au nouveau mot de passe"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <ButtonGold aria-label="Mettre à jour mon mot de passe" type="submit" className="py-4 text-[10px] mt-4">Mettre à jour le mot de passe</ButtonGold>
                                             </div>
                                         </form>
                                     ) : (
@@ -334,51 +353,71 @@ const EspaceClient = () => {
                                     <div className="flex justify-between items-center mb-10">
                                         <h2 className="text-2xl text-[#634832] uppercase tracking-[0.2em]">Carnet d'adresses</h2>
                                         <button
-                                            aria-label="adresse"
+                                            aria-expanded={isAddingAddress}
+                                            aria-controls="address-form"
                                             onClick={() => setIsAddingAddress(!isAddingAddress)}
                                             className="flex items-center gap-2 text-[9px] bg-gold-premium text-white px-6 py-3 rounded-full uppercase tracking-widest font-bold hover:bg-[#634832] transition-all shadow-md"
                                         >
-                                            {isAddingAddress ? <X size={14} /> : <Plus size={14} />}
+                                            {isAddingAddress ? <X size={14} aria-hidden="true" /> : <Plus size={14} aria-hidden="true" />}
                                             {isAddingAddress ? "Annuler" : "Ajouter"}
                                         </button>
                                     </div>
 
                                     {isAddingAddress && (
-                                        <form onSubmit={handleAddAddress} className="bg-[#FDFCF7] p-8 rounded-[35px] border border-gold-premium/20 mb-10 animate-slideDown font-sans">
+                                        <form id="address-form" onSubmit={handleAddAddress} className="bg-[#FDFCF7] p-8 rounded-[35px] border border-gold-premium/20 mb-10 animate-slideDown font-sans">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Titre (ex: Maison, Bureau)"
-                                                    className="md:col-span-2 border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                    value={newAddr.label}
-                                                    onChange={(e) => setNewAddr({...newAddr, label: e.target.value})}
-                                                    required
-                                                />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Adresse complète (Rue)"
-                                                    className="md:col-span-2 border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                    value={newAddr.rue}
-                                                    onChange={(e) => setNewAddr({...newAddr, rue: e.target.value})}
-                                                    required
-                                                />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Ville"
-                                                    className="border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                    value={newAddr.ville}
-                                                    onChange={(e) => setNewAddr({...newAddr, ville: e.target.value})}
-                                                    required
-                                                />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Code Postal"
-                                                    className="border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
-                                                    value={newAddr.cp}
-                                                    onChange={(e) => setNewAddr({...newAddr, cp: e.target.value})}
-                                                    required
-                                                />
-                                                <ButtonGold aria-label="Mettre a jour adresse" type="submit" className="md:col-span-2 py-4 text-[10px] mt-4">Enregistrer l'adresse</ButtonGold>
+                                                <div>
+                                                    <label htmlFor="addrLabel" className="sr-only">Titre de l'adresse</label>
+                                                    <input
+                                                        id="addrLabel"
+                                                        type="text"
+                                                        placeholder="Titre (ex: Maison, Bureau)"
+                                                        className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                        value={newAddr.label}
+                                                        onChange={(e) => setNewAddr({...newAddr, label: e.target.value})}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="addrRue" className="sr-only">Adresse complète</label>
+                                                    <input
+                                                        id="addrRue"
+                                                        type="text"
+                                                        placeholder="Adresse complète (Rue)"
+                                                        className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                        value={newAddr.rue}
+                                                        onChange={(e) => setNewAddr({...newAddr, rue: e.target.value})}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="addrVille" className="sr-only">Ville</label>
+                                                    <input
+                                                        id="addrVille"
+                                                        type="text"
+                                                        placeholder="Ville"
+                                                        className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                        value={newAddr.ville}
+                                                        onChange={(e) => setNewAddr({...newAddr, ville: e.target.value})}
+                                                        required
+                                                        pattern="^[a-zA-Z\s'-]{2,}$"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="addrCp" className="sr-only">Code Postal</label>
+                                                    <input
+                                                        id="addrCp"
+                                                        type="text"
+                                                        placeholder="Code Postal"
+                                                        className="w-full border-b border-gray-200 py-2 bg-transparent outline-none focus:border-gold-premium text-sm italic"
+                                                        value={newAddr.cp}
+                                                        onChange={(e) => setNewAddr({...newAddr, cp: e.target.value})}
+                                                        required
+                                                        pattern="^[0-9]{5}$"
+                                                        title="Le code postal doit être composé de 5 chiffres"
+                                                    />
+                                                </div>
+                                                <ButtonGold aria-label="Enregistrer la nouvelle adresse" type="submit" className="md:col-span-2 py-4 text-[10px] mt-4">Enregistrer l'adresse</ButtonGold>
                                             </div>
                                         </form>
                                     )}
@@ -388,15 +427,15 @@ const EspaceClient = () => {
                                             <div id="Card" key={addr.id} className={`p-8 rounded-[35px] border transition-all relative group ${addr.isDefault ? 'border-gold-premium dark:border-silver-shine bg-white shadow-xl' : 'border-gray-100 bg-white/40'}`}>
                                                 <div className="flex justify-between items-start mb-4">
                                                     <div className="flex items-center gap-2 text-gold-premium">
-                                                        <MapPin size={16} />
+                                                        <MapPin size={16} aria-hidden="true" />
                                                         <span className="text-[10px] uppercase tracking-widest font-bold">{addr.label}</span>
                                                     </div>
                                                     <button
-                                                        aria-label="supprimer"
+                                                        aria-label={`Supprimer l'adresse ${addr.label}`}
                                                         onClick={() => deleteAddress(addr.id)}
                                                         className="text-gray-200 hover:text-red-500 transition-colors"
                                                     >
-                                                        <Trash2 size={16} />
+                                                        <Trash2 size={16} aria-hidden="true" />
                                                     </button>
                                                 </div>
                                                 <p className="text-[#634832] text-xl mb-1 font-forum leading-tight">{addr.rue}</p>
@@ -413,7 +452,7 @@ const EspaceClient = () => {
 
                                 <div id="Card" className="mt-20 p-10 bg-gray-50 rounded-[40px] border border-gray-100 italic">
                                     <h3 className="text-gold-premium text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center gap-3">
-                                        <ShieldCheck size={18} /> Vos données sont protégées
+                                        <ShieldCheck size={18} aria-hidden="true" /> Vos données sont protégées
                                     </h3>
                                     <p className="text-[10px] text-gray-500 leading-relaxed font-sans px-2">
                                         Nous conservons vos adresses uniquement pour assurer la livraison de vos colis de café et de thé. Vos données de fidélité sont stockées pour vous offrir vos avantages CafThé.

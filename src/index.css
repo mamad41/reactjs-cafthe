@@ -2,6 +2,7 @@
 
 @theme {
     --font-forum: "Forum", serif;
+    --font-style-script: "Style Script", cursive;
     --color-gold-premium: #C5A059;
     --color-coffee-dark: #3E2723;
     --color-hover-btn:[#634832];

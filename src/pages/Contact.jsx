@@ -43,27 +43,27 @@ const Contact = () => {
 
                         <div className="space-y-10">
                             <div className="flex items-center gap-6 group">
-                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium">
+                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium" aria-hidden="true">
                                     <Mail className="text-gold-premium" size={22} />
                                 </div>
                                 <div className="flex flex-col">
                                     <h4 className="font-sans text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">Email</h4>
-                                    <p className="text-[#634832] font-sans font-medium">contact@cafethe.fr</p>
+                                    <p className="text-[#634832] font-sans font-medium"><a href="mailto:contact@cafethe.fr" className="hover:underline" aria-label="Envoyer un email à contact@cafethe.fr">contact@cafethe.fr</a></p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-6 group">
-                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium">
+                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium" aria-hidden="true">
                                     <Phone className="text-gold-premium" size={22} />
                                 </div>
                                 <div className="flex flex-col">
                                     <h4 className="font-sans text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">Téléphone</h4>
-                                    <p className="text-[#634832] font-sans font-medium">01 23 45 67 89</p>
+                                    <p className="text-[#634832] font-sans font-medium"><a href="tel:+33123456789" className="hover:underline" aria-label="Appeler le 01 23 45 67 89">01 23 45 67 89</a></p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-6 group">
-                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium">
+                                <div className="shrink-0 w-14 h-14 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center transition-colors group-hover:border-gold-premium" aria-hidden="true">
                                     <MapPin className="text-gold-premium" size={22} />
                                 </div>
                                 <div className="flex flex-col">
@@ -83,23 +83,56 @@ const Contact = () => {
                                 <div className="space-y-7 mb-10">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="flex flex-col gap-2">
-                                            <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Nom</label>
-                                            <input id="inp" type="text" required className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="Votre nom" />
+                                            <label htmlFor="inp" className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Nom</label>
+                                            <input 
+                                                id="inp" 
+                                                type="text" 
+                                                required 
+                                                className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" 
+                                                placeholder="Votre nom" 
+                                                pattern="^[a-zA-ZÀ-ÿ\s'-]{2,50}$"
+                                                title="Le nom doit contenir entre 2 et 50 caractères alphabétiques"
+                                            />
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Prénom</label>
-                                            <input id="inp1" type="text" required className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="Votre prénom" />
+                                            <label htmlFor="inp1" className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Prénom</label>
+                                            <input 
+                                                id="inp1" 
+                                                type="text" 
+                                                required 
+                                                className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" 
+                                                placeholder="Votre prénom" 
+                                                pattern="^[a-zA-ZÀ-ÿ\s'-]{2,50}$"
+                                                title="Le prénom doit contenir entre 2 et 50 caractères alphabétiques"
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                        <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Email</label>
-                                        <input id="inp2" type="email" required className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" placeholder="votre@email.com" />
+                                        <label htmlFor="inp2" className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Email</label>
+                                        <input 
+                                            id="inp2" 
+                                            type="email" 
+                                            required 
+                                            className="w-full bg-input-bg border border-gray-100 rounded-full px-6 py-4 outline-none focus:border-gold-premium font-sans text-sm" 
+                                            placeholder="votre@email.com" 
+                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                            title="Veuillez saisir une adresse email valide"
+                                        />
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                        <label className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Message</label>
-                                        <textarea id="inp3" rows="5" required className="w-full bg-input-bg border border-gray-100 rounded-[20px] px-6 py-5 outline-none focus:border-gold-premium font-sans text-sm resize-none" placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                                        <label htmlFor="inp3" className="font-sans text-[10px] uppercase tracking-widest ml-4 text-gray-400 font-bold">Message</label>
+                                        <textarea 
+                                            id="inp3" 
+                                            rows="5" 
+                                            required 
+                                            className="w-full bg-input-bg border border-gray-100 rounded-[20px] px-6 py-5 outline-none focus:border-gold-premium font-sans text-sm resize-none" 
+                                            placeholder="Comment pouvons-nous vous aider ?"
+                                            minLength="10"
+                                            maxLength="1000"
+                                            title="Votre message doit contenir entre 10 et 1000 caractères"
+                                        ></textarea>
                                     </div>
                                 </div>
 
@@ -113,6 +146,7 @@ const Contact = () => {
                                             onChange={(e) => setRgpdAccepted(e.target.checked)}
                                             required
                                             className="w-4 h-4 accent-gold-premium cursor-pointer"
+                                            aria-label="Accepter les conditions d'utilisation des données"
                                         />
                                     </div>
                                     <label htmlFor="rgpd" className="text-[14px] text-gray-400 font-sans leading-relaxed italic cursor-pointer">
@@ -122,12 +156,12 @@ const Contact = () => {
 
                                 <div className="pt-10 border-t border-gray-200 flex justify-center ">
                                     <ButtonGold
-                                       aria-label="Envoyer le message"
+                                       aria-label="Soumettre le formulaire de contact"
                                         type="submit"
                                         disabled={!rgpdAccepted}
                                         className={!rgpdAccepted ? "opacity-50 cursor-not-allowed" : ""}
                                     >
-                                        <Send size={16} />
+                                        <Send size={16} aria-hidden="true" />
                                         Envoyer le message
                                     </ButtonGold>
                                 </div>

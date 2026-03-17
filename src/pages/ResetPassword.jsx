@@ -63,38 +63,50 @@ const ResetPassword = () => {
                 <form onSubmit={handleReset} className="space-y-8">
                     {/* Nouveau MDP */}
                     <div className="flex flex-col relative">
-                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Nouveau mot de passe</label>
+                        <label htmlFor="newPassword" className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Nouveau mot de passe</label>
                         <input
+                            id="newPassword"
                             type={showPassword ? "text" : "password"}
                             value={newPassword}
                             required
-                            className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white"
+                            className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white pr-8"
                             placeholder="••••••••"
                             onChange={(e) => setNewPassword(e.target.value)}
+                            minLength="8"
+                            title="Le mot de passe doit contenir au moins 8 caractères"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute right-0 bottom-2 text-gray-400"
+                            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                         >
-                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                         </button>
                     </div>
 
                     {/* Confirmation MDP */}
-                    <div className="flex flex-col">
-                        <label className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Confirmer le mot de passe</label>
+                    <div className="flex flex-col relative">
+                        <label htmlFor="confirmPassword" className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Confirmer le mot de passe</label>
                         <input
-                            type="password"
+                            id="confirmPassword"
+                            type={showPassword ? "text" : "password"}
                             value={confirmPassword}
                             required
-                            className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white"
+                            className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white pr-8"
                             placeholder="••••••••"
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            minLength="8"
+                            title="La confirmation doit correspondre au nouveau mot de passe"
                         />
                     </div>
 
-                    <ButtonGold type="submit" disabled={isSubmitting} className="w-full py-5 rounded-full mt-4">
+                    <ButtonGold 
+                        type="submit" 
+                        disabled={isSubmitting} 
+                        className="w-full py-5 rounded-full mt-4"
+                        aria-label="Enregistrer le nouveau mot de passe"
+                    >
                         {isSubmitting ? "Mise à jour..." : "Réinitialiser"}
                     </ButtonGold>
                 </form>

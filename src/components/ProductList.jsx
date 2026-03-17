@@ -13,7 +13,8 @@ const ProductList = ({ category }) => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/articles`);
+                const apiUrl = new URL('/api/articles', import.meta.env.VITE_API_URL);
+                const response = await fetch(apiUrl);
 
                 if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
 

@@ -55,13 +55,13 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
     return (
         <div id="Card" className="bg-white rounded-[35px] p-8 shadow-sm flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden border border-gray-100">
 
-            <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10">
+            <div className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-10" aria-hidden="true">
                 <div className={`${currentColor} absolute transform -rotate-45 text-center w-[140%] py-1.5 -left-[35%] top-[18%] shadow-sm`}>
                 </div>
             </div>
 
             {hasPromo && (
-                <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg ">
+                <div className="absolute top-6 right-6 bg-red-900 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-20 shadow-lg " aria-label={`Promotion de ${pourcentage}%`}>
                     -{pourcentage}%
                 </div>
             )}
@@ -71,13 +71,14 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
             <Link
                 to={`/produit/${selectedVariante?.reference_sku}`}
                 className="group block"
+                aria-label={`Voir les détails de ${nomProduit}`}
             >
                 {/* Image Produit */}
                 <div className="relative w-full aspect-square overflow-hidden rounded-[25px] mb-6 border border-gray-50 bg-gray-50/30">
                     <img
                         src={selectedVariante?.image ? `${import.meta.env.VITE_API_URL}/image/${selectedVariante.image}` : "https://placehold.co/300x300"}
                         loading="lazy"
-                        alt={nomProduit}
+                        alt={nomProduit || "Image du produit"}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 </div>
@@ -93,10 +94,10 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
             {/* LE RESTE RESTE EN DEHORS DU LINK POUR ÊTRE INTERACTIF */}
             <div>
                 {typesVente.length > 1 && (
-                    <div className="flex gap-2 my-4">
+                    <div className="flex gap-2 my-4" role="group" aria-label="Choisir le type de vente">
                         {typesVente.map((type) => (
                             <button
-                                aria-label={type}
+                                aria-pressed={selectedType === type}
                                 key={type}
                                 onClick={() => handleTypeChange(type)}
                                 className={`flex-1 py-2 text-[10px] rounded-xl border transition-all font-bold uppercase ${
@@ -114,7 +115,9 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                 <div className="min-h-10 transition-all duration-300">
                     {selectedType?.toLowerCase() === "vrac" && poidsDisponibles.length > 0 ? (
                         <div className="relative">
+                            <label htmlFor={`select-poids-${selectedVariante?.reference_sku}`} className="sr-only">Choisir le poids</label>
                             <select
+                                id={`select-poids-${selectedVariante?.reference_sku}`}
                                 value={selectedVariante?.reference_sku || ""}
                                 onChange={(e) => {
                                     const val = e.target.value;
@@ -129,7 +132,7 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
                                     </option>
                                 ))}
                             </select>
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-[10px]">▼</div>
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-[10px]" aria-hidden="true">▼</div>
                         </div>
                     ) : (
                         selectedType?.toLowerCase() === "unité" && (
@@ -144,15 +147,16 @@ const ProductCards = ({ nomProduit, variantes, category }) => {
             <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                 <div className="font-forum">
                     {hasPromo && (
-                        <span className="text-[11px] text-gray-400 line-through block mb-[-4px]">
+                        <span className="text-[11px] text-gray-400 line-through block mb-[-4px]" aria-label={`Prix d'origine: ${prixInitial.toFixed(2)} euros`}>
                             {prixInitial.toFixed(2)}€
                         </span>
                     )}
-                    <span className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-gold-premium'}`}>
+                    <span className={`text-2xl font-bold ${hasPromo ? 'text-red-600' : 'text-gold-premium'}`} aria-label={`Prix: ${prixFinal.toFixed(2)} euros`}>
                         {prixFinal.toFixed(2)}€
                     </span>
                 </div>
                 <ButtonGold
+                    aria-label={`Ajouter ${nomProduit} au panier`}
                     onClick={handleAddToCart} className="px-5 py-2 text-xs">
                     Ajouter
                 </ButtonGold>

@@ -22,7 +22,8 @@ const Recherche = () => {
         const fetchAllProducts = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/articles`);
+                const apiUrl = new URL('/api/articles', import.meta.env.VITE_API_URL);
+                const response = await fetch(apiUrl);
                 const data = await response.json();
                 // On s'assure de récupérer data.articles
 
@@ -66,34 +67,35 @@ const Recherche = () => {
     const nomsUniques = Object.keys(produitsRegroupés);
 
     return (
-        <div className="w-full bg-[#FDFCF7] min-h-screen py-20">
+        <div className="w-full bg-[#FDFCF7] min-h-screen py-20" role="main">
             <div className="max-w-[1200px] mx-auto px-10">
-                <h1 className="font-forum text-3xl text-[#634832] uppercase tracking-widest mb-10">
+                <h1 className="font-forum text-3xl text-[#634832] uppercase tracking-widest mb-10" aria-live="polite">
                     Résultats pour : "{query}"
                 </h1>
 
                 {isLoading ? (
-                    <div className="flex justify-center py-20">
+                    <div className="flex justify-center py-20" aria-live="polite">
                         <p className="font-forum text-[#C5A059] animate-pulse">Recherche en cours...</p>
                     </div>
                 ) : nomsUniques.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16" aria-label={`Liste des articles correspondant à la recherche ${query}`}>
                         {nomsUniques.map(nom => (
                             <ProductCards
                                 key={nom}
                                 nomProduit={nom}
+                                category={produitsRegroupés[nom][0]?.categorie || "Général"}
                                 // On passe le tableau complet des variantes
                                 variantes={produitsRegroupés[nom]}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-white rounded-[40px] shadow-sm border border-gray-100">
+                    <div className="text-center py-20 bg-white rounded-[40px] shadow-sm border border-gray-100" role="alert" aria-live="polite">
                         <p className="text-gray-500 italic font-forum text-lg">
                             Aucun article ne correspond à votre recherche.
                         </p>
                         <button
-                            aria-label="Retourner à la boutique"
+                            aria-label="Retourner à la page précédente de la boutique"
                             onClick={() => window.history.back()}
                             className="mt-8 text-[#C5A059] uppercase tracking-widest text-xs border-b border-[#C5A059] pb-1 hover:text-[#634832] hover:border-[#634832] transition-all"
                         >

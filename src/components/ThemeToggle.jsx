@@ -28,12 +28,13 @@ const ThemeToggle = () => {
         <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-full transition-all duration-300 hover:bg-gray-100 dark:hover:bg-neutral-800 text-gold-premium dark:text-silver-shine flex items-center justify-center"
-            aria-label="Changer de thème"
+            aria-label={darkMode ? "Passer au thème clair" : "Passer au thème sombre"}
+            aria-pressed={darkMode}
         >
             {darkMode ? (
-                <Sun size={20} className="transition-transform duration-500 rotate-0 scale-100" />
+                <Sun size={20} className="transition-transform duration-500 rotate-0 scale-100" aria-hidden="true" />
             ) : (
-                <Moon size={20} className="transition-transform duration-500 rotate-0 scale-100" />
+                <Moon size={20} className="transition-transform duration-500 rotate-0 scale-100" aria-hidden="true" />
             )}
         </button>
     );

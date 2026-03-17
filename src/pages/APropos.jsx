@@ -9,7 +9,7 @@ const APropos = () => {
                 <img
                     loading="lazy"
                     src="/images/Cafhe-bg-hero-Apropos.webp"
-                    alt="Plantation de café"
+                    alt="Paysage d'une plantation de café"
                     className="w-full h-full object-cover"
                 />
                 <div style={{
@@ -63,16 +63,16 @@ const APropos = () => {
                         <h2 className="text-gold-premium dark:text-white text-3xl uppercase tracking-[4px]">
                             Notre Engagement Éco-Responsable
                         </h2>
-                        <div className="w-24 h-px bg-gold-premium opacity-40"></div>
+                        <div className="w-24 h-px bg-gold-premium opacity-40" aria-hidden="true"></div>
                         <div className="font-sans text-gold-premium dark:text-[#D1D5DB] space-y-5 leading-relaxed text-sm md:text-base">
                             <p>La préservation de l'environnement est au cœur de chaque grain que nous torréfions.</p>
                             <ul className="space-y-4">
                                 <li className="flex items-center gap-4">
-                                    <span className="w-1.5 h-1.5 bg-gold-premium rounded-full"></span>
+                                    <span className="w-1.5 h-1.5 bg-gold-premium rounded-full" aria-hidden="true"></span>
                                     <span>Torréfaction artisanale à faible émission</span>
                                 </li>
                                 <li className="flex items-center gap-4">
-                                    <span className="w-1.5 h-1.5 bg-gold-premium rounded-full"></span>
+                                    <span className="w-1.5 h-1.5 bg-gold-premium rounded-full" aria-hidden="true"></span>
                                     <span>Soutien direct aux cultures biologiques d'ombrage</span>
                                 </li>
                             </ul>
@@ -80,7 +80,7 @@ const APropos = () => {
                     </div>
                     <div className="flex-1 relative">
                         <div className="rounded-[40px] overflow-hidden border border-gold-premium/10 dark:border-white/10 shadow-2xl">
-                            <img src="/images/Cafthé-environnement.webp" alt="Environnement" className="w-full h-112.5 object-cover" />
+                            <img loading="lazy" src="/images/Cafthé-environnement.webp" alt="Illustration de notre engagement environnemental" className="w-full h-112.5 object-cover" />
                         </div>
                     </div>
                 </div>
@@ -96,19 +96,19 @@ const APropos = () => {
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
                             <img
                                 loading="lazy"
-                                src="/images/logo_alliance.svg" alt="Alliance" className="h-16 mx-auto mb-6 dark:invert" />
+                                src="/images/logo_alliance.svg" alt="Logo du partenaire Alliance Forêt" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Alliance Forêt</h4>
                         </div>
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
                             <img
                                 loading="lazy"
-                                src="/images/Water.org_logo_png_rgb.webp" alt="Water.org" className="h-16 mx-auto mb-6 dark:invert" />
+                                src="/images/Water.org_logo_png_rgb.webp" alt="Logo du partenaire Water.org pour l'initiative Pure Water Pro" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Pure Water Pro</h4>
                         </div>
                         <div className="group p-10 rounded-[35px] bg-white dark:bg-black border border-gold-premium/10 hover:border-gold-premium transition-all">
                             <img
                                 loading="lazy"
-                                src="/images/fondation-ensemble.webp" alt="Ensemble" className="h-16 mx-auto mb-6 dark:invert" />
+                                src="/images/fondation-ensemble.webp" alt="Logo de la Fondation Ensemble" className="h-16 mx-auto mb-6 dark:invert" />
                             <h4 className="text-gold-premium font-forum uppercase text-lg mb-3">Fondation Ensemble</h4>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ const APropos = () => {
                         <h2 className="text-gold-premium dark:text-white text-3xl md:text-4xl font-forum uppercase tracking-[8px] mb-6">
                             Nos Certifications & Labels
                         </h2>
-                        <div className="w-24 h-px bg-gold-premium mx-auto opacity-40 mb-6"></div>
+                        <div className="w-24 h-px bg-gold-premium mx-auto opacity-40 mb-6" aria-hidden="true"></div>
                         <p className="text-[11px] text-neutral-500 dark:text-gray-400 uppercase tracking-[4px] font-sans leading-relaxed italic">
                             L'exigence au service de l'excellence
                         </p>
@@ -135,10 +135,10 @@ const APropos = () => {
                     {/* Grille des labels : Centrée avec mouvement fluide au hover */}
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 justify-items-center">
                         {[
-                            { img: "logo-bio.webp", txt: "Certifié Bio" },
-                            { img: "Label-equitable.webp", txt: "Équitable" },
-                            { img: "rainforest_alliance_certified_0.webp", txt: "Rainforest Alliance" },
-                            { img: "SCA_France_Stone_RGB.webp", txt: "Specialty Coffee" }
+                            { img: "logo-bio.webp", txt: "Certifié Bio", alt: "Logo de certification Agriculture Biologique" },
+                            { img: "Label-equitable.webp", txt: "Équitable", alt: "Logo du label Commerce Équitable" },
+                            { img: "rainforest_alliance_certified_0.webp", txt: "Rainforest Alliance", alt: "Logo de certification Rainforest Alliance" },
+                            { img: "SCA_France_Stone_RGB.webp", txt: "Specialty Coffee", alt: "Logo de la Specialty Coffee Association France" }
                         ].map((label, index) => (
                             <div key={index} className="flex flex-col items-center group cursor-default">
                                 {/* Cercle avec animation de soulèvement et d'éclat */}
@@ -152,7 +152,7 @@ const APropos = () => {
                                     <img
                                         loading="lazy"
                                         src={`/images/${label.img}`}
-                                        alt={label.txt}
+                                        alt={label.alt}
                                         className="w-16 h-16 object-contain dark:invert opacity-70
                                transition-all duration-500
                                group-hover:opacity-100 group-hover:scale-110"

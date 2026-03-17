@@ -9,7 +9,8 @@ const Abonnement = () => {
     useEffect(() => {
         const fetchPlans = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/abonnements');
+                const apiUrl = new URL('/api/abonnements', import.meta.env.VITE_API_URL);
+                const response = await fetch(apiUrl);
                 if (!response.ok) throw new Error("Erreur réseau");
                 const data = await response.json();
 
