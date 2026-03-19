@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Pour le lien vers les Conditions Générales de Vente.
 // Importation des contextes pour accéder aux données du panier et de l'utilisateur.
 import { CardContext } from '../context/CardContext';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.jsx';
 // Importation des composants personnalisés.
 import ButtonGold from "../components/ButtonGold.jsx";
 import toast from 'react-hot-toast';
@@ -26,10 +26,12 @@ const Checkout = () => {
         telephone: ''
     });
 
-    // État pour gérer l'affichage du chargement lors de la redirection vers Stripe.
-    const [loading, setLoading] = useState(false);
     // État pour la case à cocher des Conditions Générales de Vente (CGV).
     const [cgvAccepted, setCgvAccepted] = useState(false);
+
+    // Ajout des états pour la gestion du paiement
+    const [paymentError, setPaymentError] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     /**
      * Met à jour l'état `shippingData` à chaque modification d'un champ du formulaire.
@@ -43,45 +45,56 @@ const Checkout = () => {
      */
     const handlePayment = async (e) => {
         e.preventDefault();
+        setIsProcessing(true);
+        setPaymentError(null);
 
-        // Validations avant de procéder au paiement.
         if (!cgvAccepted) {
             toast.error("Veuillez accepter les CGV pour finaliser la commande");
+            setIsProcessing(false);
             return;
         }
         if (!user) {
             toast.error("Vous devez être connecté pour commander.");
+            setIsProcessing(false);
             return;
         }
 
-        setLoading(true);
+        const token = localStorage.getItem('token');
 
         try {
-            // Appel à l'API backend pour créer une session de paiement Stripe.
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-checkout-session`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({
-                    cartItems: cartItems,
-                    totalAmount: totalAmount,
-                    shippingAddress: `${shippingData.adresse}, ${shippingData.codePostal} ${shippingData.ville}`
-                })
-            });
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/payment/create-checkout-session`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        items: cartItems.map(item => ({
+                            name: item.nom_produit || item.nom,
+                            price: parseFloat(item.prix_final || item.prix_ttc),
+                            quantity: item.quantite
+                        }))
+                    })
+                }
+            );
 
-            const data = await response.json();
-            // Si la session est créée avec succès, l'API renvoie une URL de redirection.
-            if (response.ok && data.url) {
-                // Redirection de l'utilisateur vers la page de paiement Stripe.
-                window.location.href = data.url;
-            } else {
-                toast.error(data.message || "Erreur lors de l'initialisation du paiement.");
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.message || `Erreur ${res.status}`);
             }
-        } catch (error) {
-            console.error("Erreur redirection Stripe:", error);
-            toast.error("Impossible de contacter le serveur de paiement.");
+
+            const { url } = await res.json();
+            window.location.href = url; // redirection Stripe Checkout
+
+        } catch (err) {
+            setPaymentError(
+                'Le paiement est temporairement indisponible. Veuillez réessayer.'
+            );
+            console.error('[Checkout error]', err.message);
         } finally {
-            setLoading(false);
+            setIsProcessing(false);
         }
     };
 
@@ -110,7 +123,7 @@ const Checkout = () => {
                                     onChange={handleChange} 
                                     className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
                                     placeholder="15 rue des saveurs" 
-                                    pattern="^[a-zA-Z0-9\s,\.'-]{5,}$"
+                                    pattern="^[a-zA-Z0-9\s,.\-']{5,}$"
                                     title="L'adresse doit contenir au moins 5 caractères (lettres, chiffres, espaces, virgules, points, apostrophes, tirets)"
                                 />
                             </div>
@@ -126,7 +139,7 @@ const Checkout = () => {
                                         onChange={handleChange} 
                                         className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
                                         placeholder="Paris" 
-                                        pattern="^[a-zA-Z\s'-]{2,}$"
+                                        pattern="^[a-zA-Z\s\-']{2,}$"
                                         title="La ville doit contenir au moins 2 caractères (lettres, espaces, apostrophes, tirets)"
                                     />
                                 </div>
@@ -156,12 +169,11 @@ const Checkout = () => {
                                     onChange={handleChange} 
                                     className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
                                     placeholder="06 00 00 00 00" 
-                                    pattern="^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$"
+                                    pattern="^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.\-]*\d{2}){4}$"
                                     title="Veuillez entrer un numéro de téléphone français valide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)"
                                 />
                             </div>
 
-                            {/* Case à cocher pour l'acceptation des CGV */}
                             <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100 animate-fadeIn">
                                 <input
                                     id="cgv-accept"
@@ -176,13 +188,16 @@ const Checkout = () => {
                                 </label>
                             </div>
 
+                            {paymentError && (
+                                <div className="text-red-500 text-center font-bold">{paymentError}</div>
+                            )}
+
                             <ButtonGold
                                 type="submit"
-                                aria-label={loading ? "Redirection vers la plateforme de paiement en cours" : "Valider et procéder au paiement de la commande"}
-                                disabled={loading || cartItems.length === 0 || !cgvAccepted}
-                                className={`w-full py-4 lg:py-5 mt-4 ${!cgvAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                disabled={isProcessing || cartItems.length === 0 || !cgvAccepted}
+                                className={`w-full py-4 lg:py-5 mt-4`}
                             >
-                                {loading ? 'Redirection...' : 'Procéder au paiement'}
+                                {isProcessing ? 'Traitement en cours...' : 'Procéder au paiement'}
                             </ButtonGold>
                         </form>
                     </div>

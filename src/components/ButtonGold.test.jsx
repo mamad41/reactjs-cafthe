@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest'; // Note l'ajout de "vi" ici
-import ButtonGold from './ButtonGold';
+import ButtonGold from './ButtonGold.jsx';
 
 describe('Composant ButtonGold', () => {
 

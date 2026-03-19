@@ -32,9 +32,9 @@ import { Toaster } from 'react-hot-toast';
 
 function App() {
     return (
-        <AuthProvider>
-            <CardProvider>
-                <BrowserRouter>
+        <BrowserRouter>
+            <AuthProvider>
+                <CardProvider>
                     {/* Suspense enveloppe les routes pour afficher un écran d'attente pendant le chargement des pages */}
                     <Suspense fallback={<div className="flex h-screen items-center justify-center text-xl">Chargement de la page...</div>}>
                         <Routes>
@@ -70,9 +70,9 @@ function App() {
                             },
                         }}
                     />
-                </BrowserRouter>
-            </CardProvider>
-        </AuthProvider>
+                </CardProvider>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
