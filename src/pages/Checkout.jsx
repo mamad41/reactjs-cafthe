@@ -59,6 +59,7 @@ const Checkout = () => {
             return;
         }
 
+        // --- RÉCUPÉRATION DU TOKEN ---
         const token = localStorage.getItem('token');
 
         try {
@@ -68,6 +69,7 @@ const Checkout = () => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        // --- ENVOI DU TOKEN DANS LE HEADER ---
                         'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
@@ -115,15 +117,15 @@ const Checkout = () => {
                         <form onSubmit={handlePayment} className="space-y-6 lg:space-y-8">
                             <div>
                                 <label htmlFor="adresse" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Adresse complète</label>
-                                <input 
+                                <input
                                     id="adresse"
-                                    type="text" 
-                                    name="adresse" 
-                                    required 
-                                    onChange={handleChange} 
-                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
-                                    placeholder="15 rue des saveurs" 
-                                    pattern="^[a-zA-Z0-9\s,.\-']{5,}$"
+                                    type="text"
+                                    name="adresse"
+                                    required
+                                    onChange={handleChange}
+                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors"
+                                    placeholder="15 rue des saveurs"
+                                    pattern="^[a-zA-ZÀ-ÿ0-9\s,.'\-]{5,}$"
                                     title="L'adresse doit contenir au moins 5 caractères (lettres, chiffres, espaces, virgules, points, apostrophes, tirets)"
                                 />
                             </div>
@@ -131,28 +133,28 @@ const Checkout = () => {
                             <div className="grid grid-cols-2 gap-4 lg:gap-8">
                                 <div>
                                     <label htmlFor="ville" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Ville</label>
-                                    <input 
+                                    <input
                                         id="ville"
-                                        type="text" 
-                                        name="ville" 
-                                        required 
-                                        onChange={handleChange} 
-                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
-                                        placeholder="Paris" 
-                                        pattern="^[a-zA-Z\s\-']{2,}$"
+                                        type="text"
+                                        name="ville"
+                                        required
+                                        onChange={handleChange}
+                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors"
+                                        placeholder="Paris"
+                                        pattern="^[a-zA-ZÀ-ÿ\s'\-]{2,}$"
                                         title="La ville doit contenir au moins 2 caractères (lettres, espaces, apostrophes, tirets)"
                                     />
                                 </div>
                                 <div>
                                     <label htmlFor="codePostal" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Code Postal</label>
-                                    <input 
+                                    <input
                                         id="codePostal"
-                                        type="text" 
-                                        name="codePostal" 
-                                        required 
-                                        onChange={handleChange} 
-                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
-                                        placeholder="75000" 
+                                        type="text"
+                                        name="codePostal"
+                                        required
+                                        onChange={handleChange}
+                                        className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors"
+                                        placeholder="75000"
                                         pattern="^[0-9]{5}$"
                                         title="Le code postal doit être composé de 5 chiffres exacts"
                                     />
@@ -161,14 +163,14 @@ const Checkout = () => {
 
                             <div>
                                 <label htmlFor="telephone" className="block text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Téléphone de contact</label>
-                                <input 
+                                <input
                                     id="telephone"
-                                    type="tel" 
-                                    name="telephone" 
-                                    required 
-                                    onChange={handleChange} 
-                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors" 
-                                    placeholder="06 00 00 00 00" 
+                                    type="tel"
+                                    name="telephone"
+                                    required
+                                    onChange={handleChange}
+                                    className="w-full border-b border-gray-200 py-3 outline-none bg-transparent focus:border-gold-premium transition-colors"
+                                    placeholder="06 00 00 00 00"
                                     pattern="^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.\-]*\d{2}){4}$"
                                     title="Veuillez entrer un numéro de téléphone français valide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)"
                                 />

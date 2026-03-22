@@ -64,7 +64,6 @@ const Login = () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/client/${endpoint}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify(bodyData),
             });
             const data = await response.json();
@@ -72,6 +71,12 @@ const Login = () => {
             if (!response.ok) {
                 setErrorMsg(data.message || "Erreur d'authentification");
                 return;
+            }
+
+            // --- SAUVEGARDE DU TOKEN ---
+            // On stocke le token manuellement pour qu'il soit accessible par fetch dans les autres pages
+            if (data.token) {
+                localStorage.setItem('token', data.token);
             }
 
             login(data.client);
@@ -126,18 +131,48 @@ const Login = () => {
                         {isRegistering && (
                             <div className="flex flex-col">
                                 <label htmlFor="nom" className="text-[10px] uppercase tracking-widest text-gray-400  mb-2 font-bold italic">Nom Complet</label>
-                                <input id="nom" type="text" value={nom} required className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white" placeholder="Jean Dupont" onChange={(e) => setNom(e.target.value)} pattern="^[a-zA-ZÀ-ÿ\s'\-]{2,50}$" title="Le nom complet doit contenir entre 2 et 50 caractères alphabétiques" />
+                                <input
+                                    id="nom"
+                                    type="text"
+                                    value={nom}
+                                    required
+                                    className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white"
+                                    placeholder="Jean Dupont"
+                                    onChange={(e) => setNom(e.target.value)}
+                                    pattern="^[a-zA-ZÀ-ÿ\s'-]{2,50}$"
+                                    title="Le nom complet doit contenir entre 2 et 50 caractères alphabétiques"
+                                />
                             </div>
                         )}
 
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Email</label>
-                            <input id="email" type="email" value={email} required className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white" placeholder="votre@email.fr" onChange={(e) => setEmail(e.target.value)} pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Veuillez saisir une adresse email valide" />
+                            <input
+                                id="email"
+                                type="email"
+                                value={email}
+                                required
+                                className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white"
+                                placeholder="votre@email.fr"
+                                onChange={(e) => setEmail(e.target.value)}
+                                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                title="Veuillez saisir une adresse email valide"
+                            />
                         </div>
 
                         <div className="flex flex-col relative">
                             <label htmlFor="motDePasse" className="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold italic">Mot de passe</label>
-                            <input id="motDePasse" type="password" value={motDePasse} required className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white" placeholder="Votre mot de passe" onChange={(e) => setMotDePasse(e.target.value)} minLength="8" title="Le mot de passe doit contenir au moins 8 caractères" />
+                            <input
+                                id="motDePasse"
+                                type="password"
+                                value={motDePasse}
+                                required
+                                className="w-full border-b border-gray-200 dark:border-white/10 py-2 focus:border-gold-premium outline-none transition-all bg-transparent dark:text-white"
+                                placeholder="Votre mot de passe"
+                                onChange={(e) => setMotDePasse(e.target.value)}
+                                minLength="8"
+                                title="Le mot de passe doit contenir au moins 8 caractères"
+                            />
                             {!isRegistering && (
                                 <button type="button" aria-label="Ouvrir la modale de récupération de mot de passe" onClick={() => setShowForgotPwd(true)} className="text-[11px] uppercase text-gold-premium mt-2 text-right hover:underline font-bold">
                                     Mot de passe oublié ?
@@ -164,7 +199,7 @@ const Login = () => {
                             </div>
                         )}
 
-                        <ButtonGold 
+                        <ButtonGold
                             aria-label={isRegistering ? "Créer mon compte" : "Me connecter à mon compte"}
                             type="submit"
                             disabled={isRegistering && !acceptedRGPD}
@@ -181,6 +216,7 @@ const Login = () => {
                     </div>
                 </div>
 
+                {/* --- Modales existantes inchangées --- */}
                 {showForgotPwd && (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-recup-title">
                         <div className="bg-white dark:bg-[#1A1A1A] max-w-sm w-full rounded-[35px] p-10 shadow-2xl relative">
@@ -191,7 +227,17 @@ const Login = () => {
                             <form onSubmit={handleForgotPassword} className="space-y-6">
                                 <div className="flex flex-col">
                                     <label htmlFor="forgotEmail" className="text-[10px] uppercase tracking-widest text-gray-400 mb-1 font-bold">Email de récupération</label>
-                                    <input id="forgotEmail" type="email" required value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} className="w-full border-b border-gray-200 dark:border-white/10 py-2 outline-none focus:border-gold-premium bg-transparent dark:text-white" placeholder="votre@email.fr" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Veuillez saisir une adresse email valide" />
+                                    <input
+                                        id="forgotEmail"
+                                        type="email"
+                                        required
+                                        value={forgotEmail}
+                                        onChange={(e) => setForgotEmail(e.target.value)}
+                                        className="w-full border-b border-gray-200 dark:border-white/10 py-2 outline-none focus:border-gold-premium bg-transparent dark:text-white"
+                                        placeholder="votre@email.fr"
+                                        pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                        title="Veuillez saisir une adresse email valide"
+                                    />
                                 </div>
                                 <ButtonGold type="submit" aria-label="Envoyer le lien de réinitialisation" disabled={isSending} className="w-full py-3 text-[10px]">
                                     {isSending ? "Envoi..." : "Envoyer le lien"}
